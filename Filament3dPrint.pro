@@ -24,21 +24,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-    homeview.cpp \
-    adminview.cpp \
-    homectrl.cpp \
-    view.cpp \
-    ctrl.cpp \
-    adminctrl.cpp
+    main.cpp \
+    view/homeview.cpp \
+    view/adminview.cpp \
+    ctrl/homectrl.cpp \
+    view/view.cpp \
+    ctrl/ctrl.cpp \
+    ctrl/adminctrl.cpp
 
 HEADERS += \
-    homeview.h \
-    adminview.h \
-    homectrl.h \
-    view.h \
-    ctrl.h \
-    adminctrl.h
+    view/homeview.h \
+    view/adminview.h \
+    ctrl/homectrl.h \
+    view/view.h \
+    ctrl/ctrl.h \
+    ctrl/adminctrl.h
 
 FORMS += \
     frame.ui
