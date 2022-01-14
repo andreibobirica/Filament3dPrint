@@ -1,4 +1,4 @@
-#include "homeview.h"
+#include "view/homeview.h"
 
 HomeView::HomeView(QSize* s) : View(s), mainLayout(new QHBoxLayout)
 {

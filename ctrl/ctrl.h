@@ -1,7 +1,7 @@
 #ifndef CTRL_H
 #define CTRL_H
 
-#include <view/view.h>
+#include "view/view.h"
 
 /**
  * @brief The Ctrl class
@@ -21,7 +21,7 @@ public:
      * @brief Ctrl::getView
      * @return View collegata al Controller
      */
-    View* getView() const;
+    virtual View* getView() const;
     /**
      * @brief Ctrl::showView Metodo che rende visibile la View collegata al Controller
      * Se la View ha un WindowsSize, la mostra secondo quelle dimensioni

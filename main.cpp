@@ -1,7 +1,7 @@
-#include "adminctrl.h"
-#include "homectrl.h"
-#include "homeview.h"
-#include "adminview.h"
+#include "ctrl/adminctrl.h"
+#include "ctrl/homectrl.h"
+#include "view/homeview.h"
+#include "view/adminview.h"
 
 #include <QSize>
 

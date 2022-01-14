@@ -1,7 +1,8 @@
 #ifndef HOMECTRL_H
 #define HOMECTRL_H
 
-#include <ctrl.h>
+#include "ctrl/ctrl.h"
+#include "view/homeview.h"
 
 /**
  * @brief The HomeCtrl class
@@ -16,6 +17,10 @@ public:
      * @param v View collegata al Controller
      */
     HomeCtrl(View* v);
+
+    HomeView* getView() const override{
+        return static_cast<HomeView*>(Ctrl::getView());
+    }
 };
 
 #endif // HOMECTRL_H

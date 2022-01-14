@@ -11,7 +11,7 @@
 #include <QTableWidget>
 #include <QScrollArea>
 
-#include <view.h>
+#include "view/view.h"
 
 /**
  * @brief The AdminView class

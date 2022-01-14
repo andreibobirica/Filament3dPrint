@@ -8,7 +8,7 @@
 #include <QLabel>
 #include <QPixmap>
 
-#include <view.h>
+#include "view/view.h"
 
 /**
  * @brief The HomeView class

@@ -1,4 +1,4 @@
-#include "adminview.h"
+#include "view/adminview.h"
 
 AdminView::AdminView(QSize* s) : View(s), mainLayout(new QGridLayout)
 {

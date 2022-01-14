@@ -1,4 +1,4 @@
-#include "view.h"
+#include "view/view.h"
 
 View::View(QSize* s) : windowSize(s){
     if(windowSize)

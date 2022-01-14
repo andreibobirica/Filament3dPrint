@@ -1,4 +1,4 @@
-#include "ctrl.h"
+#include "ctrl/ctrl.h"
 
 Ctrl::Ctrl(View* v) : view(v){}
 
