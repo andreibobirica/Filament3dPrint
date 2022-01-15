@@ -14,6 +14,8 @@ successivamente spiegando cosa utilizza una stampa \n\
 introducendo ai futuri record\nche si vedranno nella pagina successiva.",
     "/Users/andreibobirica/OtherFIles/QtFiles/Filament3dPrint/3d.jpg"));
 
+    //CONNESSIONE SIGNALS
+    connectViewSignals();
 }
 
 QLayout* HomeView::createButtonsLayout(){

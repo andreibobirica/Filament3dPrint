@@ -35,6 +35,10 @@ private:
      * private perchè invocato solamente nel costruttore
      */
     QLayout* createDescriptionLayout(const QString&,const QString&);
+
+    void connectViewSignals(){
+        connect(newPButton,SIGNAL(clicked()),this,SIGNAL(newPButtonClicked()));
+    }
 protected:
     /**
      * @brief getMainLayout
@@ -51,7 +55,7 @@ public:
     explicit HomeView(QSize* s = new QSize(720,480));
 
 signals:
-
+    void newPButtonClicked();
 public slots:
 };
 

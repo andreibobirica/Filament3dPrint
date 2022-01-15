@@ -8,12 +8,18 @@
  */
 class AdminCtrl : public Ctrl
 {
+    Q_OBJECT
 public:
     /**
      * @brief AdminCtrl
      * @param v View collegata al Controller
      */
     AdminCtrl(View* v);
+
+signals:
+
+public slots:
+
 };
 
 #endif // ADMINCTRL_H

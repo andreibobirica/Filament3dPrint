@@ -10,11 +10,12 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    HomeView* homeView = new HomeView(new QSize(1000,1000));
+    HomeView* homeView = new HomeView(new QSize(720,720));
     HomeCtrl* homeCtrl = new HomeCtrl(homeView);
     homeCtrl->showView();
 
-    AdminCtrl* adminCtrl = new AdminCtrl(new AdminView);
+    AdminView* adminView = new AdminView(new QSize(720,720));
+    AdminCtrl* adminCtrl = new AdminCtrl(adminView);
     adminCtrl->showView();
 
     return a.exec();
