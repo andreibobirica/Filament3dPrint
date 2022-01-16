@@ -1,6 +1,6 @@
 #include "view/adminview.h"
 
-AdminView::AdminView(QSize* s) : View(s), mainLayout(new QGridLayout)
+AdminView::AdminView(QSize* s,View* parent) : View(s,parent), mainLayout(new QGridLayout)
 {
     // Grid layout with 3 buttons
     mainLayout->setSpacing(10);
@@ -53,6 +53,13 @@ AdminView::AdminView(QSize* s) : View(s), mainLayout(new QGridLayout)
     //implementazione
     setLayout(mainLayout);
     setWindowTitle("Admin Page");
+
+
+    //Connessione dei SIGNAL dei Widget al Signal della AdminView
+    connectViewSignals();
+}
+
+void AdminView::connectViewSignals() const{
 }
 
 

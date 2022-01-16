@@ -23,13 +23,22 @@ class AdminView : public View
     Q_OBJECT
 private:
     QGridLayout* mainLayout;
+
+    /**
+     * @brief connectViewSignals Metodo virtuale
+     * Questo Metodo serve a connettere i SIGNAL degli elementi grafici della AdminView ai SIGNAL della
+     * AdminView i quali dovranno comunicare con il Controller AdminCtrl
+     */
+    void connectViewSignals() const override;
+
 public:
     /**
      * @brief AdminView
      * Costruttore della Admin View
      * @param s windowSize, grandezza della finestra della View
      */
-    explicit AdminView(QSize* s = nullptr);
+    explicit AdminView(QSize* s = nullptr, View* parent = nullptr);
+
 
 signals:
 

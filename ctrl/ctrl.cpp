@@ -1,6 +1,6 @@
 #include "ctrl/ctrl.h"
 
-Ctrl::Ctrl(View* v) : view(v){}
+Ctrl::Ctrl(View* v, Model* m,Ctrl* parent) : view(v), model(m), QObject(parent){}
 
 View* Ctrl::getView() const {
     return view;

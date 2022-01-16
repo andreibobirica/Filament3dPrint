@@ -13,12 +13,21 @@ class View : public QWidget
     Q_OBJECT
 private:
     QSize* windowSize;
+
+    /**
+     * @brief connectViewSignals Metodo puro
+     * Questo Metodo serve a dare l'interfaccia per le future implementazioni specifiche che connetteranno
+     * i SIGNAL dei singoli elementi grafici (QPushButton, etc..) ai segnali della View.
+     * I segnali della view saranno gli unici a comunicare con il Controller.
+     */
+    virtual void connectViewSignals() const = 0;
+
 public:
     /**
      * @brief View Costruttore della view che si occupa ad impostare la sua windowSize e ad applicarla
      * @param s Grandezza della finistra, la windowSize
      */
-    explicit View(QSize* s = nullptr);
+    explicit View(QSize* s = nullptr,View* parent = nullptr);
     /**
      * @brief setWindowSize
      * Metodo setter del campo windowsize

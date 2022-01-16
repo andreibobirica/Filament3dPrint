@@ -1,11 +1,10 @@
 #include "view/homeview.h"
 
-HomeView::HomeView(QSize* s) : View(s), mainLayout(new QHBoxLayout)
+HomeView::HomeView(QSize* s,View* parent) : View(s,parent)
 {
+    QHBoxLayout* mainLayout = new QHBoxLayout;
     mainLayout->setSpacing(0);
     mainLayout->setMargin(0);
-    setLayout(mainLayout);
-
     mainLayout->addLayout(createButtonsLayout());
     mainLayout->addLayout(createDescriptionLayout(
     "Questa è una descrizione della applicazione a grandi linee \n\
@@ -13,8 +12,10 @@ spiegando leggermente come funziona una stampante 3d,\n\
 successivamente spiegando cosa utilizza una stampa \n\
 introducendo ai futuri record\nche si vedranno nella pagina successiva.",
     "/Users/andreibobirica/OtherFIles/QtFiles/Filament3dPrint/3d.jpg"));
+    //Imposto il Layout alla View per essere visualizzata
+    setLayout(mainLayout);
 
-    //CONNESSIONE SIGNALS
+    //Connessione dei SIGNAL dei Widget al Signal della HomeView
     connectViewSignals();
 }
 
@@ -37,14 +38,12 @@ QLayout* HomeView::createButtonsLayout(){
 }
 
 QLayout* HomeView::createDescriptionLayout(const QString& description, const QString& imgPath){
-
     //Parte destra immagine e descrizione
     QVBoxLayout* descrLayout = new QVBoxLayout;
     descrLayout->setMargin(10);
     descrLayout->setSpacing(10);
     descrLayout->setContentsMargins(50, 50, 50, 50);
     descrLayout->setAlignment(Qt::AlignCenter);
-
 
     //Immagine stampante descrizione
     QLabel* img = new QLabel();
@@ -59,4 +58,9 @@ QLayout* HomeView::createDescriptionLayout(const QString& description, const QSt
     descrLayout->addWidget(desc,Qt::AlignCenter);
 
     return descrLayout;
+}
+
+void HomeView::connectViewSignals() const{
+    connect(newPButton,SIGNAL(clicked()),this,SIGNAL(newProject()));
+    connect(openPButton,SIGNAL(clicked()),this,SIGNAL(openProject()));
 }

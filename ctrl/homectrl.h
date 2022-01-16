@@ -5,6 +5,10 @@
 
 #include "ctrl/ctrl.h"
 #include "view/homeview.h"
+#include "view/adminview.h"
+#include "ctrl/adminctrl.h"
+
+
 
 /**
  * @brief The HomeCtrl class
@@ -14,12 +18,20 @@
 class HomeCtrl : public Ctrl
 {
     Q_OBJECT
+private:
+
+    /**
+     * @brief connectViewCtrlSignalsSlots Metodo virtuale
+     * Questo Metodo serve a connettere i SIGNAL della HomeView ai Slot del HomeCtrl
+     */
+    void connectViewCtrlSignalsSlots() const override;
+
 public:
     /**
      * @brief HomeCtrl
      * @param v View collegata al Controller
      */
-    HomeCtrl(View* v);
+    explicit HomeCtrl(View* v, Ctrl* parent = nullptr);
 
     /**
      * @brief getView
@@ -29,10 +41,10 @@ public:
     HomeView* getView() const override;
 
 signals:
+
 public slots:
-    void onNewPButtonClicked() const{
-        qDebug() << "EVVIVA funziona";
-    }
+    void onNewProject() const;
+    void onOpenProject() const;
 };
 
 #endif // HOMECTRL_H

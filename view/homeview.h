@@ -18,7 +18,6 @@ class HomeView : public View
 {
     Q_OBJECT
 private:
-    QHBoxLayout* mainLayout;
     QPushButton* newPButton;
     QPushButton* openPButton;
     /**
@@ -35,10 +34,13 @@ private:
      * private perchè invocato solamente nel costruttore
      */
     QLayout* createDescriptionLayout(const QString&,const QString&);
+    /**
+     * @brief connectViewSignals Metodo virtuale
+     * Questo Metodo serve a connettere i SIGNAL degli elementi grafici della Homeview ai SIGNAL della
+     * HomeView i quali dovranno comunicare con il Controller HomeCtrl
+     */
+    void connectViewSignals() const override;
 
-    void connectViewSignals(){
-        connect(newPButton,SIGNAL(clicked()),this,SIGNAL(newPButtonClicked()));
-    }
 protected:
     /**
      * @brief getMainLayout
@@ -52,10 +54,11 @@ public:
      * Il Costruttore si occupa di Creare la View e creare i due layout laterali della app e mostrarli.
      * @param s Grandezza della finistra, la windowSize
      */
-    explicit HomeView(QSize* s = new QSize(720,480));
+    explicit HomeView(QSize* s = new QSize(720,480),View* parent = nullptr);
 
 signals:
-    void newPButtonClicked();
+    void newProject();
+    void openProject();
 public slots:
 };
 

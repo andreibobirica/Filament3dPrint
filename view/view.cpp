@@ -1,6 +1,7 @@
 #include "view/view.h"
 
-View::View(QSize* s) : windowSize(s){
+View::View(QSize* s,View* parent) : windowSize(s), QWidget(parent,Qt::Window){
+    //Resizing della windows
     if(windowSize)
     applyWindowSize(windowSize);
 }

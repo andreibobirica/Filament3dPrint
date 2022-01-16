@@ -30,7 +30,8 @@ SOURCES += \
     ctrl/homectrl.cpp \
     view/view.cpp \
     ctrl/ctrl.cpp \
-    ctrl/adminctrl.cpp
+    ctrl/adminctrl.cpp \
+    model/model.cpp
 
 HEADERS += \
     view/homeview.h \
@@ -38,7 +39,8 @@ HEADERS += \
     ctrl/homectrl.h \
     view/view.h \
     ctrl/ctrl.h \
-    ctrl/adminctrl.h
+    ctrl/adminctrl.h \
+    model/model.h
 
 FORMS += \
     frame.ui

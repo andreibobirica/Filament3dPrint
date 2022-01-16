@@ -9,12 +9,20 @@
 class AdminCtrl : public Ctrl
 {
     Q_OBJECT
+private:
+
+    /**
+     * @brief connectViewCtrlSignalsSlots Metodo virtuale
+     * Questo Metodo serve a connettere i SIGNAL della AdminView ai Slot del AdminCtrl
+     */
+    void connectViewCtrlSignalsSlots() const override;
+
 public:
     /**
      * @brief AdminCtrl
      * @param v View collegata al Controller
      */
-    AdminCtrl(View* v);
+    explicit AdminCtrl(View* v, Model* m = nullptr, Ctrl* parent = nullptr);
 
 signals:
 

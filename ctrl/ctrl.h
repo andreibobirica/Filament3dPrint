@@ -1,26 +1,37 @@
 #ifndef CTRL_H
 #define CTRL_H
 
-#include <QWidget>
+#include <QObject>
 
 
 #include "view/view.h"
+#include "model/model.h"
 
 /**
  * @brief The Ctrl class
  * Classe Base polimorfa che fa da Controller collegato alla View su cui rappresentare il Model con dei dati
  */
-class Ctrl : public QWidget
+class Ctrl : public QObject
 {
     Q_OBJECT
 private:
     View* view;
+    Model* model;
+
+    /**
+     * @brief connectViewCtrlSignalsSlots Metodo virtuale puro
+     * Questo Metodo serve a connettere i SIGNAL che la View invia ai SLOT del Controller
+     * La sua futura implementazione necessita di collegare nello specifico SIGNAL E SLOT specifici
+     *
+     */
+    virtual void connectViewCtrlSignalsSlots() const = 0;
+
 public:
     /**
      * @brief Ctrl::Ctrl Costruttore
      * @param v View collegata al Controller
      */
-    explicit Ctrl(View* v);
+    explicit Ctrl(View* v, Model* m, Ctrl* parent);
     /**
      * @brief Ctrl::getView
      * @return View collegata al Controller
@@ -36,7 +47,6 @@ public:
      * @brief Ctrl::hideView Metodo per nascondere la View
      */
     virtual void hideView() const;
-
 
 signals:
 

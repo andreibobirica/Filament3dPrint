@@ -4,6 +4,7 @@
 #include "view/adminview.h"
 
 #include <QSize>
+#include <QtDebug>
 
 #include <QApplication>
 
@@ -14,9 +15,9 @@ int main(int argc, char *argv[])
     HomeCtrl* homeCtrl = new HomeCtrl(homeView);
     homeCtrl->showView();
 
-    AdminView* adminView = new AdminView(new QSize(720,720));
-    AdminCtrl* adminCtrl = new AdminCtrl(adminView);
-    adminCtrl->showView();
+    //AdminView* adminView = new AdminView(new QSize(720,720));
+    //AdminCtrl* adminCtrl = new AdminCtrl(adminView);
+    //adminCtrl->showView();
 
     return a.exec();
 }
