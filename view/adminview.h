@@ -10,6 +10,7 @@
 #include <QLineEdit>
 #include <QTableWidget>
 #include <QScrollArea>
+#include <QCloseEvent>
 
 #include "view/view.h"
 
@@ -31,6 +32,18 @@ private:
      */
     void connectViewSignals() const override;
 
+protected:
+    void closeEvent(QCloseEvent* event) override {
+
+        static_cast<View*>(parent())->show();
+        if (event->spontaneous()) {
+            qDebug("The close button was clicked");
+            event->ignore();
+            //QWidget::closeEvent(event);
+        } else {
+            QWidget::closeEvent(event);
+        }
+    }
 public:
     /**
      * @brief AdminView

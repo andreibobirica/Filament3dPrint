@@ -2,6 +2,7 @@
 #define ADMINCTRL_H
 
 #include "ctrl/ctrl.h"
+
 /**
  * @brief The AdminCtrl class
  * AdminCtrl classe derivata da Ctrl ossia un Controller specializzato della schermata Admin della applicazione

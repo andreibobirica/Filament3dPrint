@@ -22,9 +22,9 @@ void HomeCtrl::onNewProject() const{
     AdminView* adminView = new AdminView(new QSize(720,720),getView());
     AdminCtrl* adminCtrl = new AdminCtrl(adminView,nullptr,const_cast<HomeCtrl*>(this));
     adminCtrl->showView();
-    //static_cast<View*>(adminView->parent())->hide();
+    static_cast<View*>(adminView->parent())->hide();
     //static_cast<View*>(adminView->parent())->show();
-    //getView()->close();
+    getView()->hide();
 }
 
 void HomeCtrl::onOpenProject() const{
