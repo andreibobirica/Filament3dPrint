@@ -11,6 +11,7 @@
 #include <QTableWidget>
 #include <QScrollArea>
 #include <QCloseEvent>
+#include <QMessageBox>
 
 #include "view/view.h"
 
@@ -33,17 +34,16 @@ private:
     void connectViewSignals() const override;
 
 protected:
-    void closeEvent(QCloseEvent* event) override {
+    /**
+     * @brief closeEvent Overriding del metodo closeEvent implementato da QWidget
+     * Tramite questo Overriding si cerca di modificare il da farsi nel evento di chiusura della window con la X.
+     * In particolare questo metodo chiede una conferma al utente prima di chiudere.
+     * Successivamente una volta effettuata la chiusura, Mostra il Parent, cioè la schermata HomeView.
+     * In fine si occupa della distruzione totale della schermata Admin(VIEW/MODEL/CTRL)
+     * @param event Evento di chiusura della scermata window
+     */
+    void closeEvent(QCloseEvent* event) override;
 
-        static_cast<View*>(parent())->show();
-        if (event->spontaneous()) {
-            qDebug("The close button was clicked");
-            event->ignore();
-            //QWidget::closeEvent(event);
-        } else {
-            QWidget::closeEvent(event);
-        }
-    }
 public:
     /**
      * @brief AdminView

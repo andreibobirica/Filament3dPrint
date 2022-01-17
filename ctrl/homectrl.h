@@ -47,6 +47,7 @@ signals:
 public slots:
     void onNewProject() const;
     void onOpenProject() const;
+    void onViewClosed() const override;
 };
 
 #endif // HOMECTRL_H

@@ -64,3 +64,4 @@ void HomeView::connectViewSignals() const{
     connect(newPButton,SIGNAL(clicked()),this,SIGNAL(newProject()));
     connect(openPButton,SIGNAL(clicked()),this,SIGNAL(openProject()));
 }
+

@@ -19,10 +19,9 @@ private:
     Model* model;
 
     /**
-     * @brief connectViewCtrlSignalsSlots Metodo virtuale puro
-     * Questo Metodo serve a connettere i SIGNAL che la View invia ai SLOT del Controller
-     * La sua futura implementazione necessita di collegare nello specifico SIGNAL E SLOT specifici
-     *
+     * @brief connectViewCtrlSignalsSlots Interfaccia da implementare in future classi derivate
+     * Questa Interfaccia serve ad obbligare le derivate a connettere
+     * i SIGNAL che la View invia ai SLOT del Controller
      */
     virtual void connectViewCtrlSignalsSlots() const = 0;
 
@@ -32,6 +31,8 @@ public:
      * @param v View collegata al Controller
      */
     explicit Ctrl(View* v, Model* m, Ctrl* parent);
+
+    virtual ~Ctrl() {qDebug("Ctrl destructed"); delete view; delete model;}
 
     /**
      * @brief Ctrl::getView
@@ -53,6 +54,7 @@ public:
 signals:
 
 public slots:
+    virtual void onViewClosed() const = 0;
 
 };
 

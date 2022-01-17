@@ -59,7 +59,30 @@ AdminView::AdminView(QSize* s,View* parent) : View(s,parent), mainLayout(new QGr
     connectViewSignals();
 }
 
-void AdminView::connectViewSignals() const{
+void AdminView::connectViewSignals() const{}
+
+void AdminView::closeEvent(QCloseEvent* event){
+    //Elaboro chiusura solo se intenzionata da evento esterno
+    if(!event->spontaneous()) return;
+
+    //Creazione POPup Messaggio di conferma
+    QMessageBox::StandardButton resBtn = QMessageBox::Yes;
+    resBtn = QMessageBox::question( this, "APP_NAME",tr("Sei sicuro di voler uscire?\n"),
+    QMessageBox::No | QMessageBox::Yes, QMessageBox::Yes);
+
+    if (resBtn != QMessageBox::Yes) {
+        //Ignoro l'evento di chiusura
+        event->ignore();
+    } else {
+        //Accetto l'evento di chiusura della Window
+        event->accept();
+        //Se esiste una View parent la mostro
+        if(parent()) static_cast<View*>(parent())->show();
+        //Emetto segnale di chiusura della View
+        emit viewClosed();
+    }
 }
+
+
 
 

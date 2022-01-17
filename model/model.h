@@ -9,6 +9,8 @@ class Model : public QObject
 public:
     explicit Model();
 
+    virtual ~Model() {qDebug("Model destructed");}
+
 signals:
 
 public slots:

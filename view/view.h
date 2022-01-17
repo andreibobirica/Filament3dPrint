@@ -15,9 +15,9 @@ private:
     QSize* windowSize;
 
     /**
-     * @brief connectViewSignals Metodo puro
+     * @brief connectViewSignals Interfaccia da implementare nelle classi derivate
      * Questo Metodo serve a dare l'interfaccia per le future implementazioni specifiche che connetteranno
-     * i SIGNAL dei singoli elementi grafici (QPushButton, etc..) ai segnali della View.
+     * i SIGNAL dei singoli elementi grafici (QPushButton, etc..) ai propri segnali della View.
      * I segnali della view saranno gli unici a comunicare con il Controller.
      */
     virtual void connectViewSignals() const = 0;
@@ -28,6 +28,9 @@ public:
      * @param s Grandezza della finistra, la windowSize
      */
     explicit View(QSize* s = nullptr,View* parent = nullptr);
+
+    virtual ~View() {qDebug("View destructed");}
+
     /**
      * @brief setWindowSize
      * Metodo setter del campo windowsize
@@ -45,6 +48,7 @@ public:
     void applyWindowSize(QSize*);
 
 signals:
+    void viewClosed();
 
 public slots:
 };

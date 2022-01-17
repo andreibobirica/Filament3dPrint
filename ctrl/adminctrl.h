@@ -28,7 +28,7 @@ public:
 signals:
 
 public slots:
-
+     void onViewClosed() const override;
 };
 
 #endif // ADMINCTRL_H

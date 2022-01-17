@@ -3,7 +3,6 @@
 HomeCtrl::HomeCtrl(View* v,Ctrl* parent) : Ctrl(v,nullptr,parent){
     //Collego i SIGNAL della View Ai SLOT del Controller
     connectViewCtrlSignalsSlots();
-
 }
 
 HomeView* HomeCtrl::getView() const{
@@ -19,14 +18,14 @@ void HomeCtrl::connectViewCtrlSignalsSlots() const{
 void HomeCtrl::onNewProject() const{
     qDebug("new Project");
 
-    AdminView* adminView = new AdminView(new QSize(720,720),getView());
+    AdminView* adminView = new AdminView(new QSize(720,480),getView());
     AdminCtrl* adminCtrl = new AdminCtrl(adminView,nullptr,const_cast<HomeCtrl*>(this));
     adminCtrl->showView();
-    static_cast<View*>(adminView->parent())->hide();
-    //static_cast<View*>(adminView->parent())->show();
     getView()->hide();
 }
 
 void HomeCtrl::onOpenProject() const{
     qDebug("open Project");
 }
+
+void HomeCtrl::onViewClosed() const {}

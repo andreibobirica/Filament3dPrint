@@ -5,6 +5,8 @@ AdminCtrl::AdminCtrl(View* v, Model* m, Ctrl* parent) : Ctrl(v,m,parent){
     connectViewCtrlSignalsSlots();
 }
 
-void AdminCtrl::connectViewCtrlSignalsSlots() const{
-//SLOT DA COLLEGARE
+void AdminCtrl::connectViewCtrlSignalsSlots() const{}
+
+void AdminCtrl::onViewClosed() const {
+    delete this;
 }
