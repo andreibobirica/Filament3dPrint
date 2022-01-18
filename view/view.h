@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QSize>
+#include <QMessageBox>
 
 /**
  * @brief The View class

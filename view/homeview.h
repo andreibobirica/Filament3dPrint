@@ -65,6 +65,8 @@ public:
      */
     explicit HomeView(QSize* s = new QSize(720,480),View* parent = nullptr);
 
+    ~HomeView() override{qDebug("HomeView destructed");}
+
 signals:
     void newProject();
     void openProject();

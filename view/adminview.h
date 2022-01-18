@@ -30,6 +30,12 @@ class AdminView : public View
 private:
     QGridLayout* mainLayout;
     QTableWidget* filamentTable;
+    QTableWidget* materialTable;
+    QPushButton* homeB;
+    QPushButton* newB;
+    QPushButton* saveB;
+    QPushButton* saveAsB;
+
 
     /**
      * @brief connectViewSignals Metodo virtuale
@@ -63,7 +69,7 @@ public:
      * in particolare alla filamentTable, aggiunge un Modello di dato specifico cioè un Record.
      * Questa aggiunta avviene ad una riga precisa della tabllea row.
      * Attenzione che si occupa anche di associare un pulsante ad ogni Riga.
-     * Attenzione che si occupa anche di associare nelle connessioni di signali ai pulsanti.
+     * Attenzione che si occupa anche di associare nelle connessioni di signali ai pulsanti e alla modifica dei campi
      * @param row Riga in cui fare la aggiunta
      * @param r Record da aggiungere
      */
@@ -85,6 +91,29 @@ public:
      */
     void createAddRowRecordTable(unsigned int row);
 
+    /**
+     * @brief createMaterialTable Crea la QTableWidget su cui mostrare i dati
+     * @param row numero di righe che dovrà avere
+     * @param column numero di colonne che dovrà avere
+     * @param headers Etichette da mostrare
+     */
+    void createMaterialTable(unsigned int row, unsigned int column, QStringList headers) const;
+    /**
+     * @brief createAddRowMaterialTable Metodo che si occupa di creare la riga di inserimento dei materiali, in questa
+     * riga si potranno inserire i dettagli di un nuovo materiale
+     * @param row riga alla cui creare
+     */
+    void createAddRowMaterialTable(unsigned int row);
+    /**
+     * @brief addItemMaterialTable Metodo che aggiunge ad una QTableWidget,
+     * in particolare alla materialTable, aggiunge un Modello di dato specifico cioè un QString preso dal Model.
+     * Questa aggiunta avviene ad una riga precisa della tabella row.
+     * Attenzione che si occupa anche di associare un pulsante ad ogni Riga.
+     * Attenzione che si occupa anche di associare nelle connessioni di signali ai pulsanti e alla modifica dei campi
+     * @param row
+     * @param m
+     */
+    void addItemMaterialTable(unsigned int row, const QString &m);
 signals:
     void recordTableRemoved(uint);
     void recordTableAdded(QString, uint, uint, QDate);
@@ -92,6 +121,14 @@ signals:
     void recordTableDurataMod(uint, uint);
     void recordTableMatUsatoMod(uint, uint);
     void recordTableDataMod(uint, QDate);
+    void materialTableAdded(QString);
+    void materialTableMaterialeMod(uint,QString);
+    void materialTableRemoved(uint);
+
+    void newBPressed();
+    void saveBPressed();
+    void saveAsBPressed();
+    void homeBPressed();
 
 public slots:
 

@@ -28,6 +28,7 @@ public:
      */
     explicit AdminModel();
 
+    ~AdminModel() override{qDebug("AdminModel destructed");}
     /**
      * @brief getMaterialList metodo getter
      * @return lista dei materiali QStringList
@@ -58,7 +59,31 @@ public:
      */
     unsigned int getRecordListSize();
 
-    Record *getRecord(unsigned int row);
+    /**
+     * @brief addMaterial Aggiunge alla QStringList materialList un materiale Qstring m
+     * @param m Materiale da agigungere
+     */
+    void addMaterial(const QString& m);
+
+    /**
+     * @brief setMaterial Metodo che modifica un materale eisstente nella materiallIST e lo sostituisce con m
+     * @param row indice del materiale da sostituire
+     * @param m materiale con cui sostituire
+     */
+    void setMaterial(unsigned int row, const QString& m);
+
+    /**
+     * @brief removeMaterial Rimuove un materiale dalla materialList alla riga==indice row
+     * @param row indice del materiale da rimuovere
+     */
+    void removeMaterial(unsigned int row);
+
+    /**
+     * @brief getRecord Metodo getter che restituisce un record specifico dalla record::list
+     * @param row indice del Record dalla std::list da restituire
+     * @return record da restituire
+     */
+    Record* getRecord(unsigned int row);
 };
 
 

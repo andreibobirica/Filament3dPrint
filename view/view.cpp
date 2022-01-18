@@ -1,7 +1,5 @@
 #include "view/view.h"
 
-#include <QMessageBox>
-
 View::View(QSize* s,View* parent) : windowSize(s), QWidget(parent,Qt::Window){
     //Resizing della windows
     if(windowSize)

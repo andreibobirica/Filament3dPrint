@@ -30,3 +30,15 @@ void AdminModel::addRecord(Record *r){
 }
 
 unsigned int AdminModel::getRecordListSize(){return recordList.size();}
+
+void AdminModel::addMaterial(const QString &m){
+    materialiList->push_back(m);
+}
+
+void AdminModel::setMaterial(unsigned int row, const QString &m){
+    materialiList->replace(row,m);
+}
+
+void AdminModel::removeMaterial(unsigned int row){
+    materialiList->removeAt(row);
+}

@@ -30,7 +30,7 @@ public:
      * @brief Ctrl::Ctrl Costruttore
      * @param v View collegata al Controller
      */
-    explicit Ctrl(View* v, Model* m, Ctrl* parent);
+    explicit Ctrl(View* v, Model* m, Ctrl* parent = nullptr);
 
     virtual ~Ctrl() {qDebug("Ctrl destructed"); delete view; delete model;}
 

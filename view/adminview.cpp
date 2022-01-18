@@ -2,43 +2,34 @@
 
 
 AdminView::AdminView(QSize* s,View* parent) :
-    View(s,parent), mainLayout(new QGridLayout), filamentTable(new QTableWidget)
+    View(s,parent), mainLayout(new QGridLayout), filamentTable(new QTableWidget), materialTable(new QTableWidget)
 {
     // Grid layout with 3 buttons
     mainLayout->setSpacing(10);
     mainLayout->setMargin(10);
 
-    mainLayout->addWidget(new QPushButton("New"),0,0,1,1,Qt::AlignJustify);
-    mainLayout->addWidget(new QPushButton("Save"),0,1,1,1,Qt::AlignJustify);
-    mainLayout->addWidget(new QPushButton("Save As"),0,2,1,1,Qt::AlignJustify);
-    mainLayout->addWidget(new QPushButton("Home"),0,13,1,1,Qt::AlignRight);
 
-    //Material Table
-    QTableWidget* materialTable = new QTableWidget();
-    materialTable->setRowCount(10);
-    materialTable->setColumnCount(2);
-    QStringList headersMaterialTable = { "Materiale", ""};
-    materialTable->setHorizontalHeaderLabels(headersMaterialTable);
-    materialTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    materialTable->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    materialTable->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-    //materialTable->setMinimumWidth(materialTable->minimumWidth());
-    //Elementi
-    materialTable->setItem(0,0,new QTableWidgetItem("ciao"));//Testo
-    materialTable->setCellWidget(0,1,new QPushButton("+"));//Widget
+    newB = new QPushButton("New",this);
+    mainLayout->addWidget(newB,0,0,1,1,Qt::AlignJustify);
 
-    mainLayout->addWidget(materialTable,1,11,1,3);
+    saveB = new QPushButton("Save",this);
+    mainLayout->addWidget(saveB,0,1,1,1,Qt::AlignJustify);
+
+    saveAsB = new QPushButton("Save As",this);
+    mainLayout->addWidget(saveAsB,0,2,1,1,Qt::AlignJustify);
+
+    homeB = new QPushButton("Home",this);
+    mainLayout->addWidget(homeB,0,13,1,1,Qt::AlignRight);
 
     //Pulsanti Grafici
-    mainLayout->addWidget(new QPushButton("Consumo Materiale %"),2,1,1,1,Qt::AlignCenter);
-    mainLayout->addWidget(new QPushButton("Rapporto Consumo"),2,2,1,1,Qt::AlignCenter);
-    mainLayout->addWidget(new QPushButton("Consumo pER mESE"),2,3,1,1,Qt::AlignCenter);
+    mainLayout->addWidget(new QPushButton("Consumo Materiale %",this),2,1,1,1,Qt::AlignCenter);
+    mainLayout->addWidget(new QPushButton("Rapporto Consumo",this),2,2,1,1,Qt::AlignCenter);
+    mainLayout->addWidget(new QPushButton("Consumo pER mESE",this),2,3,1,1,Qt::AlignCenter);
 
 
     //implementazione
     setLayout(mainLayout);
     setWindowTitle("Admin Page");
-
 
     //Connessione dei SIGNAL dei Widget al Signal della AdminView
     connectViewSignals();
@@ -53,6 +44,17 @@ void AdminView::createRecordTable(unsigned int row, unsigned int column, QString
     filamentTable->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     filamentTable->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
     mainLayout->addWidget(filamentTable,1,0,1,6);
+}
+
+void AdminView::createMaterialTable(unsigned int row, unsigned int column, QStringList headers) const{
+    //Material Table
+    materialTable->setRowCount(row);
+    materialTable->setColumnCount(column);
+    materialTable->setHorizontalHeaderLabels(headers);
+    materialTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    materialTable->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    materialTable->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+    mainLayout->addWidget(materialTable,1,11,1,3);
 }
 
 void AdminView::createAddRowRecordTable(unsigned int row){
@@ -78,7 +80,7 @@ void AdminView::createAddRowRecordTable(unsigned int row){
     QDateEdit* dataW = new QDateEdit(QDate::currentDate(),this);
     filamentTable->setCellWidget(row,3,dataW);
 
-    //Delete Button Widget
+    //Add Button Widget
     QPushButton* addW = new QPushButton("+");
     filamentTable->setCellWidget(row,4,addW);
 
@@ -87,6 +89,26 @@ void AdminView::createAddRowRecordTable(unsigned int row){
         emit recordTableAdded(materialeW->toPlainText(), durataW->value(), matUsatoW->value(), dataW->date());
     });
 }
+
+void AdminView::createAddRowMaterialTable(unsigned int row){
+    //Inserismo una nuova riga per fare spazio
+    materialTable->insertRow(row);
+    //Materiale Widget Select Box
+    QTextEdit* materialeW = new QTextEdit(this);
+    materialTable->setCellWidget(row,0,materialeW);
+
+
+    //ADD Button Widget
+    QPushButton* addW = new QPushButton("+");
+    materialTable->setCellWidget(row,1,addW);
+
+    connect(addW, &QPushButton::clicked,
+            [this, materialeW]() {
+        emit materialTableAdded(materialeW->toPlainText());
+    });
+}
+
+
 
 void AdminView::addItemRecordTable(unsigned int row,Record* r){
     //Creo La ADD Row più in basso
@@ -150,7 +172,38 @@ void AdminView::addItemRecordTable(unsigned int row,Record* r){
     });
 }
 
-void AdminView::connectViewSignals() const{}
+void AdminView::addItemMaterialTable(unsigned int row,const QString& m){
+    //Creo La ADD Row più in basso
+    createAddRowMaterialTable(row+1);
+
+    //Materiale Widget Select Box
+    QTextEdit* materialeW = new QTextEdit(this);
+    materialeW->setText(m);
+    materialTable->setCellWidget(row,0,materialeW);
+
+    connect(materialeW, &QTextEdit::textChanged,[this,materialeW]() {
+        unsigned int row = materialTable->indexAt(materialeW->pos()).row();
+        emit materialTableMaterialeMod(row,materialeW->toPlainText());
+    });
+
+    //Delete Button Widget
+    QPushButton* deleteW = new QPushButton("-");
+    //deleteW->setObjectName(QString::number(row));
+    materialTable->setCellWidget(row,1,deleteW);//Widget
+
+    connect(deleteW, &QPushButton::clicked,[this,deleteW]() {
+        unsigned int row = materialTable->indexAt(deleteW->pos()).row();
+        emit materialTableRemoved(row);
+        materialTable->removeRow(row);
+    });
+}
+
+void AdminView::connectViewSignals() const{
+    connect(newB,SIGNAL(clicked()),this,SIGNAL(newBPressed()));
+    connect(saveB,SIGNAL(clicked()),this,SIGNAL(saveBPressed()));
+    connect(saveAsB,SIGNAL(clicked()),this,SIGNAL(saveAsBPressed()));
+    connect(homeB,SIGNAL(clicked()),this,SIGNAL(homeBPressed()));
+}
 
 
 

@@ -1,10 +1,9 @@
 #include "ctrl/adminctrl.h"
 
-AdminCtrl::AdminCtrl(View* v, Model* m, Ctrl* parent) : Ctrl(v,m,parent){
+AdminCtrl::AdminCtrl(AdminView* v, AdminModel* m, Ctrl* parent) : Ctrl(v,m,parent){
     //Collego i SIGNAL della View Ai SLOT del Controller
     connectViewCtrlSignalsSlots();
     //Creao la Record Table
-    qDebug() << getModel()->getRecordList().size()+1;
     getView()->createRecordTable(0,5,{ "Materiale", "Durata", "Consumo", "Data",""});
 
     //Creo Prima Row Pulsante Add
@@ -15,6 +14,19 @@ AdminCtrl::AdminCtrl(View* v, Model* m, Ctrl* parent) : Ctrl(v,m,parent){
     for (Record* r : getModel()->getRecordList()) {
         getView()->addItemRecordTable(id++,r);
     }
+
+    //Creo la Material Table
+    getView()->createMaterialTable(0,2,{"Materiale",""});
+
+    //Creao Prima Row Pulsante Add
+    getView()->createAddRowMaterialTable(0);
+
+    //Popo la MaterialTable con i dati presi da Model
+    id = 0;
+    for (const QString& m : *getModel()->getMaterialList()) {
+        getView()->addItemMaterialTable(id++,m);
+    }
+
 }
 
 AdminView* AdminCtrl::getView() const {
@@ -34,6 +46,15 @@ void AdminCtrl::connectViewCtrlSignalsSlots() const{
     connect(getView(),SIGNAL(recordTableDurataMod(uint,uint)),this,SLOT(onRecordTableDurataMod(uint,uint)));
     connect(getView(),SIGNAL(recordTableMatUsatoMod(uint,uint)),this,SLOT(onRecordTableMatUsatoMod(uint,uint)));
     connect(getView(),SIGNAL(recordTableDataMod(uint,QDate)),this,SLOT(onRecordTableDataMod(uint,QDate)));
+
+    connect(getView(),SIGNAL(materialTableAdded(QString)),this,SLOT(onMaterialTableAdded(QString)));
+    connect(getView(),SIGNAL(materialTableRemoved(uint)),this,SLOT(onMaterialTableRemoved(uint)));
+    connect(getView(),SIGNAL(materialTableMaterialeMod(uint,QString)),this,SLOT(onMaterialTableMaterialeMod(uint,QString)));
+
+    connect(getView(),SIGNAL(newBPressed()),this,SLOT(onNewBPressed()));
+    connect(getView(),SIGNAL(saveBPressed()),this,SLOT(onSaveBPressed()));
+    connect(getView(),SIGNAL(saveAsBPressed()),this,SLOT(onSaveAsBPressed()));
+    connect(getView(),SIGNAL(homeBPressed()),this,SLOT(onHomeBPressed()));
 }
 
 void AdminCtrl::onViewClosed() const {
@@ -52,7 +73,6 @@ void AdminCtrl::onRecordTableAdded(const QString & m, unsigned int d, unsigned i
 
 void AdminCtrl::onRecordTableMaterialeMod(unsigned int row, const QString& m){
     getModel()->getRecord(row)->setMateriale(m);
-    qDebug() << getModel()->getRecord(row)->toString();
 }
 
 void AdminCtrl::onRecordTableDurataMod(unsigned int row, unsigned int d){
@@ -65,4 +85,17 @@ void AdminCtrl::onRecordTableMatUsatoMod(unsigned int row, unsigned int mu){
 
 void AdminCtrl::onRecordTableDataMod(unsigned int row, const QDate& da){
     getModel()->getRecord(row)->setData(da);
+}
+
+void AdminCtrl::onMaterialTableAdded(const QString &m){
+    getModel()->addMaterial(m);
+    getView()->addItemMaterialTable(getModel()->getMaterialList()->size()-1,m);
+}
+
+void AdminCtrl::onMaterialTableMaterialeMod(unsigned int row, const QString &m){
+    getModel()->setMaterial(row,m);
+}
+
+void AdminCtrl::onMaterialTableRemoved(unsigned int row){
+    getModel()->removeMaterial(row);
 }

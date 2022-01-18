@@ -9,6 +9,7 @@
 #include "view/homeview.h"
 #include "view/adminview.h"
 #include "ctrl/adminctrl.h"
+#include "model/adminmodel.h"
 #include "ctrl/jsonfilepicker.h"
 
 
@@ -34,9 +35,11 @@ private:
 public:
     /**
      * @brief HomeCtrl
-     * @param v View collegata al Controller
+     * @param v HomeView collegata al Controller
      */
-    explicit HomeCtrl(View* v, Ctrl* parent = nullptr);
+    explicit HomeCtrl(HomeView* v, Ctrl* parent = nullptr);
+
+    ~HomeCtrl() override{qDebug("HomeCtrl destructed");}
 
     /**
      * @brief getView
