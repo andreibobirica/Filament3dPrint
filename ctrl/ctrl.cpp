@@ -10,6 +10,8 @@ View* Ctrl::getView() const {
     return view;
 }
 
+Model* Ctrl::getModel() const{return model;}
+
 void Ctrl::showView() const{
     if(view->getWindowSize())
     view->show();

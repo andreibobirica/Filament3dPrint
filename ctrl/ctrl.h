@@ -40,6 +40,8 @@ public:
      */
     virtual View* getView() const;
 
+    virtual Model* getModel() const;
+
     /**
      * @brief Ctrl::showView Metodo che rende visibile la View collegata al Controller
      * Se la View ha un WindowsSize, la mostra secondo quelle dimensioni
@@ -50,7 +52,6 @@ public:
      * @brief Ctrl::hideView Metodo per nascondere la View
      */
     virtual void hideView() const;
-
 signals:
 
 public slots:

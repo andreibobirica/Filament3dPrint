@@ -31,7 +31,10 @@ SOURCES += \
     view/view.cpp \
     ctrl/ctrl.cpp \
     ctrl/adminctrl.cpp \
-    model/model.cpp
+    model/model.cpp \
+    ctrl/jsonfilepicker.cpp \
+    model/adminmodel.cpp \
+    model/record.cpp
 
 HEADERS += \
     view/homeview.h \
@@ -40,7 +43,10 @@ HEADERS += \
     view/view.h \
     ctrl/ctrl.h \
     ctrl/adminctrl.h \
-    model/model.h
+    model/model.h \
+    ctrl/jsonfilepicker.h \
+    model/adminmodel.h \
+    model/record.h
 
 FORMS += \
     frame.ui

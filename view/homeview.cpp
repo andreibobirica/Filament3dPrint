@@ -65,3 +65,23 @@ void HomeView::connectViewSignals() const{
     connect(openPButton,SIGNAL(clicked()),this,SIGNAL(openProject()));
 }
 
+
+void HomeView::closeEvent(QCloseEvent* event){
+    //Elaboro chiusura solo se intenzionata da evento esterno
+    if(!event->spontaneous()) return;
+
+    if(!showQuestionDialog(2,"Exit","Chiudere l'applicazione?\n")){
+        //Ignoro l'evento di chiusura
+        event->ignore();
+    } else {
+        //Accetto l'evento di chiusura della Window
+        event->accept();
+        //Se esiste una View parent la mostro
+        if(parent()) static_cast<View*>(parent())->show();
+        //Emetto segnale di chiusura della View
+        emit viewClosed();
+    }
+}
+
+
+

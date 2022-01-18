@@ -1,5 +1,7 @@
 #include "ctrl/homectrl.h"
 
+#include <model/adminmodel.h>
+
 HomeCtrl::HomeCtrl(View* v,Ctrl* parent) : Ctrl(v,nullptr,parent){
     //Collego i SIGNAL della View Ai SLOT del Controller
     connectViewCtrlSignalsSlots();
@@ -19,13 +21,36 @@ void HomeCtrl::onNewProject() const{
     qDebug("new Project");
 
     AdminView* adminView = new AdminView(new QSize(720,480),getView());
-    AdminCtrl* adminCtrl = new AdminCtrl(adminView,nullptr,const_cast<HomeCtrl*>(this));
+    AdminCtrl* adminCtrl = new AdminCtrl(adminView,new AdminModel(),const_cast<HomeCtrl*>(this));
     adminCtrl->showView();
     getView()->hide();
 }
 
 void HomeCtrl::onOpenProject() const{
     qDebug("open Project");
+
+    QString filepath = JSONFilePicker::selectJSONFileDialog();
+    if(filepath.isNull()){
+        getView()->showWarningDialog("Errore Apertura File", "Selezionare un file");
+        return;
+    }
+
+    QJsonDocument* jsonData = JSONFilePicker::getJSONFileData(filepath);
+    if(jsonData->isNull()){
+        getView()->showWarningDialog("Errore Apertura File", "Riprova con un file valido");
+        return;
+    }
+
+
+    //Apertura Nuova schermata Admin da progetto Salvato
+    AdminView* adminView = new AdminView(new QSize(720,480),getView());
+    AdminModel* adminModel = new AdminModel(jsonData);
+    AdminCtrl* adminCtrl = new AdminCtrl(adminView,adminModel,const_cast<HomeCtrl*>(this));
+    adminCtrl->showView();
+    getView()->hide();
+
 }
 
-void HomeCtrl::onViewClosed() const {}
+void HomeCtrl::onViewClosed() const {
+    delete this;
+}

@@ -1,12 +1,15 @@
 #ifndef HOMECTRL_H
 #define HOMECTRL_H
 
-#include <QtDebug>
+#include <QFileDialog>
+#include <QStringList>
+#include <QJsonDocument>
 
 #include "ctrl/ctrl.h"
 #include "view/homeview.h"
 #include "view/adminview.h"
 #include "ctrl/adminctrl.h"
+#include "ctrl/jsonfilepicker.h"
 
 
 

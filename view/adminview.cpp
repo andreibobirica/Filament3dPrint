@@ -1,6 +1,8 @@
 #include "view/adminview.h"
 
-AdminView::AdminView(QSize* s,View* parent) : View(s,parent), mainLayout(new QGridLayout)
+
+AdminView::AdminView(QSize* s,View* parent) :
+    View(s,parent), mainLayout(new QGridLayout), filamentTable(new QTableWidget)
 {
     // Grid layout with 3 buttons
     mainLayout->setSpacing(10);
@@ -10,21 +12,6 @@ AdminView::AdminView(QSize* s,View* parent) : View(s,parent), mainLayout(new QGr
     mainLayout->addWidget(new QPushButton("Save"),0,1,1,1,Qt::AlignJustify);
     mainLayout->addWidget(new QPushButton("Save As"),0,2,1,1,Qt::AlignJustify);
     mainLayout->addWidget(new QPushButton("Home"),0,13,1,1,Qt::AlignRight);
-
-    //Prints Table
-    QTableWidget* filamentTable = new QTableWidget();
-    filamentTable->setRowCount(50);
-    filamentTable->setColumnCount(5);
-    QStringList headersFilamentTable = { "Materiale", "Durata", "Consumo", "Data",""};
-    filamentTable->setHorizontalHeaderLabels(headersFilamentTable);
-    filamentTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    filamentTable->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    filamentTable->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
-    //filamentTable->setFixedWidth(filamentTable->width());
-    //Elementi
-    filamentTable->setItem(1,1,new QTableWidgetItem("ciao"));//Testo
-    filamentTable->setCellWidget(0,4,new QPushButton("+"));//Widget
-
 
     //Material Table
     QTableWidget* materialTable = new QTableWidget();
@@ -40,8 +27,6 @@ AdminView::AdminView(QSize* s,View* parent) : View(s,parent), mainLayout(new QGr
     materialTable->setItem(0,0,new QTableWidgetItem("ciao"));//Testo
     materialTable->setCellWidget(0,1,new QPushButton("+"));//Widget
 
-
-    mainLayout->addWidget(filamentTable,1,0,1,6);
     mainLayout->addWidget(materialTable,1,11,1,3);
 
     //Pulsanti Grafici
@@ -59,18 +44,98 @@ AdminView::AdminView(QSize* s,View* parent) : View(s,parent), mainLayout(new QGr
     connectViewSignals();
 }
 
+void AdminView::createRecordTable(unsigned int row, unsigned int column, QStringList headers) const{
+    //Prints Table
+    filamentTable->setRowCount(row);
+    filamentTable->setColumnCount(column);
+    filamentTable->setHorizontalHeaderLabels(headers);
+    filamentTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    filamentTable->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    filamentTable->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
+    mainLayout->addWidget(filamentTable,1,0,1,6);
+}
+
+void AdminView::createAddRowRecordTable(unsigned int row){
+    //Materiale Widget Select Box
+    QTextEdit* materialeW = new QTextEdit(this);
+    filamentTable->setCellWidget(row,0,materialeW);
+
+    //Durata Widget
+    QSpinBox* durataW = new QSpinBox(this);
+    durataW->setRange(1,100000);
+    durataW->setSuffix(" h");
+    filamentTable->setCellWidget(row,1,durataW);
+
+    //matUsato Widget
+    QSpinBox* matUsatoW = new QSpinBox(this);
+    matUsatoW->setRange(1,100000);
+    matUsatoW->setSuffix(" g");
+    filamentTable->setCellWidget(row,2,matUsatoW);
+
+    //data Widget
+    QDateEdit* dataW = new QDateEdit(QDate::currentDate(),this);
+    filamentTable->setCellWidget(row,3,dataW);
+
+    //Delete Button Widget
+    QPushButton* addW = new QPushButton("+");
+    filamentTable->setCellWidget(row,4,addW);
+
+    connect(addW, &QPushButton::clicked,
+            [this, materialeW, durataW, matUsatoW, dataW]() {
+        emit recordTableAdded(materialeW->toPlainText(), durataW->value(), matUsatoW->value(), dataW->date());
+    });
+}
+
+void AdminView::addItemRecordTable(unsigned int row,Record* r){
+    //Inserismo una nuova riga per fare spazio
+    filamentTable->insertRow(filamentTable->rowCount());
+    //Creo La ADD Row più in basso
+    createAddRowRecordTable(row+1);
+
+    //Materiale Widget Select Box
+    QTextEdit* materialeW = new QTextEdit(this);
+    materialeW->setText(r->getMateriale());
+    filamentTable->setCellWidget(row,0,materialeW);
+
+    //Durata Widget
+    QSpinBox* durataW = new QSpinBox(this);
+    durataW->setRange(1,100000);
+    durataW->setSuffix(" h");
+    durataW->setValue(r->getDurata());
+    filamentTable->setCellWidget(row,1,durataW);
+
+    //matUsato Widget
+    QSpinBox* matUsatoW = new QSpinBox(this);
+    matUsatoW->setRange(1,100000);
+    matUsatoW->setSuffix(" g");
+    matUsatoW->setValue(r->getMatUsato());
+    filamentTable->setCellWidget(row,2,matUsatoW);
+
+    //data Widget
+    QDateEdit* dataW = new QDateEdit(r->getData(),this);
+    filamentTable->setCellWidget(row,3,dataW);
+
+    //Delete Button Widget
+    QPushButton* deleteW = new QPushButton("-");
+    //deleteW->setObjectName(QString::number(row));
+    filamentTable->setCellWidget(row,4,deleteW);//Widget
+
+    connect(deleteW, &QPushButton::clicked,[this,deleteW]() {
+        unsigned int row = filamentTable->indexAt(deleteW->pos()).row();
+        emit recordTableRemoved(row);
+        filamentTable->removeRow(row);
+    });
+}
+
 void AdminView::connectViewSignals() const{}
+
+
 
 void AdminView::closeEvent(QCloseEvent* event){
     //Elaboro chiusura solo se intenzionata da evento esterno
     if(!event->spontaneous()) return;
 
-    //Creazione POPup Messaggio di conferma
-    QMessageBox::StandardButton resBtn = QMessageBox::Yes;
-    resBtn = QMessageBox::question( this, "APP_NAME",tr("Sei sicuro di voler uscire?\n"),
-    QMessageBox::No | QMessageBox::Yes, QMessageBox::Yes);
-
-    if (resBtn != QMessageBox::Yes) {
+    if(!showQuestionDialog(3,"Exit","Sei sicuro di voler uscire?\n")){
         //Ignoro l'evento di chiusura
         event->ignore();
     } else {
@@ -82,6 +147,7 @@ void AdminView::closeEvent(QCloseEvent* event){
         emit viewClosed();
     }
 }
+
 
 
 

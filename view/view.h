@@ -47,6 +47,26 @@ public:
      */
     void applyWindowSize(QSize*);
 
+    /**
+     * @brief showQuestionDialog Questo metodo mostra un popup a schermo con stile di domanda
+     * e ne interpreta l'interazione.
+     * @param paramNum numero di parametri tra cui si vuole scegliere, fondamentalmente
+     * si sceglie se si vuole avere Cancel No Yes tra le opzioni.
+     * 2 = No Yes
+     * 3 = default = Cancel No Yes
+     * @param title Titolo del popUp
+     * @param info Messaggio Informativo da mostrare
+     * @return valore boolerano == true sse si è premuto su Yes
+     */
+    bool showQuestionDialog(unsigned int paramNum, const QString& title,const QString& info);
+
+    /**
+     * @brief showWarningDialog Mostra un pop informativo che non interaziona in maniera fondamentale col utente.
+     * Richiede solo la pressione di Ok.
+     * @param mes messaggio da mostrare
+     * @param mesInfo messaggio specifico da mostrare
+     */
+    void showWarningDialog(const QString &mes, const QString &mesInfo);
 signals:
     void viewClosed();
 

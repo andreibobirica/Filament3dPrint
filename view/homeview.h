@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QPixmap>
+#include <QCloseEvent>
 
 #include "view/view.h"
 
@@ -47,7 +48,15 @@ protected:
      * @return Metodo getter che restituisce il MainLayout della View
      */
     QHBoxLayout* getMainLayout() const;
-
+    /**
+     * @brief closeEvent Overriding del metodo closeEvent implementato da QWidget
+     * Tramite questo Overriding si cerca di modificare il da farsi nel evento di chiusura della window con la X.
+     * In particolare questo metodo chiede una conferma al utente prima di chiudere.
+     * Successivamente una volta effettuata la chiusura, Mostra il Parent se esiste.
+     * In fine si occupa della distruzione totale della schermata Admin(VIEW/MODEL/CTRL)
+     * @param event Evento di chiusura della scermata window
+     */
+    void closeEvent(QCloseEvent *event) override;
 public:
     /**
      * @brief HomeView
