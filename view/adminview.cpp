@@ -14,7 +14,7 @@ AdminView::AdminView(QSize* s,View* parent) :
     mainLayout->addWidget(new QPushButton("Home"),0,13,1,1,Qt::AlignRight);
 
     //Material Table
-    QTableWidget* materialTable = new QTableWidget();
+    QTableWidgethhh* materialTable = new QTableWidget();
     materialTable->setRowCount(10);
     materialTable->setColumnCount(2);
     QStringList headersMaterialTable = { "Materiale", ""};
