@@ -1,7 +1,5 @@
 #include "jsonfilepicker.h"
 
-#include <qDebug>
-
 QJsonDocument* JSONFilePicker::getJSONFileData(const QString& path){
     if(path.isNull()) return new QJsonDocument();
 
