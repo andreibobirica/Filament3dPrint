@@ -25,6 +25,10 @@ public:
     unsigned int getMatUsato() const;
     const QDate& getData() const;
     QString toString() const;
+    void setMateriale(const QString& m){materiale=m;}
+    void setDurata(unsigned int d){durata=d;}
+    void setMatUsato(unsigned int mu){matUsato=mu;}
+    void setData(const QDate& da){data=da;}
 private:
     QString materiale;
     unsigned int durata;

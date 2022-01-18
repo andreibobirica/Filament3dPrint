@@ -88,6 +88,10 @@ public:
 signals:
     void recordTableRemoved(uint);
     void recordTableAdded(QString, uint, uint, QDate);
+    void recordTableMaterialeMod(uint, QString);
+    void recordTableDurataMod(uint, uint);
+    void recordTableMatUsatoMod(uint, uint);
+    void recordTableDataMod(uint, QDate);
 
 public slots:
 

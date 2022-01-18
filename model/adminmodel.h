@@ -58,6 +58,7 @@ public:
      */
     unsigned int getRecordListSize();
 
+    Record *getRecord(unsigned int row);
 };
 
 

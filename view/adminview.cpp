@@ -56,6 +56,8 @@ void AdminView::createRecordTable(unsigned int row, unsigned int column, QString
 }
 
 void AdminView::createAddRowRecordTable(unsigned int row){
+    //Inserismo una nuova riga per fare spazio
+    filamentTable->insertRow(row);
     //Materiale Widget Select Box
     QTextEdit* materialeW = new QTextEdit(this);
     filamentTable->setCellWidget(row,0,materialeW);
@@ -87,8 +89,6 @@ void AdminView::createAddRowRecordTable(unsigned int row){
 }
 
 void AdminView::addItemRecordTable(unsigned int row,Record* r){
-    //Inserismo una nuova riga per fare spazio
-    filamentTable->insertRow(filamentTable->rowCount());
     //Creo La ADD Row più in basso
     createAddRowRecordTable(row+1);
 
@@ -97,12 +97,23 @@ void AdminView::addItemRecordTable(unsigned int row,Record* r){
     materialeW->setText(r->getMateriale());
     filamentTable->setCellWidget(row,0,materialeW);
 
+    connect(materialeW, &QTextEdit::textChanged,[this,materialeW]() {
+        unsigned int row = filamentTable->indexAt(materialeW->pos()).row();
+        emit recordTableMaterialeMod(row,materialeW->toPlainText());
+    });
+
     //Durata Widget
     QSpinBox* durataW = new QSpinBox(this);
     durataW->setRange(1,100000);
     durataW->setSuffix(" h");
     durataW->setValue(r->getDurata());
     filamentTable->setCellWidget(row,1,durataW);
+
+    connect(durataW, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),[this,durataW](int value) {
+        unsigned int row = filamentTable->indexAt(durataW->pos()).row();
+        emit recordTableDurataMod(row,value);
+        //durataW->value() == value
+    });
 
     //matUsato Widget
     QSpinBox* matUsatoW = new QSpinBox(this);
@@ -111,9 +122,21 @@ void AdminView::addItemRecordTable(unsigned int row,Record* r){
     matUsatoW->setValue(r->getMatUsato());
     filamentTable->setCellWidget(row,2,matUsatoW);
 
+    connect(matUsatoW, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),[this,matUsatoW](int value) {
+        unsigned int row = filamentTable->indexAt(matUsatoW->pos()).row();
+        emit recordTableMatUsatoMod(row,value);
+        //matUsatoW->value() == value
+    });
+
     //data Widget
     QDateEdit* dataW = new QDateEdit(r->getData(),this);
     filamentTable->setCellWidget(row,3,dataW);
+
+    connect(dataW, &QDateEdit::dateChanged,[this,dataW](const QDate& da) {
+        unsigned int row = filamentTable->indexAt(dataW->pos()).row();
+        emit recordTableDataMod(row,da);
+        //dataW->date() == da
+    });
 
     //Delete Button Widget
     QPushButton* deleteW = new QPushButton("-");

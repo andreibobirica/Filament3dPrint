@@ -48,6 +48,10 @@ public slots:
      void onViewClosed() const override;
      void onRecordTableRemoved(unsigned int row);
      void onRecordTableAdded(const QString& m, unsigned int d, unsigned int mu, const QDate& da);
+     void onRecordTableMaterialeMod(unsigned int row,const QString& m);
+     void onRecordTableDurataMod(unsigned int row, unsigned int d);
+     void onRecordTableMatUsatoMod(unsigned int row, unsigned int mu);
+     void onRecordTableDataMod(unsigned int row, const QDate& da);
 };
 
 #endif // ADMINCTRL_H

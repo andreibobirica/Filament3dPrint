@@ -19,6 +19,12 @@ void AdminModel::removeRecord(unsigned int row){
     recordList.erase(it);
 }
 
+Record* AdminModel::getRecord(unsigned int row){
+    std::list<Record*>::iterator it= recordList.begin();
+    std::advance(it,row);
+    return *it;
+}
+
 void AdminModel::addRecord(Record *r){
     recordList.push_back(r);
 }
