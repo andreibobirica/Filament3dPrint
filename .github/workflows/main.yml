@@ -37,6 +37,5 @@ jobs:
         run: |
           qmake
           make
-          ls
-          pwd
+          ./Filament3dPrint
 
