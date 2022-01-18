@@ -76,8 +76,7 @@ void HomeView::closeEvent(QCloseEvent* event){
     } else {
         //Accetto l'evento di chiusura della Window
         event->accept();
-        //Se esiste una View parent la mostro
-        if(parent()) static_cast<View*>(parent())->show();
+
         //Emetto segnale di chiusura della View
         emit viewClosed();
     }

@@ -50,4 +50,15 @@ std::list<Record*> JSONFilePicker::getRecords(QJsonDocument* data){
     return ret;
 }
 
+bool JSONFilePicker::saveAdminModel(const QJsonDocument &doc, const QString &path){
+    if(path.isNull() || path.isEmpty()) return false;
+    QFile file(path);
+    if(file.open(QFile::WriteOnly | QFile::Text | QFile::Truncate)){
+        file.write(doc.toJson());
+        file.close();
+        return true;
+    }
+    return false;
+}
+
 

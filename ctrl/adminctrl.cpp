@@ -99,3 +99,65 @@ void AdminCtrl::onMaterialTableMaterialeMod(unsigned int row, const QString &m){
 void AdminCtrl::onMaterialTableRemoved(unsigned int row){
     getModel()->removeMaterial(row);
 }
+
+void AdminCtrl::onNewBPressed(){
+    if(!getView()->showQuestionDialog(3,"Nuovo Progetto","Vuoi aprire un nuovo progetto ?"))return;
+
+    View* parentView = getView()->parent() ? static_cast<View*>(getView()->parent()) : nullptr;
+    Ctrl* parentCtrl = parent() ? static_cast<Ctrl*>(parent()) : nullptr;
+
+    AdminView* adminView = new AdminView(new QSize(720,480),parentView);
+    adminView->setViewTitle(tr("Nuovo Progetto"));
+    AdminCtrl* adminCtrl = new AdminCtrl(adminView,new AdminModel(),parentCtrl);
+    adminCtrl->showView();
+    getView()->hide();
+    delete this;
+}
+
+void AdminCtrl::onSaveBPressed() const{
+    // Se il file non esiste, magari perchè è un nuovo progetto, salvo con nome
+    if(getModel()->getFilePath().isEmpty() || getModel()->getFilePath().isNull()){
+        onSaveAsBPressed();
+        return;
+    }
+
+    //Imposto il titolo alla schermata
+    QStringList pieces = getModel()->getFilePath().split( "/" );
+    QString last = pieces.value( pieces.length() - 1 );
+    getView()->setViewTitle(last);
+
+    //effettuo il salvataggio ed in base all'esito mostro un messaggio
+    bool esito = JSONFilePicker::saveAdminModel(getModel()->toQJSonDocument(),getModel()->getFilePath());
+    if(!esito)
+        getView()->showCriticalDialog("Errore Salvataggio grave","Salvataggio NON riuscito");
+    else
+        getView()->showInformationDialog("Perfetto !","Salvataggio Riuscito");
+}
+
+void AdminCtrl::onSaveAsBPressed() const{
+    //Faccio la richiesta per il nume del file
+    QString jsonFilter = "JSON Files (*.json)";
+    QString titolo = QString::fromStdString("Salva file con nome");
+    QString fname = QFileDialog::getSaveFileName(getView(),titolo,QDir::homePath(),jsonFilter);
+
+    //Verifico che il nume sia valido
+    if(fname.isEmpty() || fname.isNull()){
+        getView()->showCriticalDialog("Errore Salvataggio","Salvataggio NON riuscito - Inserire un nome file valido");
+        return;
+    }
+
+
+    //Setto il nume del file al modello di dati
+    getModel()->setFilePath(fname);
+
+    //ora faccio il salvataggio automatico
+    onSaveBPressed();
+}
+
+void AdminCtrl::onHomeBPressed(){
+    if(!getView()->showQuestionDialog(3,"Back Home","Vuoi tornare alla Home?"))return;
+
+    if(getView()->parent()) static_cast<View*>(getView()->parent())->show();
+    getView()->hide();
+    delete this;
+}

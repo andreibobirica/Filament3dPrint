@@ -19,6 +19,7 @@ void HomeCtrl::onNewProject() const{
     qDebug("new Project");
 
     AdminView* adminView = new AdminView(new QSize(720,480),getView());
+    adminView->setViewTitle(tr("Nuovo Progetto"));
     AdminCtrl* adminCtrl = new AdminCtrl(adminView,new AdminModel(),const_cast<Ctrl*>(static_cast<const Ctrl*>(this)));
     adminCtrl->showView();
     getView()->hide();
@@ -42,7 +43,13 @@ void HomeCtrl::onOpenProject() const{
 
     //Apertura Nuova schermata Admin da progetto Salvato
     AdminView* adminView = new AdminView(new QSize(720,480),getView());
-    AdminModel* adminModel = new AdminModel(jsonData);
+    AdminModel* adminModel = new AdminModel(jsonData,new QString(filepath));
+
+    //Imposto il titolo alla schermata
+    QStringList pieces = adminModel->getFilePath().split( "/" );
+    QString last = pieces.value( pieces.length() - 1 );
+    adminView->setViewTitle(last);
+
     AdminCtrl* adminCtrl = new AdminCtrl(adminView,adminModel,const_cast<HomeCtrl*>(this));
     adminCtrl->showView();
     getView()->hide();

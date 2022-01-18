@@ -6,6 +6,8 @@
 #include "ctrl/ctrl.h"
 #include "view/adminview.h"
 
+#include <QDebug>
+
 
 /**
  * @brief The AdminCtrl class
@@ -58,28 +60,10 @@ public slots:
      void onMaterialTableMaterialeMod(unsigned int row,const QString& m);
      void onMaterialTableRemoved(unsigned int row);
 
-     void onNewBPressed(){
-         //domandare se chiudere
-         //se si
-         //Se non è stato impostato un padre non eseguire l'azione
-         View* parentView = getView()->parent() ? static_cast<View*>(getView()->parent()) : nullptr;
-         Ctrl* parentCtrl = parent() ? static_cast<Ctrl*>(parent()) : nullptr;
-
-         AdminView* adminView = new AdminView(new QSize(720,480),parentView);
-         AdminCtrl* adminCtrl = new AdminCtrl(adminView,new AdminModel(),parentCtrl);
-         adminCtrl->showView();
-         getView()->hide();
-         delete this;
-     }
-     void onSaveBPressed(){}
-     void onSaveAsBPressed(){}
-     void onHomeBPressed(){
-         //domandare se chiudere
-         //se si
-         if(getView()->parent()) static_cast<View*>(getView()->parent())->show();
-         getView()->hide();
-         delete this;
-     }
+     void onNewBPressed();
+     void onSaveBPressed()const;
+     void onSaveAsBPressed()const;
+     void onHomeBPressed();
 
 };
 

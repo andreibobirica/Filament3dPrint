@@ -1,5 +1,7 @@
 #include "view/view.h"
 
+#include <QDebug>
+
 View::View(QSize* s,View* parent) : windowSize(s), QWidget(parent,Qt::Window){
     //Resizing della windows
     if(windowSize)
@@ -19,14 +21,16 @@ QSize* View::getWindowSize() const{
 }
 
 
-void View::showWarningDialog(const QString& mes,const QString& mesInfo){
-    QMessageBox msgBox;
-    msgBox.setText(mes);
-    if(mesInfo != "")
-        msgBox.setInformativeText(mesInfo);
-    msgBox.setStandardButtons(QMessageBox::Ok);
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    msgBox.exec();
+void View::showInformationDialog(const QString& title, const QString& mesInfo){
+    QMessageBox::information(this,title,mesInfo,QMessageBox::Ok);
+}
+
+void View::showCriticalDialog(const QString& title, const QString& mesInfo){
+    QMessageBox::critical(this,title,mesInfo,QMessageBox::Ok);
+}
+
+void View::showWarningDialog(const QString& title, const QString& mesInfo){
+    QMessageBox::warning(this,title,mesInfo,QMessageBox::Ok);
 }
 
 

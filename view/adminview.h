@@ -114,6 +114,8 @@ public:
      * @param m
      */
     void addItemMaterialTable(unsigned int row, const QString &m);
+
+    void setViewTitle(const QString& title);
 signals:
     void recordTableRemoved(uint);
     void recordTableAdded(QString, uint, uint, QDate);

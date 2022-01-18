@@ -10,6 +10,7 @@
 #include <QDebug>
 
 #include "model/record.h"
+#include "model/adminmodel.h"
 
 /**
  * @brief The JSONFilePicker class Classe che si occupa di lettura di File, Memorizzazione, Interpretazione Json
@@ -18,7 +19,7 @@
  */
 class JSONFilePicker
 {
-private:
+
 public:
     //Eliminazione dei costruttori di default per impedire creazione istanze della classe
     explicit JSONFilePicker() = delete;
@@ -52,6 +53,8 @@ public:
      * @return Records in formato QJsonArray
      */
     static std::list<Record*> getRecords(QJsonDocument* data);
+
+    static bool saveAdminModel(const QJsonDocument& doc, const QString& path);
 };
 
 #endif // JSONFILEPICKER_H

@@ -15,6 +15,7 @@
 class AdminModel : public Model
 {
 private:
+    QString* filepath;
     QStringList* materialiList;
     std::list<Record*> recordList;
 public:
@@ -22,7 +23,7 @@ public:
      * @brief AdminModel Costruttore che viene usato per creare un modello a partire da un Documento Json
      * @param data dati in formato Json
      */
-    explicit AdminModel(QJsonDocument* data);
+    explicit AdminModel(QJsonDocument* data, QString* path);
     /**
      * @brief AdminModel Costruttore che viene usato per creare un modello vuoto, senza dati
      */
@@ -83,7 +84,13 @@ public:
      * @param row indice del Record dalla std::list da restituire
      * @return record da restituire
      */
-    Record* getRecord(unsigned int row);
+    Record* getRecord(unsigned int row) const;
+
+    const QString& getFilePath() const;
+
+    const QJsonDocument& toQJSonDocument() const;
+
+    void setFilePath(const QString& fname);
 };
 
 

@@ -29,7 +29,6 @@ AdminView::AdminView(QSize* s,View* parent) :
 
     //implementazione
     setLayout(mainLayout);
-    setWindowTitle("Admin Page");
 
     //Connessione dei SIGNAL dei Widget al Signal della AdminView
     connectViewSignals();
@@ -198,6 +197,10 @@ void AdminView::addItemMaterialTable(unsigned int row,const QString& m){
     });
 }
 
+void AdminView::setViewTitle(const QString &title){
+    setWindowTitle(title);
+}
+
 void AdminView::connectViewSignals() const{
     connect(newB,SIGNAL(clicked()),this,SIGNAL(newBPressed()));
     connect(saveB,SIGNAL(clicked()),this,SIGNAL(saveBPressed()));
@@ -217,9 +220,6 @@ void AdminView::closeEvent(QCloseEvent* event){
     } else {
         //Accetto l'evento di chiusura della Window
         event->accept();
-        //Se esiste una View parent la mostro
-        if(parent()) static_cast<View*>(parent())->show();
-        //Emetto segnale di chiusura della View
         emit viewClosed();
     }
 }

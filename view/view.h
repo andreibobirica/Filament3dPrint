@@ -67,7 +67,11 @@ public:
      * @param mes messaggio da mostrare
      * @param mesInfo messaggio specifico da mostrare
      */
-    void showWarningDialog(const QString &mes, const QString &mesInfo);
+    void showWarningDialog(const QString& title, const QString& mesInfo);
+
+    void showInformationDialog(const QString &title, const QString &mesInfo);
+
+    void showCriticalDialog(const QString &title, const QString &mesInfo);
 signals:
     void viewClosed();
 
