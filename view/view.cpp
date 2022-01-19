@@ -12,14 +12,6 @@ void View::setWindowSize(const QSize& s){
     resize(s);
 }
 
-/*
-const QSize& View::getWindowSize() const{
-    qDebug() << size();
-    return size();
-}
-*/
-
-
 void View::showInformationDialog(const QString& title, const QString& mesInfo){
     QMessageBox::information(this,title,mesInfo,QMessageBox::Ok);
 }

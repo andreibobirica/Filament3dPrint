@@ -32,11 +32,6 @@ public:
     virtual ~View() {qDebug("View destructed");}
 
     /**
-     * @brief getWindowSize Metodo getter della windowSize
-     * @return windowSize, gradezza della finestra della view
-     */
-    //const QSize& getWindowSize() const;
-    /**
      * @brief applyWindowSize
      * Metodo che serve ad applicare la windowSize alla View e modificarne effettivamente la dimensione
      */
