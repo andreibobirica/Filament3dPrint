@@ -21,7 +21,9 @@ class JSONFilePicker
 {
 
 public:
-    //Eliminazione dei costruttori di default per impedire creazione istanze della classe
+    /**
+     * Eliminazione dei costruttori di default per impedire creazione istanze della classe
+     */
     explicit JSONFilePicker() = delete;
     explicit JSONFilePicker(const JSONFilePicker&) = delete;
     /**

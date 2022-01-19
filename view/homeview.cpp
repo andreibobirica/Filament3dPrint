@@ -1,6 +1,6 @@
 #include "view/homeview.h"
 
-HomeView::HomeView(QSize* s,View* parent) : View(s,parent)
+HomeView::HomeView(const QSize& s,View* parent) : View(s,parent)
 {
     QHBoxLayout* mainLayout = new QHBoxLayout;
     mainLayout->setSpacing(0);
@@ -22,12 +22,12 @@ introducendo ai futuri record\nche si vedranno nella pagina successiva.",
 QLayout* HomeView::createButtonsLayout(){
     QVBoxLayout* buttonsLayout = new QVBoxLayout;
     buttonsLayout->setMargin(10);
-    buttonsLayout->setSpacing(100);
-    buttonsLayout->setContentsMargins(100, 100, 100, 100);
+    buttonsLayout->setSpacing(50);
+    buttonsLayout->setContentsMargins(50, 50, 50, 50);
     buttonsLayout->setAlignment(Qt::AlignCenter);
 
-    newPButton = new QPushButton("New Project");
-    openPButton = new QPushButton("Open Project");
+    newPButton = new QPushButton("New Project",this);
+    openPButton = new QPushButton("Open Project",this);
     newPButton->setFixedSize(200,70);
     openPButton->setFixedSize(200,70);
 
@@ -46,7 +46,7 @@ QLayout* HomeView::createDescriptionLayout(const QString& description, const QSt
     descrLayout->setAlignment(Qt::AlignCenter);
 
     //Immagine stampante descrizione
-    QLabel* img = new QLabel();
+    QLabel* img = new QLabel(this);
     QPixmap pic = QPixmap(imgPath);
     pic = pic.scaledToHeight(400);
     img->setPixmap(pic);
@@ -54,7 +54,7 @@ QLayout* HomeView::createDescriptionLayout(const QString& description, const QSt
     descrLayout->addWidget(img);
 
     //Descrizione
-    QLabel* desc = new QLabel(description);
+    QLabel* desc = new QLabel(description,this);
     descrLayout->addWidget(desc,Qt::AlignCenter);
 
     return descrLayout;

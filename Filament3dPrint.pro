@@ -53,3 +53,5 @@ FORMS += \
 
 DISTFILES += \
     3d.jpg
+
+STATECHARTS +=

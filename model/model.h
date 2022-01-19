@@ -1,19 +1,15 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include <QObject>
+#include <QDebug>
 
-class Model : public QObject
+class Model
 {
-    Q_OBJECT
+
 public:
     explicit Model();
 
     virtual ~Model() {qDebug("Model destructed");}
-
-signals:
-
-public slots:
 };
 
 #endif // MODEL_H

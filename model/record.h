@@ -18,13 +18,13 @@ public:
      * @param mU grammi di materiale utilizzato
      * @param data Data in cui è stata effettuata la stampa
      */
-    explicit Record(QString m, unsigned int d,unsigned int mU,QDate data);
+    explicit Record(QString m, unsigned int d,unsigned int mU,const QDate& data);
 
-    const QString &getMateriale() const;
+    const QString& getMateriale() const;
     unsigned int getDurata() const;
     unsigned int getMatUsato() const;
     const QDate& getData() const;
-    QString toString() const;
+    const QString& toString() const;
     void setMateriale(const QString& m){materiale=m;}
     void setDurata(unsigned int d){durata=d;}
     void setMatUsato(unsigned int mu){matUsato=mu;}

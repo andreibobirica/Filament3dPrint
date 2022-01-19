@@ -2,23 +2,22 @@
 
 #include <QDebug>
 
-View::View(QSize* s,View* parent) : windowSize(s), QWidget(parent,Qt::Window){
+View::View(const QSize& s,View* parent) : QWidget(parent,Qt::Window){
     //Resizing della windows
-    if(windowSize)
-    applyWindowSize(windowSize);
+    if(!s.isEmpty() && !s.isNull())
+    setWindowSize(s);
 }
 
-void View::applyWindowSize(QSize* s){
-    resize(*s);
+void View::setWindowSize(const QSize& s){
+    resize(s);
 }
 
-void View::setWindowSize(QSize* s){
-    windowSize = s;
+/*
+const QSize& View::getWindowSize() const{
+    qDebug() << size();
+    return size();
 }
-
-QSize* View::getWindowSize() const{
-    return windowSize;
-}
+*/
 
 
 void View::showInformationDialog(const QString& title, const QString& mesInfo){
@@ -33,6 +32,9 @@ void View::showWarningDialog(const QString& title, const QString& mesInfo){
     QMessageBox::warning(this,title,mesInfo,QMessageBox::Ok);
 }
 
+void View::setViewTitle(const QString &title){
+    setWindowTitle(title);
+}
 
 bool View::showQuestionDialog(unsigned int paramNum, const QString& title,const QString& info){
     QMessageBox::StandardButton resBtn = QMessageBox::Yes;

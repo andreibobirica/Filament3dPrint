@@ -1,13 +1,12 @@
 #include "view/adminview.h"
 
 
-AdminView::AdminView(QSize* s,View* parent) :
-    View(s,parent), mainLayout(new QGridLayout), filamentTable(new QTableWidget), materialTable(new QTableWidget)
+AdminView::AdminView(const QSize& s,View* parent) :
+    View(s,parent), mainLayout(new QGridLayout(this)), filamentTable(new QTableWidget(this)), materialTable(new QTableWidget(this))
 {
     // Grid layout with 3 buttons
     mainLayout->setSpacing(10);
     mainLayout->setMargin(10);
-
 
     newB = new QPushButton("New",this);
     mainLayout->addWidget(newB,0,0,1,1,Qt::AlignJustify);
@@ -80,7 +79,7 @@ void AdminView::createAddRowRecordTable(unsigned int row){
     filamentTable->setCellWidget(row,3,dataW);
 
     //Add Button Widget
-    QPushButton* addW = new QPushButton("+");
+    QPushButton* addW = new QPushButton("+",this);
     filamentTable->setCellWidget(row,4,addW);
 
     connect(addW, &QPushButton::clicked,
@@ -98,7 +97,7 @@ void AdminView::createAddRowMaterialTable(unsigned int row){
 
 
     //ADD Button Widget
-    QPushButton* addW = new QPushButton("+");
+    QPushButton* addW = new QPushButton("+",this);
     materialTable->setCellWidget(row,1,addW);
 
     connect(addW, &QPushButton::clicked,
@@ -106,8 +105,6 @@ void AdminView::createAddRowMaterialTable(unsigned int row){
         emit materialTableAdded(materialeW->toPlainText());
     });
 }
-
-
 
 void AdminView::addItemRecordTable(unsigned int row,Record* r){
     //Creo La ADD Row più in basso
@@ -143,7 +140,7 @@ void AdminView::addItemRecordTable(unsigned int row,Record* r){
     matUsatoW->setValue(r->getMatUsato());
     filamentTable->setCellWidget(row,2,matUsatoW);
 
-    connect(matUsatoW, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),[this,matUsatoW](int value) {
+    connect(matUsatoW, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),[this,matUsatoW](int value) {
         unsigned int row = filamentTable->indexAt(matUsatoW->pos()).row();
         emit recordTableMatUsatoMod(row,value);
         //matUsatoW->value() == value
@@ -160,7 +157,7 @@ void AdminView::addItemRecordTable(unsigned int row,Record* r){
     });
 
     //Delete Button Widget
-    QPushButton* deleteW = new QPushButton("-");
+    QPushButton* deleteW = new QPushButton("-",this);
     //deleteW->setObjectName(QString::number(row));
     filamentTable->setCellWidget(row,4,deleteW);//Widget
 
@@ -186,7 +183,7 @@ void AdminView::addItemMaterialTable(unsigned int row,const QString& m){
     });
 
     //Delete Button Widget
-    QPushButton* deleteW = new QPushButton("-");
+    QPushButton* deleteW = new QPushButton("-",this);
     //deleteW->setObjectName(QString::number(row));
     materialTable->setCellWidget(row,1,deleteW);//Widget
 
@@ -198,7 +195,7 @@ void AdminView::addItemMaterialTable(unsigned int row,const QString& m){
 }
 
 void AdminView::setViewTitle(const QString &title){
-    setWindowTitle(title);
+    setWindowTitle("Progetto "+title);
 }
 
 void AdminView::connectViewSignals() const{
@@ -207,8 +204,6 @@ void AdminView::connectViewSignals() const{
     connect(saveAsB,SIGNAL(clicked()),this,SIGNAL(saveAsBPressed()));
     connect(homeB,SIGNAL(clicked()),this,SIGNAL(homeBPressed()));
 }
-
-
 
 void AdminView::closeEvent(QCloseEvent* event){
     //Elaboro chiusura solo se intenzionata da evento esterno

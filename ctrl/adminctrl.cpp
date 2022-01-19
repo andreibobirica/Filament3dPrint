@@ -30,31 +30,34 @@ AdminCtrl::AdminCtrl(AdminView* v, AdminModel* m, Ctrl* parent) : Ctrl(v,m,paren
 }
 
 AdminView* AdminCtrl::getView() const {
-    return static_cast<AdminView*>(Ctrl::getView());
+    return static_cast<AdminView*>(view);
 }
 
 AdminModel* AdminCtrl::getModel() const {
-    return static_cast<AdminModel*>(Ctrl::getModel());
+    return static_cast<AdminModel*>(model);
 }
 
 
 
 void AdminCtrl::connectViewCtrlSignalsSlots() const{
-    connect(getView(),SIGNAL(recordTableRemoved(uint)),this,SLOT(onRecordTableRemoved(uint)));
-    connect(getView(),SIGNAL(recordTableAdded(QString,uint,uint,QDate)),this,SLOT(onRecordTableAdded(QString,uint,uint,QDate)));
-    connect(getView(),SIGNAL(recordTableMaterialeMod(uint,QString)),this,SLOT(onRecordTableMaterialeMod(uint,QString)));
-    connect(getView(),SIGNAL(recordTableDurataMod(uint,uint)),this,SLOT(onRecordTableDurataMod(uint,uint)));
-    connect(getView(),SIGNAL(recordTableMatUsatoMod(uint,uint)),this,SLOT(onRecordTableMatUsatoMod(uint,uint)));
-    connect(getView(),SIGNAL(recordTableDataMod(uint,QDate)),this,SLOT(onRecordTableDataMod(uint,QDate)));
+    //connessioni per la RecordTable
+    connect(view,SIGNAL(recordTableRemoved(uint)),this,SLOT(onRecordTableRemoved(uint)));
+    connect(view,SIGNAL(recordTableAdded(QString,uint,uint,QDate)),this,SLOT(onRecordTableAdded(QString,uint,uint,QDate)));
+    connect(view,SIGNAL(recordTableMaterialeMod(uint,QString)),this,SLOT(onRecordTableMaterialeMod(uint,QString)));
+    connect(view,SIGNAL(recordTableDurataMod(uint,uint)),this,SLOT(onRecordTableDurataMod(uint,uint)));
+    connect(view,SIGNAL(recordTableMatUsatoMod(uint,uint)),this,SLOT(onRecordTableMatUsatoMod(uint,uint)));
+    connect(view,SIGNAL(recordTableDataMod(uint,QDate)),this,SLOT(onRecordTableDataMod(uint,QDate)));
 
-    connect(getView(),SIGNAL(materialTableAdded(QString)),this,SLOT(onMaterialTableAdded(QString)));
-    connect(getView(),SIGNAL(materialTableRemoved(uint)),this,SLOT(onMaterialTableRemoved(uint)));
-    connect(getView(),SIGNAL(materialTableMaterialeMod(uint,QString)),this,SLOT(onMaterialTableMaterialeMod(uint,QString)));
+    //connessioni per la ModelTable
+    connect(view,SIGNAL(materialTableAdded(QString)),this,SLOT(onMaterialTableAdded(QString)));
+    connect(view,SIGNAL(materialTableRemoved(uint)),this,SLOT(onMaterialTableRemoved(uint)));
+    connect(view,SIGNAL(materialTableMaterialeMod(uint,QString)),this,SLOT(onMaterialTableMaterialeMod(uint,QString)));
 
-    connect(getView(),SIGNAL(newBPressed()),this,SLOT(onNewBPressed()));
-    connect(getView(),SIGNAL(saveBPressed()),this,SLOT(onSaveBPressed()));
-    connect(getView(),SIGNAL(saveAsBPressed()),this,SLOT(onSaveAsBPressed()));
-    connect(getView(),SIGNAL(homeBPressed()),this,SLOT(onHomeBPressed()));
+    //connessioni per i pulsanti di interrazione
+    connect(view,SIGNAL(newBPressed()),this,SLOT(onNewBPressed()));
+    connect(view,SIGNAL(saveBPressed()),this,SLOT(onSaveBPressed()));
+    connect(view,SIGNAL(saveAsBPressed()),this,SLOT(onSaveAsBPressed()));
+    connect(view,SIGNAL(homeBPressed()),this,SLOT(onHomeBPressed()));
 }
 
 void AdminCtrl::onViewClosed() const {
@@ -101,16 +104,17 @@ void AdminCtrl::onMaterialTableRemoved(unsigned int row){
 }
 
 void AdminCtrl::onNewBPressed(){
-    if(!getView()->showQuestionDialog(3,"Nuovo Progetto","Vuoi aprire un nuovo progetto ?"))return;
+    if(!view->showQuestionDialog(3,"Nuovo Progetto","Vuoi aprire un nuovo progetto ?"))return;
 
-    View* parentView = getView()->parent() ? static_cast<View*>(getView()->parent()) : nullptr;
+    View* parentView = view->parent() ? static_cast<View*>(view->parent()) : nullptr;
     Ctrl* parentCtrl = parent() ? static_cast<Ctrl*>(parent()) : nullptr;
 
-    AdminView* adminView = new AdminView(new QSize(720,480),parentView);
-    adminView->setViewTitle(tr("Nuovo Progetto"));
+    AdminView* adminView = new AdminView(view->size(),parentView);
+    adminView->setViewTitle(tr("Nuovo"));
+    adminView->setWindowSize(view->size());
     AdminCtrl* adminCtrl = new AdminCtrl(adminView,new AdminModel(),parentCtrl);
     adminCtrl->showView();
-    getView()->hide();
+    view->hide();
     delete this;
 }
 
@@ -124,27 +128,27 @@ void AdminCtrl::onSaveBPressed() const{
     //Imposto il titolo alla schermata
     QStringList pieces = getModel()->getFilePath().split( "/" );
     QString last = pieces.value( pieces.length() - 1 );
-    getView()->setViewTitle(last);
+    view->setViewTitle(last);
 
     //effettuo il salvataggio ed in base all'esito mostro un messaggio
     bool esito = JSONFilePicker::saveAdminModel(getModel()->toQJSonDocument(),getModel()->getFilePath());
     if(!esito)
-        getView()->showCriticalDialog("Errore Salvataggio grave","Salvataggio NON riuscito");
+        view->showCriticalDialog("Errore Salvataggio grave","Salvataggio NON riuscito");
     else
-        getView()->showInformationDialog("Perfetto !","Salvataggio Riuscito");
+        view->showInformationDialog("Perfetto !","Salvataggio Riuscito");
 }
 
 void AdminCtrl::onSaveAsBPressed() const{
     //Faccio la richiesta per il nume del file
     QString jsonFilter = "JSON Files (*.json)";
     QString titolo = QString::fromStdString("Salva file con nome");
-    QString fname = QFileDialog::getSaveFileName(getView(),titolo,QDir::homePath(),jsonFilter);
+    QString fname = QFileDialog::getSaveFileName(view,titolo,QDir::homePath(),jsonFilter);
     if (!fname.endsWith(".json"))
         fname+= QString::fromStdString(".json");
 
     //Verifico che il nume sia valido
     if(fname.isEmpty() || fname.isNull()){
-        getView()->showCriticalDialog("Errore Salvataggio","Salvataggio NON riuscito - Inserire un nome file valido");
+        view->showCriticalDialog("Errore Salvataggio","Salvataggio NON riuscito - Inserire un nome file valido");
         return;
     }
 
@@ -157,9 +161,12 @@ void AdminCtrl::onSaveAsBPressed() const{
 }
 
 void AdminCtrl::onHomeBPressed(){
-    if(!getView()->showQuestionDialog(3,"Back Home","Vuoi tornare alla Home?"))return;
+    if(!view->showQuestionDialog(3,"Back Home","Vuoi tornare alla Home?"))return;
 
-    if(getView()->parent()) static_cast<View*>(getView()->parent())->show();
-    getView()->hide();
+    if(view->parent()){
+        static_cast<View*>(view->parent())->show();
+        static_cast<View*>(view->parent())->setWindowSize(view->size());
+    }
+    view->hide();
     delete this;
 }

@@ -3,7 +3,6 @@
 
 #include <QObject>
 
-
 #include "view/view.h"
 #include "model/model.h"
 
@@ -14,9 +13,11 @@
 class Ctrl : public QObject
 {
     Q_OBJECT
-private:
+protected:
     View* view;
     Model* model;
+
+private:
 
     /**
      * @brief connectViewCtrlSignalsSlots Interfaccia da implementare in future classi derivate
@@ -27,8 +28,10 @@ private:
 
 public:
     /**
-     * @brief Ctrl::Ctrl Costruttore
+     * @brief Ctrl::Ctrl Costruttore del Controller di una schermata
      * @param v View collegata al Controller
+     * @param m Model modello dei dati da rappresentare nella schermata
+     * @param parent Padre del Controller, è il controller della schermata che ha creato la suddettas
      */
     explicit Ctrl(View* v, Model* m, Ctrl* parent = nullptr);
 
@@ -40,6 +43,10 @@ public:
      */
     virtual View* getView() const;
 
+    /**
+     * @brief getModel Metodo getter
+     * @return Model Collegato al Controller
+     */
     virtual Model* getModel() const;
 
     /**
@@ -55,6 +62,11 @@ public:
 signals:
 
 public slots:
+    /**
+     * @brief onViewClosed SLOT eseguito in ricezione di SIGNAL di chiusura della View
+     * è dichiarata come virtuale pura per implementare questa interfaccia obbligatoria per le future
+     * classi derivate, cioè i Controller specifici di ogni schermata
+     */
     virtual void onViewClosed() const = 0;
 
 };

@@ -6,23 +6,23 @@ HomeCtrl::HomeCtrl(HomeView* v,Ctrl* parent) : Ctrl(v,nullptr,parent){
 }
 
 HomeView* HomeCtrl::getView() const{
-    return static_cast<HomeView*>(Ctrl::getView());
+    return static_cast<HomeView*>(view);
 }
 
 
 void HomeCtrl::connectViewCtrlSignalsSlots() const{
-    connect(getView(),SIGNAL(newProject()),this,SLOT(onNewProject()));
-    connect(getView(),SIGNAL(openProject()),this,SLOT(onOpenProject()));
+    connect(view,SIGNAL(newProject()),this,SLOT(onNewProject()));
+    connect(view,SIGNAL(openProject()),this,SLOT(onOpenProject()));
 }
 
 void HomeCtrl::onNewProject() const{
     qDebug("new Project");
 
-    AdminView* adminView = new AdminView(new QSize(720,480),getView());
-    adminView->setViewTitle(tr("Nuovo Progetto"));
+    AdminView* adminView = new AdminView(view->size(),view);
+    adminView->setViewTitle(tr("Nuovo"));
     AdminCtrl* adminCtrl = new AdminCtrl(adminView,new AdminModel(),const_cast<Ctrl*>(static_cast<const Ctrl*>(this)));
     adminCtrl->showView();
-    getView()->hide();
+    view->hide();
 }
 
 void HomeCtrl::onOpenProject() const{
@@ -30,19 +30,19 @@ void HomeCtrl::onOpenProject() const{
 
     QString filepath = JSONFilePicker::selectJSONFileDialog();
     if(filepath.isNull()){
-        getView()->showWarningDialog("Errore Apertura File", "Selezionare un file");
+        view->showWarningDialog("Errore Apertura File", "Selezionare un file");
         return;
     }
 
     QJsonDocument* jsonData = JSONFilePicker::getJSONFileData(filepath);
     if(jsonData->isNull()){
-        getView()->showWarningDialog("Errore Apertura File", "Riprova con un file valido");
+        view->showWarningDialog("Errore Apertura File", "Riprova con un file valido");
         return;
     }
 
 
     //Apertura Nuova schermata Admin da progetto Salvato
-    AdminView* adminView = new AdminView(new QSize(720,480),getView());
+    AdminView* adminView = new AdminView(view->size(),view);
     AdminModel* adminModel = new AdminModel(jsonData,new QString(filepath));
 
     //Imposto il titolo alla schermata
@@ -52,7 +52,7 @@ void HomeCtrl::onOpenProject() const{
 
     AdminCtrl* adminCtrl = new AdminCtrl(adminView,adminModel,const_cast<HomeCtrl*>(this));
     adminCtrl->showView();
-    getView()->hide();
+    view->hide();
 
 }
 

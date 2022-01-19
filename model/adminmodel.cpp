@@ -55,7 +55,7 @@ void AdminModel::addRecord(Record *r){
     recordList.push_back(r);
 }
 
-unsigned int AdminModel::getRecordListSize(){return recordList.size();}
+unsigned int AdminModel::getRecordListSize() const{return recordList.size();}
 
 void AdminModel::addMaterial(const QString &m){
     materialiList->push_back(m);
@@ -69,4 +69,4 @@ void AdminModel::removeMaterial(unsigned int row){
     materialiList->removeAt(row);
 }
 
-const QString &AdminModel::getFilePath() const{return *filepath;}
+const QString& AdminModel::getFilePath() const{return *filepath;}

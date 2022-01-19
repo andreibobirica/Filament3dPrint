@@ -13,10 +13,7 @@ View* Ctrl::getView() const {
 Model* Ctrl::getModel() const{return model;}
 
 void Ctrl::showView() const{
-    if(view->getWindowSize())
     view->show();
-    else
-    view->showFullScreen();
 }
 
 void Ctrl::hideView() const{

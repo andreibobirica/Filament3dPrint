@@ -31,10 +31,12 @@ private:
     /**
      * @brief createDescriptionLayout
      * Metodo che si occupa di realizzare e predisporre il layout con la parte descrittiva delLa Home
+     * @param description descrizione da inserire all'interno del layout
+     * @param imgPath path della immagine da includere nel layout
      * @return layout contenente la parte della descrizione della applicazione
      * private perchè invocato solamente nel costruttore
      */
-    QLayout* createDescriptionLayout(const QString&,const QString&);
+    QLayout* createDescriptionLayout(const QString& description, const QString& imgPath);
     /**
      * @brief connectViewSignals Metodo virtuale
      * Questo Metodo serve a connettere i SIGNAL degli elementi grafici della Homeview ai SIGNAL della
@@ -43,11 +45,6 @@ private:
     void connectViewSignals() const override;
 
 protected:
-    /**
-     * @brief getMainLayout
-     * @return Metodo getter che restituisce il MainLayout della View
-     */
-    QHBoxLayout* getMainLayout() const;
     /**
      * @brief closeEvent Overriding del metodo closeEvent implementato da QWidget
      * Tramite questo Overriding si cerca di modificare il da farsi nel evento di chiusura della window con la X.
@@ -63,7 +60,7 @@ public:
      * Il Costruttore si occupa di Creare la View e creare i due layout laterali della app e mostrarli.
      * @param s Grandezza della finistra, la windowSize
      */
-    explicit HomeView(QSize* s = new QSize(720,480),View* parent = nullptr);
+    explicit HomeView(const QSize& s = QSize(),View* parent = nullptr);
 
     ~HomeView() override{qDebug("HomeView destructed");}
 

@@ -60,7 +60,7 @@ public:
      * Costruttore della Admin View
      * @param s windowSize, grandezza della finestra della View
      */
-    explicit AdminView(QSize* s = nullptr, View* parent = nullptr);
+    explicit AdminView(const QSize& s = QSize(), View* parent = nullptr);
 
     ~AdminView() override{qDebug("AdminView destructor");}
 
@@ -115,7 +115,12 @@ public:
      */
     void addItemMaterialTable(unsigned int row, const QString &m);
 
-    void setViewTitle(const QString& title);
+    /**
+     * @brief setViewTitle Metodo che setta il titolo alla view, aggiunge al titolo il prefisso "Progetto"
+     * @param title titolo della view
+     */
+    void setViewTitle (const QString &title) override;
+
 signals:
     void recordTableRemoved(uint);
     void recordTableAdded(QString, uint, uint, QDate);

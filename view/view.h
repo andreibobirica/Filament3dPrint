@@ -13,7 +13,6 @@ class View : public QWidget
 {
     Q_OBJECT
 private:
-    QSize* windowSize;
 
     /**
      * @brief connectViewSignals Interfaccia da implementare nelle classi derivate
@@ -28,25 +27,20 @@ public:
      * @brief View Costruttore della view che si occupa ad impostare la sua windowSize e ad applicarla
      * @param s Grandezza della finistra, la windowSize
      */
-    explicit View(QSize* s = nullptr,View* parent = nullptr);
+    explicit View(const QSize& s = QSize(),View* parent = nullptr);
 
     virtual ~View() {qDebug("View destructed");}
 
     /**
-     * @brief setWindowSize
-     * Metodo setter del campo windowsize
-     */
-    void setWindowSize(QSize*);
-    /**
      * @brief getWindowSize Metodo getter della windowSize
      * @return windowSize, gradezza della finestra della view
      */
-    QSize* getWindowSize() const;
+    //const QSize& getWindowSize() const;
     /**
      * @brief applyWindowSize
      * Metodo che serve ad applicare la windowSize alla View e modificarne effettivamente la dimensione
      */
-    void applyWindowSize(QSize*);
+    void setWindowSize(const QSize&);
 
     /**
      * @brief showQuestionDialog Questo metodo mostra un popup a schermo con stile di domanda
@@ -64,14 +58,38 @@ public:
     /**
      * @brief showWarningDialog Mostra un pop informativo che non interaziona in maniera fondamentale col utente.
      * Richiede solo la pressione di Ok.
-     * @param mes messaggio da mostrare
+     * STILE Avviso
+     * @param title titolo del popup
      * @param mesInfo messaggio specifico da mostrare
      */
     void showWarningDialog(const QString& title, const QString& mesInfo);
 
+
+    /**
+     * @brief showInformationDialog Mostra un pop informativo che non interaziona in maniera fondamentale col utente.
+     * Richiede solo la pressione di Ok.
+     * Stile informativo
+     * @param title titolo del popup
+     * @param mesInfo messaggio specifico da mostrare
+     */
     void showInformationDialog(const QString &title, const QString &mesInfo);
 
+
+    /**
+     * @brief showCriticalDialog Mostra un pop informativo che non interaziona in maniera fondamentale col utente.
+     * Richiede solo la pressione di Ok.
+     * Stile Critico
+     * @param title titolo del popup
+     * @param mesInfo messaggio specifico da mostrare
+     */
     void showCriticalDialog(const QString &title, const QString &mesInfo);
+
+    /**
+     * @brief setViewTitle Metodo che setta il nome della Window, titolo della finestra
+     * @param title titolo
+     */
+    virtual void setViewTitle(const QString& title);
+
 signals:
     void viewClosed();
 

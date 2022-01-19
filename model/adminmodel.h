@@ -58,7 +58,7 @@ public:
      * @brief getRecordListSize Metodo getter
      * @return gli elementi effettivi all'interno della lista, il numero di record
      */
-    unsigned int getRecordListSize();
+    unsigned int getRecordListSize() const;
 
     /**
      * @brief addMaterial Aggiunge alla QStringList materialList un materiale Qstring m
@@ -86,10 +86,23 @@ public:
      */
     Record* getRecord(unsigned int row) const;
 
+    /**
+     * @brief getFilePath Ritorna la path del file, contente il suo percorso ed il nome del file
+     * @return path
+     */
     const QString& getFilePath() const;
 
+    /**
+     * @brief toQJSonDocument Metodo che trasforma l'AdminModel in un QJsonDocument,
+     * viene tralasciata l'informazione della path
+     * @return JSON document con i dati del modello
+     */
     const QJsonDocument& toQJSonDocument() const;
 
+    /**
+     * @brief setFilePath Metodo che imposta la path del modello
+     * @param fname
+     */
     void setFilePath(const QString& fname);
 };
 

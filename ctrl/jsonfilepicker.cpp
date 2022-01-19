@@ -11,8 +11,7 @@ QJsonDocument* JSONFilePicker::getJSONFileData(const QString& path){
     fileData = file.readAll();
     file.close();
 
-    QJsonDocument* jsonData = new QJsonDocument(QJsonDocument::fromJson(fileData.toLocal8Bit()));
-    return jsonData;
+    return new QJsonDocument(QJsonDocument::fromJson(fileData.toLocal8Bit()));
 }
 
 QString JSONFilePicker::selectJSONFileDialog(){
@@ -50,7 +49,7 @@ std::list<Record*> JSONFilePicker::getRecords(QJsonDocument* data){
     return ret;
 }
 
-bool JSONFilePicker::saveAdminModel(const QJsonDocument &doc, const QString &path){
+bool JSONFilePicker::saveAdminModel(const QJsonDocument& doc, const QString& path){
     if(path.isNull() || path.isEmpty()) return false;
     QFile file(path);
     if(file.open(QFile::WriteOnly | QFile::Text | QFile::Truncate)){
