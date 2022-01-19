@@ -21,15 +21,16 @@ introducendo ai futuri record\nche si vedranno nella pagina successiva.",
 
 QLayout* HomeView::createButtonsLayout(){
     QVBoxLayout* buttonsLayout = new QVBoxLayout;
+
     buttonsLayout->setMargin(10);
     buttonsLayout->setSpacing(50);
-    buttonsLayout->setContentsMargins(50, 50, 50, 50);
+    buttonsLayout->setContentsMargins(25,50,12,50);
     buttonsLayout->setAlignment(Qt::AlignCenter);
 
     newPButton = new QPushButton("New Project",this);
     openPButton = new QPushButton("Open Project",this);
-    newPButton->setFixedSize(200,70);
-    openPButton->setFixedSize(200,70);
+    newPButton->setFixedSize(150,70);
+    openPButton->setFixedSize(150,70);
 
     buttonsLayout->addWidget(newPButton);
     buttonsLayout->addWidget(openPButton);
@@ -40,24 +41,31 @@ QLayout* HomeView::createButtonsLayout(){
 QLayout* HomeView::createDescriptionLayout(const QString& description, const QString& imgPath){
     //Parte destra immagine e descrizione
     QVBoxLayout* descrLayout = new QVBoxLayout;
-    descrLayout->setMargin(10);
-    descrLayout->setSpacing(10);
-    descrLayout->setContentsMargins(50, 50, 50, 50);
     descrLayout->setAlignment(Qt::AlignCenter);
 
     //Immagine stampante descrizione
     QLabel* img = new QLabel(this);
     QPixmap pic = QPixmap(imgPath);
-    pic = pic.scaledToHeight(400);
+    pic = pic.scaledToHeight(300);
     img->setPixmap(pic);
-    img->setFixedSize(400,400);
-    descrLayout->addWidget(img);
+    img->setFixedSize(300,300);
+    descrLayout->addWidget(img,Qt::AlignCenter);
 
     //Descrizione
     QLabel* desc = new QLabel(description,this);
     descrLayout->addWidget(desc,Qt::AlignCenter);
 
-    return descrLayout;
+    QHBoxLayout* groupLayout = new QHBoxLayout;
+    groupLayout->setMargin(10);
+    groupLayout->setSpacing(25);
+    groupLayout->setContentsMargins(12, 50, 25, 50);
+    groupLayout->setAlignment(Qt::AlignCenter);
+
+    QGroupBox* gruppo = new QGroupBox("Descrizione Programma",this);
+    gruppo->setLayout(descrLayout);
+    groupLayout->addWidget(gruppo);
+
+    return groupLayout;
 }
 
 void HomeView::connectViewSignals() const{

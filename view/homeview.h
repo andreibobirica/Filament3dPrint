@@ -8,6 +8,7 @@
 #include <QLabel>
 #include <QPixmap>
 #include <QCloseEvent>
+#include <QGroupBox>
 
 #include "view/view.h"
 

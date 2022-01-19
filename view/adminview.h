@@ -15,6 +15,7 @@
 #include <QDateEdit>
 #include <QSpinBox>
 #include <QTextEdit>
+#include <QComboBox>
 
 #include "view/view.h"
 #include "model/adminmodel.h"
@@ -70,10 +71,13 @@ public:
      * Questa aggiunta avviene ad una riga precisa della tabllea row.
      * Attenzione che si occupa anche di associare un pulsante ad ogni Riga.
      * Attenzione che si occupa anche di associare nelle connessioni di signali ai pulsanti e alla modifica dei campi
+     * Inoltre, siccome la vist a ha anche una combo box con i possibili materiali da scegliere
+     * ha bisogno anche di una lista di materiali valida tra cui scegliere
      * @param row Riga in cui fare la aggiunta
      * @param r Record da aggiungere
+     * @param materialList lista di materiali tra cui scegliere per la cella di selezione materiale
      */
-    void addItemRecordTable(unsigned int row, Record *r);
+    void addItemRecordTable(unsigned int row,const Record& r,const QStringList& materialList);
 
     /**
      * @brief createRecordTable Crea la QTableWidget su cui poi mostrare i dati.
@@ -81,7 +85,7 @@ public:
      * @param column colonne della tabella
      * @param headers Etichette da mostrare
      */
-    void createRecordTable(unsigned int row, unsigned int column, QStringList headers) const;
+    void createRecordTable(unsigned int row, unsigned int column,const QStringList& headers) const;
 
     /**
      * @brief createAddRowRecordTable Crea una riga specifica di add, alla riga row, in cui appone uno spazione nuovo su cui
@@ -89,7 +93,7 @@ public:
      * Associa in fine al pulsante + creato anche una connessione per Segnale la quale Aggiornerà anche il Model.
      * @param row riga a cui aggiungere la riga di add
      */
-    void createAddRowRecordTable(unsigned int row);
+    void createAddRowRecordTable(unsigned int row, const QStringList& materialList);
 
     /**
      * @brief createMaterialTable Crea la QTableWidget su cui mostrare i dati
@@ -97,7 +101,7 @@ public:
      * @param column numero di colonne che dovrà avere
      * @param headers Etichette da mostrare
      */
-    void createMaterialTable(unsigned int row, unsigned int column, QStringList headers) const;
+    void createMaterialTable(unsigned int row, unsigned int column,const QStringList& headers) const;
     /**
      * @brief createAddRowMaterialTable Metodo che si occupa di creare la riga di inserimento dei materiali, in questa
      * riga si potranno inserire i dettagli di un nuovo materiale

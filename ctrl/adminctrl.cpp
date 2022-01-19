@@ -7,12 +7,12 @@ AdminCtrl::AdminCtrl(AdminView* v, AdminModel* m, Ctrl* parent) : Ctrl(v,m,paren
     getView()->createRecordTable(0,5,{ "Materiale", "Durata", "Consumo", "Data",""});
 
     //Creo Prima Row Pulsante Add
-    getView()->createAddRowRecordTable(0);
+    getView()->createAddRowRecordTable(0,*getModel()->getMaterialList());
 
     //Popolo La RecordTable con i Record presi da Model
     unsigned int id = 0;
     for (Record* r : getModel()->getRecordList()) {
-        getView()->addItemRecordTable(id++,r);
+        getView()->addItemRecordTable(id++,*r,*getModel()->getMaterialList());
     }
 
     //Creo la Material Table
@@ -71,7 +71,7 @@ void AdminCtrl::onRecordTableRemoved(unsigned int row){
 void AdminCtrl::onRecordTableAdded(const QString & m, unsigned int d, unsigned int mu, const QDate& da){
     Record* r = new Record(m,d,mu,da);
     getModel()->addRecord(r);
-    getView()->addItemRecordTable(getModel()->getRecordListSize()-1,r);
+    getView()->addItemRecordTable(getModel()->getRecordListSize()-1,*r,*getModel()->getMaterialList());
 }
 
 void AdminCtrl::onRecordTableMaterialeMod(unsigned int row, const QString& m){

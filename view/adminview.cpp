@@ -33,7 +33,7 @@ AdminView::AdminView(const QSize& s,View* parent) :
     connectViewSignals();
 }
 
-void AdminView::createRecordTable(unsigned int row, unsigned int column, QStringList headers) const{
+void AdminView::createRecordTable(unsigned int row, unsigned int column,const QStringList& headers) const{
     //Prints Table
     filamentTable->setRowCount(row);
     filamentTable->setColumnCount(column);
@@ -44,7 +44,7 @@ void AdminView::createRecordTable(unsigned int row, unsigned int column, QString
     mainLayout->addWidget(filamentTable,1,0,1,6);
 }
 
-void AdminView::createMaterialTable(unsigned int row, unsigned int column, QStringList headers) const{
+void AdminView::createMaterialTable(unsigned int row, unsigned int column,const QStringList& headers) const{
     //Material Table
     materialTable->setRowCount(row);
     materialTable->setColumnCount(column);
@@ -55,12 +55,36 @@ void AdminView::createMaterialTable(unsigned int row, unsigned int column, QStri
     mainLayout->addWidget(materialTable,1,11,1,3);
 }
 
-void AdminView::createAddRowRecordTable(unsigned int row){
+void AdminView::createAddRowRecordTable(unsigned int row, const QStringList& materialList){
     //Inserismo una nuova riga per fare spazio
     filamentTable->insertRow(row);
-    //Materiale Widget Select Box
-    QTextEdit* materialeW = new QTextEdit(this);
+
+    //Material Table con la compbo selectg box
+    QComboBox* materialeW = new QComboBox(this);
+    //Aggiungo la lista degli elementi tra cui scegliere
+    materialeW->addItems(materialList);
+    //Imposto il widget sulla cella
     filamentTable->setCellWidget(row,0,materialeW);
+
+
+    //Aggiornamento della lista di materiali alla aggiunta di un materiale
+    connect(this,&AdminView::materialTableAdded,materialeW,[materialeW](const QString& m){
+        materialeW->addItem(m);
+    });
+    //Aggiornamento della lista di materiali alla rimozione di un materiale
+    connect(this,&AdminView::materialTableRemoved,materialeW,[materialeW](uint i){
+        materialeW->removeItem(i);
+    });
+    //Aggiornamento della list adi materiali alla modifica di un materiale
+    connect(this,&AdminView::materialTableMaterialeMod,materialeW,[materialeW](uint i, const QString& m){
+        //verifico se l'elemento attualmente selezionato è quello da modificare, adrà poi riselezionato
+        bool iSelected = (materialeW->currentIndex() == i);
+        materialeW->removeItem(i);
+        materialeW->insertItem(i,m);
+        if(iSelected)
+            materialeW->setCurrentIndex(i);
+    });
+
 
     //Durata Widget
     QSpinBox* durataW = new QSpinBox(this);
@@ -82,19 +106,19 @@ void AdminView::createAddRowRecordTable(unsigned int row){
     QPushButton* addW = new QPushButton("+",this);
     filamentTable->setCellWidget(row,4,addW);
 
-    connect(addW, &QPushButton::clicked,
+    connect(addW, &QPushButton::clicked,this,
             [this, materialeW, durataW, matUsatoW, dataW]() {
-        emit recordTableAdded(materialeW->toPlainText(), durataW->value(), matUsatoW->value(), dataW->date());
+        emit recordTableAdded(materialeW->currentText(), durataW->value(), matUsatoW->value(), dataW->date());
     });
 }
 
 void AdminView::createAddRowMaterialTable(unsigned int row){
     //Inserismo una nuova riga per fare spazio
     materialTable->insertRow(row);
+
     //Materiale Widget Select Box
     QTextEdit* materialeW = new QTextEdit(this);
     materialTable->setCellWidget(row,0,materialeW);
-
 
     //ADD Button Widget
     QPushButton* addW = new QPushButton("+",this);
@@ -106,28 +130,55 @@ void AdminView::createAddRowMaterialTable(unsigned int row){
     });
 }
 
-void AdminView::addItemRecordTable(unsigned int row,Record* r){
+void AdminView::addItemRecordTable(unsigned int row,const Record& r, const QStringList& materialList){
     //Creo La ADD Row più in basso
-    createAddRowRecordTable(row+1);
+    createAddRowRecordTable(row+1,materialList);
 
-    //Materiale Widget Select Box
-    QTextEdit* materialeW = new QTextEdit(this);
-    materialeW->setText(r->getMateriale());
+    //Material Table con la compbo selectg box
+    QComboBox* materialeW = new QComboBox(this);
+    //Aggiungo la lista degli elementi tra cui scegliere
+    materialeW->addItems(materialList);
+    //Seleziono l'elemento predefinito scelto
+    int index = materialeW->findText(r.getMateriale());
+    if(index != -1)
+        materialeW->setCurrentIndex(index);
+    //Imposto il widget sulla cella
     filamentTable->setCellWidget(row,0,materialeW);
 
-    connect(materialeW, &QTextEdit::textChanged,[this,materialeW]() {
-        unsigned int row = filamentTable->indexAt(materialeW->pos()).row();
-        emit recordTableMaterialeMod(row,materialeW->toPlainText());
+
+    //Aggiornamento della lista di materiali alla aggiunta di un materiale dalla MaterialList
+    connect(this,&AdminView::materialTableAdded,materialeW,[materialeW](const QString& m){
+        materialeW->addItem(m);
     });
+    //Aggiornamento della lista di materiali alla rimozione di un materiale dalla MaterialList
+    connect(this,&AdminView::materialTableRemoved,materialeW,[materialeW](uint i){
+        materialeW->removeItem(i);
+    });
+    //Aggiornamento della lista di materiali alla modifica di un materiale
+    connect(this,&AdminView::materialTableMaterialeMod,materialeW,[materialeW](uint i, const QString& m){
+        //verifico se l'elemento attualmente selezionato è quello da modificare, sarà poi riselezionato
+        bool iSelected = (materialeW->currentIndex() == i);
+        materialeW->removeItem(i);
+        materialeW->insertItem(i,m);
+        if(iSelected)
+            materialeW->setCurrentIndex(i);
+    });
+
+
+    connect(materialeW, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),this,[this,materialeW]() {
+        unsigned int row = filamentTable->indexAt(materialeW->pos()).row();
+        emit recordTableMaterialeMod(row,materialeW->currentText());
+    });
+
 
     //Durata Widget
     QSpinBox* durataW = new QSpinBox(this);
     durataW->setRange(1,100000);
     durataW->setSuffix(" h");
-    durataW->setValue(r->getDurata());
+    durataW->setValue(r.getDurata());
     filamentTable->setCellWidget(row,1,durataW);
 
-    connect(durataW, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),[this,durataW](int value) {
+    connect(durataW, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),this,[this,durataW](int value) {
         unsigned int row = filamentTable->indexAt(durataW->pos()).row();
         emit recordTableDurataMod(row,value);
         //durataW->value() == value
@@ -137,20 +188,20 @@ void AdminView::addItemRecordTable(unsigned int row,Record* r){
     QSpinBox* matUsatoW = new QSpinBox(this);
     matUsatoW->setRange(1,100000);
     matUsatoW->setSuffix(" g");
-    matUsatoW->setValue(r->getMatUsato());
+    matUsatoW->setValue(r.getMatUsato());
     filamentTable->setCellWidget(row,2,matUsatoW);
 
-    connect(matUsatoW, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),[this,matUsatoW](int value) {
+    connect(matUsatoW, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),this,[this,matUsatoW](int value) {
         unsigned int row = filamentTable->indexAt(matUsatoW->pos()).row();
         emit recordTableMatUsatoMod(row,value);
         //matUsatoW->value() == value
     });
 
     //data Widget
-    QDateEdit* dataW = new QDateEdit(r->getData(),this);
+    QDateEdit* dataW = new QDateEdit(r.getData(),this);
     filamentTable->setCellWidget(row,3,dataW);
 
-    connect(dataW, &QDateEdit::dateChanged,[this,dataW](const QDate& da) {
+    connect(dataW, &QDateEdit::dateChanged,this,[this,dataW](const QDate& da) {
         unsigned int row = filamentTable->indexAt(dataW->pos()).row();
         emit recordTableDataMod(row,da);
         //dataW->date() == da
@@ -161,7 +212,7 @@ void AdminView::addItemRecordTable(unsigned int row,Record* r){
     //deleteW->setObjectName(QString::number(row));
     filamentTable->setCellWidget(row,4,deleteW);//Widget
 
-    connect(deleteW, &QPushButton::clicked,[this,deleteW]() {
+    connect(deleteW, &QPushButton::clicked,this,[this,deleteW]() {
         unsigned int row = filamentTable->indexAt(deleteW->pos()).row();
         emit recordTableRemoved(row);
         filamentTable->removeRow(row);
