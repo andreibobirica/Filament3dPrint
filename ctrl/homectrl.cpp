@@ -18,8 +18,6 @@ void HomeCtrl::connectViewCtrlSignalsSlots() const{
 }
 
 void HomeCtrl::onNewProject() const{
-    qDebug("new Project");
-
     AdminView* adminView = new AdminView(view->size(),view);
     adminView->setViewTitle(tr("Nuovo"));
     AdminCtrl* adminCtrl = new AdminCtrl(adminView,new AdminModel(),const_cast<Ctrl*>(static_cast<const Ctrl*>(this)));
@@ -28,8 +26,6 @@ void HomeCtrl::onNewProject() const{
 }
 
 void HomeCtrl::onOpenProject() const{
-    qDebug("open Project");
-
     QString filepath = JSONFilePicker::selectJSONFileDialog();
     if(filepath.isNull()){
         view->showWarningDialog("Errore Apertura File", "Selezionare un file");
@@ -41,7 +37,6 @@ void HomeCtrl::onOpenProject() const{
         view->showWarningDialog("Errore Apertura File", "Riprova con un file valido");
         return;
     }
-
 
     //Apertura Nuova schermata Admin da progetto Salvato
     AdminView* adminView = new AdminView(view->size(),view);

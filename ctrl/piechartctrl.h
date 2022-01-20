@@ -43,11 +43,7 @@ public slots:
      * @brief onViewClosed Metodo virtuale che definisce il cosa fare alla chiusura della schermata
      * in questo caso NIENTE, distrugge solamente il costruttore
      */
-    void onViewClosed() const override{
-        qDebug() << "distruct view pie";
-        view->hide();
-        delete this;
-    }
+    void onViewClosed() const override;
 };
 
 #endif // PIECHARTCTRL_H

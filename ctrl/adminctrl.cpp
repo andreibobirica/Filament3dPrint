@@ -41,7 +41,6 @@ AdminModel* AdminCtrl::getModel() const {
     return static_cast<AdminModel*>(model);
 }
 
-
 void AdminCtrl::connectViewCtrlSignalsSlots() const{
     connect(view,SIGNAL(viewClosed()),this,SLOT(onViewClosed()));
 
@@ -69,6 +68,7 @@ void AdminCtrl::connectViewCtrlSignalsSlots() const{
 }
 
 void AdminCtrl::onViewClosed() const {
+    qDebug() << "Admin View closed";
     delete this;
 }
 

@@ -18,3 +18,8 @@ PieChartView *PieChartCtrl::getView() const{
 PieChartModel *PieChartCtrl::getModel() const{
     return static_cast<PieChartModel*>(model);
 }
+
+void PieChartCtrl::onViewClosed() const{
+    qDebug() << "piechardView closed";
+    delete this;
+}
