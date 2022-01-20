@@ -16,7 +16,7 @@ AdminCtrl::AdminCtrl(AdminView* v, AdminModel* m, Ctrl* parent) : Ctrl(v,m,paren
     }
 
     //Creo la Material Table
-    getView()->createMaterialTable(0,2,{"Materiale",""});
+    getView()->createMaterialTable(0,2,{"MATERIALE",""});
 
     //Creao Prima Row Pulsante Add
     getView()->createAddRowMaterialTable(0);
@@ -93,7 +93,7 @@ void AdminCtrl::onRecordTableDataMod(unsigned int row, const QDate& da){
 void AdminCtrl::onMaterialTableAdded(const QString &m){
     for(const QString& mAdd : *getModel()->getMaterialList()){
         if(mAdd == m){
-            getView()->showCriticalDialog("Inserimento Fallito","Inserimento non concesso, assicurarsi che il nome sia univoco");
+            getView()->showCriticalDialog("Inserimento Fallito","Inserimento non concesso\nassicurarsi che il nome sia univoco");
             return;
         }
     }
@@ -127,7 +127,7 @@ void AdminCtrl::onMaterialTableRemoved(unsigned int row){
     QString m = getModel()->getMaterial(row);
     for(Record* r : getModel()->getRecordList()){
         if(r->getMateriale() == m){
-            getView()->showCriticalDialog("Impossibile Rimuovere","Rimozione non concessa \n assicurarsi che il materiale non sia usato nella lista di Record");
+            getView()->showCriticalDialog("Impossibile Rimuovere","Rimozione non concessa\nAssicurarsi che il materiale non sia usato nella lista di Record");
             return;
         }
     }
@@ -178,7 +178,7 @@ void AdminCtrl::onSaveAsBPressed() const{
 
     //Verifico che il nume sia valido
     if(fname.isEmpty() || fname.isNull()){
-        view->showCriticalDialog("Errore Salvataggio","Salvataggio NON riuscito - Inserire un nome file valido");
+        view->showCriticalDialog("Errore Salvataggio","Salvataggio NON riuscito\nInserire un nome file valido");
         return;
     }
 
