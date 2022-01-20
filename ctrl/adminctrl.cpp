@@ -91,15 +91,47 @@ void AdminCtrl::onRecordTableDataMod(unsigned int row, const QDate& da){
 }
 
 void AdminCtrl::onMaterialTableAdded(const QString &m){
+    for(const QString& mAdd : *getModel()->getMaterialList()){
+        if(mAdd == m){
+            getView()->showCriticalDialog("Inserimento Fallito","Inserimento non concesso, assicurarsi che il nome sia univoco");
+            return;
+        }
+    }
     getModel()->addMaterial(m);
     getView()->addItemMaterialTable(getModel()->getMaterialList()->size()-1,m);
 }
 
 void AdminCtrl::onMaterialTableMaterialeMod(unsigned int row, const QString &m){
+    //Counter per controllare che il duplicato esista e non sia se stesso.
+    unsigned int counter = 0;
+    for(const QString& mAdd : *getModel()->getMaterialList()){
+        //Se esiste un diplicato e NON è se stesso
+        if(mAdd == m && counter != row){
+            //Duplicato trovato , modifico modello e materiale nella view con appeso '_'
+            getModel()->setMaterial(row,m);
+            getView()->modifyItemMaterialTable(row,m+"_");
+            return;
+        }//Se esiste un duplicato ed è se stesso
+        else if(mAdd == m && counter == row)
+            return;
+        counter++;
+    }
+
+    //Duplicato non trovato, modifico il modello, la view è già corretta, emetto un segnale
+    //per aggiornare anche i QComboBox della View nella recordTable
     getModel()->setMaterial(row,m);
+    emit getView()->materialTableMaterialeModChecked(row,m);
 }
 
 void AdminCtrl::onMaterialTableRemoved(unsigned int row){
+    QString m = getModel()->getMaterial(row);
+    for(Record* r : getModel()->getRecordList()){
+        if(r->getMateriale() == m){
+            getView()->showCriticalDialog("Impossibile Rimuovere","Rimozione non concessa \n assicurarsi che il materiale non sia usato nella lista di Record");
+            return;
+        }
+    }
+    getView()->removeItemMaterialTable(row);
     getModel()->removeMaterial(row);
 }
 

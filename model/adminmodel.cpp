@@ -27,6 +27,10 @@ Record* AdminModel::getRecord(unsigned int row) const{
     return *it;
 }
 
+const QString &AdminModel::getMaterial(unsigned int row) const{
+    return materialiList->at(row);
+}
+
 const QJsonDocument &AdminModel::toQJSonDocument() const{
     QJsonDocument* modelJson = new QJsonDocument();
     QJsonObject mainObj;

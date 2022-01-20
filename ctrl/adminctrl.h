@@ -110,6 +110,10 @@ public slots:
      /**
       * @brief onMaterialTableMaterialeMod SLOT eseguito alla ricezione di SEGNALI dalla view
       * per la modifica di un materiale specifico dalla materialList
+      * Verifica che il materiale non esista già effettivamente nel modello per non creare duplicati.
+      * Se trova un materiale già esistente la suddetta modifica
+      * viene attuata con il carattere '_' appeso alla fine.
+      * Successivamente si manda un segnale della VIEW per aggioranre i QComboBox
       * @param row indice del materiale da modificare dalla materialList
       * @param m Materiale
       */
@@ -117,8 +121,11 @@ public slots:
 
      /**
       * @brief onMaterialTableRemoved SLOT eseguito alla ricezione di SEGNALI dalla view
-      * per la rimozione di uno specifico record dalla recordList
-      * @param row indice del record da rimuovere
+      * per la rimozione di uno specifico materiale dalla materlList
+      * Il materiale può essere rimosso solamente se non è presente in uno dei
+      * record della recordList (Per una questione di integrità dei dati).
+      * @param row indice del record da rimuovereturno
+      * @param check questo parametro rapresenta se la rimozione del materiale è già stata verificata
       */
      void onMaterialTableRemoved(unsigned int row);
 

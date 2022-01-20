@@ -66,18 +66,10 @@ public:
     ~AdminView() override{qDebug("AdminView destructor");}
 
     /**
-     * @brief addItemRecordTable Metodo che aggiunge ad una QTableWidget,
-     * in particolare alla filamentTable, aggiunge un Modello di dato specifico cioè un Record.
-     * Questa aggiunta avviene ad una riga precisa della tabllea row.
-     * Attenzione che si occupa anche di associare un pulsante ad ogni Riga.
-     * Attenzione che si occupa anche di associare nelle connessioni di signali ai pulsanti e alla modifica dei campi
-     * Inoltre, siccome la vist a ha anche una combo box con i possibili materiali da scegliere
-     * ha bisogno anche di una lista di materiali valida tra cui scegliere
-     * @param row Riga in cui fare la aggiunta
-     * @param r Record da aggiungere
-     * @param materialList lista di materiali tra cui scegliere per la cella di selezione materiale
+     * @brief setViewTitle Metodo che setta il titolo alla view, aggiunge al titolo il prefisso "Progetto"
+     * @param title titolo della view
      */
-    void addItemRecordTable(unsigned int row,const Record& r,const QStringList& materialList);
+    void setViewTitle (const QString &title) override;
 
     /**
      * @brief createRecordTable Crea la QTableWidget su cui poi mostrare i dati.
@@ -86,6 +78,32 @@ public:
      * @param headers Etichette da mostrare
      */
     void createRecordTable(unsigned int row, unsigned int column,const QStringList& headers) const;
+
+    /**
+     * @brief addItemRecordTable Metodo che aggiunge una nuova riga alla filamentTable, la riga rappresenta
+     * un Record come dato.
+     * Mostra ciascun dato con per ciascuno un input QT adeguato, e alla fine della riga l'ultima colonna
+     * aggiunge un pulsante che serve ad eliminare la riga.
+     * All'inizio si occupa di richiamare createAddRecordTable una riga più in basso, appunto per spostare la
+     * riga di inserimento di un nuovo record.
+     * successivamente mostra per ogni caso, per ogni colonna un QWidget adeguato.
+     * Ad ogni QWidget ci assoccia anche delle connessioni lambda che seviranno a intercettare eventi di modifica
+     * del dato e tramite dei segnali della View verranno reindirizzati al Controller insieme al nuovo dato e alla riga in questione.
+     * Ci sono altri segnali associati cioè quello assocciato al ultimo pulsante Delete, che si occupa tramite
+     * una connessione lambda di eliminare la riga in questione ed i suoi QWidget e le connessioni associate.
+     * Ci sono poi altre connessioni iniziali solo per la prima colonna di MaterialW (Add/Remove/Modify) le quali
+     * intercettano i cambiamenti che avvengono nella tabella di materialTable e adeguano il QComboBox modificando di conseguenza
+     * le opzioni scheglibili.
+     *
+     * Un particolare occhio di attenzione va dato alle connessioni lambda le quali essendo tra oggetti nello heap
+     * e con funzioni anonime possono generare facilmente Undefined Behavior se mal gestite.
+     * In questo caso però ho preso cura di assocurarmi che che gli oggetti dda cui partono segnali o a cui arrivano slot
+     * vengano distrutti (tramite il meccanismo di parentela) e le connessioni vengano disconnesse.
+     * @param row Riga in cui fare la aggiuntaa
+     * @param r Record da aggiungere
+     * @param materialList lista di materiali tra cui scegliere per la cella di selezione materiale
+     */
+    void addItemRecordTable(unsigned int row,const Record& r,const QStringList& materialList);
 
     /**
      * @brief createAddRowRecordTable Crea una riga specifica di add, alla riga row, in cui appone uno spazione nuovo su cui
@@ -117,25 +135,42 @@ public:
      * @param row
      * @param m
      */
-    void addItemMaterialTable(unsigned int row, const QString &m);
+    void addItemMaterialTable(unsigned int row, const QString& m);
+
+    void modifyItemMaterialTable(unsigned int row, const QString& m){
+        QTextEdit* textEdit = static_cast<QTextEdit*>(materialTable->cellWidget(row,0));
+        textEdit->setText(m);
+        emit materialTableMaterialeModChecked(row,m);
+    }
 
     /**
-     * @brief setViewTitle Metodo che setta il titolo alla view, aggiunge al titolo il prefisso "Progetto"
-     * @param title titolo della view
+     * @brief removeItemMaterialTable Metodo che elimina un item della record table
+     * Viene emmesso il segnale materialTableRemovedChecked(row) per aggiornare
+     * i QComboBox per il materiale della recordTable
+     * @param row riga del Materiale da rimuovere
      */
-    void setViewTitle (const QString &title) override;
+    void removeItemMaterialTable(unsigned int row);
 
 signals:
+    //SIGNAL catturatti da un Controller, servono per aggiornare il Model con la modifica della RecordTable
     void recordTableRemoved(uint);
     void recordTableAdded(QString, uint, uint, QDate);
     void recordTableMaterialeMod(uint, QString);
     void recordTableDurataMod(uint, uint);
     void recordTableMatUsatoMod(uint, uint);
     void recordTableDataMod(uint, QDate);
+
+    //SIGNAL catturati da un Controller, servono per aggiornare il Model con la modifica del materialTable
     void materialTableAdded(QString);
     void materialTableMaterialeMod(uint,QString);
     void materialTableRemoved(uint);
 
+    //SIGNAL catturati dalla View, servono per aggiornare i QComboBox con la modifica del campo dato Materiale della RecordTable
+    void materialTableAddedChecked(QString);
+    void materialTableMaterialeModChecked(uint,QString);
+    void materialTableRemovedChecked(uint);
+
+    //SIGNAL catturati da un Controller, servono per eseguire delle azioni
     void newBPressed();
     void saveBPressed();
     void saveAsBPressed();

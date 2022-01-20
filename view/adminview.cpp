@@ -68,15 +68,15 @@ void AdminView::createAddRowRecordTable(unsigned int row, const QStringList& mat
 
 
     //Aggiornamento della lista di materiali alla aggiunta di un materiale
-    connect(this,&AdminView::materialTableAdded,materialeW,[materialeW](const QString& m){
+    connect(this,&AdminView::materialTableAddedChecked,materialeW,[materialeW](const QString& m){
         materialeW->addItem(m);
     });
     //Aggiornamento della lista di materiali alla rimozione di un materiale
-    connect(this,&AdminView::materialTableRemoved,materialeW,[materialeW](uint i){
+    connect(this,&AdminView::materialTableRemovedChecked,materialeW,[materialeW](uint i){
         materialeW->removeItem(i);
     });
     //Aggiornamento della list adi materiali alla modifica di un materiale
-    connect(this,&AdminView::materialTableMaterialeMod,materialeW,[materialeW](uint i, const QString& m){
+    connect(this,&AdminView::materialTableMaterialeModChecked,materialeW,[materialeW](uint i, const QString& m){
         //verifico se l'elemento attualmente selezionato è quello da modificare, adrà poi riselezionato
         bool iSelected = (materialeW->currentIndex() == i);
         materialeW->removeItem(i);
@@ -147,15 +147,15 @@ void AdminView::addItemRecordTable(unsigned int row,const Record& r, const QStri
 
 
     //Aggiornamento della lista di materiali alla aggiunta di un materiale dalla MaterialList
-    connect(this,&AdminView::materialTableAdded,materialeW,[materialeW](const QString& m){
+    connect(this,&AdminView::materialTableAddedChecked,materialeW,[materialeW](const QString& m){
         materialeW->addItem(m);
     });
     //Aggiornamento della lista di materiali alla rimozione di un materiale dalla MaterialList
-    connect(this,&AdminView::materialTableRemoved,materialeW,[materialeW](uint i){
+    connect(this,&AdminView::materialTableRemovedChecked,materialeW,[materialeW](uint i){
         materialeW->removeItem(i);
     });
     //Aggiornamento della lista di materiali alla modifica di un materiale
-    connect(this,&AdminView::materialTableMaterialeMod,materialeW,[materialeW](uint i, const QString& m){
+    connect(this,&AdminView::materialTableMaterialeModChecked,materialeW,[materialeW](uint i, const QString& m){
         //verifico se l'elemento attualmente selezionato è quello da modificare, sarà poi riselezionato
         bool iSelected = (materialeW->currentIndex() == i);
         materialeW->removeItem(i);
@@ -164,12 +164,10 @@ void AdminView::addItemRecordTable(unsigned int row,const Record& r, const QStri
             materialeW->setCurrentIndex(i);
     });
 
-
     connect(materialeW, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),this,[this,materialeW]() {
         unsigned int row = filamentTable->indexAt(materialeW->pos()).row();
         emit recordTableMaterialeMod(row,materialeW->currentText());
     });
-
 
     //Durata Widget
     QSpinBox* durataW = new QSpinBox(this);
@@ -212,6 +210,7 @@ void AdminView::addItemRecordTable(unsigned int row,const Record& r, const QStri
     //deleteW->setObjectName(QString::number(row));
     filamentTable->setCellWidget(row,4,deleteW);//Widget
 
+    //Connessione al pulsante delete per eliminare la riga e aggiornare il modello di dati con l'eliminazione
     connect(deleteW, &QPushButton::clicked,this,[this,deleteW]() {
         unsigned int row = filamentTable->indexAt(deleteW->pos()).row();
         emit recordTableRemoved(row);
@@ -241,8 +240,19 @@ void AdminView::addItemMaterialTable(unsigned int row,const QString& m){
     connect(deleteW, &QPushButton::clicked,[this,deleteW]() {
         unsigned int row = materialTable->indexAt(deleteW->pos()).row();
         emit materialTableRemoved(row);
-        materialTable->removeRow(row);
+        //L'eliminazione effettiva avviene solamente al responso del controller
+        //che richiama il metodo
+        //this->removeItemMaterialTable();
     });
+
+    //Emissione di segnale per aggiornare i QComboBox Selezionabili che esiste un nuovo Material
+    //tra cui scegliere
+    emit materialTableAddedChecked(m);
+}
+
+void AdminView::removeItemMaterialTable(unsigned int row){
+    materialTable->removeRow(row);
+    emit materialTableRemovedChecked(row);
 }
 
 void AdminView::setViewTitle(const QString &title){

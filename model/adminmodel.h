@@ -87,6 +87,13 @@ public:
     Record* getRecord(unsigned int row) const;
 
     /**
+     * @brief getMaterial Metodo che ritorna un Materiale specifico dalla material List
+     * @param row riga del materiale , indice del materiale da ritornare
+     * @return materiale da ritornare
+     */
+    const QString& getMaterial(unsigned int row)const;
+
+    /**
      * @brief getFilePath Ritorna la path del file, contente il suo percorso ed il nome del file
      * @return path
      */

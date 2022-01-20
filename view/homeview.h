@@ -69,6 +69,7 @@ signals:
     void newProject();
     void openProject();
 public slots:
+
 };
 
 #endif // HOMEVIEW_H
