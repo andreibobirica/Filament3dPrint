@@ -3,7 +3,10 @@
 
 #include <list>
 
+#include <view/piechartview.h>
+#include <model/piechartmodel.h>
 #include "ctrl/ctrl.h"
+#include "ctrl/piechartctrl.h"
 #include "view/adminview.h"
 
 /**
@@ -14,7 +17,6 @@ class AdminCtrl : public Ctrl
 {
     Q_OBJECT
 private:
-
     /**
      * @brief connectViewCtrlSignalsSlots Metodo virtuale
      * Questo Metodo serve a connettere i SIGNAL della AdminView ai Slot del AdminCtrl
@@ -153,6 +155,19 @@ public slots:
       */
      void onHomeBPressed();
 
+     void onPieChartBPressed(){
+         PieChartView* pcView = new PieChartView(QSize(1000,800),view);
+         //pcView->setWindowFlags(Qt::WindowStaysOnTopHint);
+         PieChartModel* pcModel = new PieChartModel(getModel());
+         PieChartCtrl* pcCtrl = new PieChartCtrl(pcView,pcModel,this);
+         pcCtrl->showView();
+     }
+     void onLineChartBPressed(){
+         qDebug() << "lien";
+     }
+     void onBarChartBPressed(){
+         qDebug() << "bar";
+     }
 };
 
 #endif // ADMINCTRL_H

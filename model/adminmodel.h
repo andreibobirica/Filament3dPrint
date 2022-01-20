@@ -29,7 +29,7 @@ public:
      */
     explicit AdminModel();
 
-    ~AdminModel() override{qDebug("AdminModel destructed");}
+    ~AdminModel() override{qDebug("AdminModel destructed"); delete filepath; delete materialiList;}
     /**
      * @brief getMaterialList metodo getter
      * @return lista dei materiali QStringList

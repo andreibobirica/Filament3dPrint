@@ -84,7 +84,6 @@ void HomeView::closeEvent(QCloseEvent* event){
     } else {
         //Accetto l'evento di chiusura della Window
         event->accept();
-
         //Emetto segnale di chiusura della View
         emit viewClosed();
     }

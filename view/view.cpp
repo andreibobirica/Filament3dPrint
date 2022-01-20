@@ -2,10 +2,17 @@
 
 #include <QDebug>
 
+void View::closeEvent(QCloseEvent *event){
+    //Accetto la chiusura
+    event->accept();
+    //Emetto segnale di chiusura della View al Controller
+    emit viewClosed();
+}
+
 View::View(const QSize& s,View* parent) : QWidget(parent,Qt::Window){
     //Resizing della windows
     if(!s.isEmpty() && !s.isNull())
-    setWindowSize(s);
+        setWindowSize(s);
 }
 
 void View::setWindowSize(const QSize& s){

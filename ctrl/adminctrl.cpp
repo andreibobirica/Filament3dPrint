@@ -3,6 +3,23 @@
 AdminCtrl::AdminCtrl(AdminView* v, AdminModel* m, Ctrl* parent) : Ctrl(v,m,parent){
     //Collego i SIGNAL della View Ai SLOT del Controller
     connectViewCtrlSignalsSlots();
+
+    //è essenziale che si crei prima la materialTable e solo poi la record table
+    //Questo perchè in caso contrario si verificano dei problemi sulle QComboBox della
+    //view che vengono registrati doppiamente.
+
+    //Creo la Material Table
+    getView()->createMaterialTable(0,2,{"MATERIALI",""});
+
+    //Creao Prima Row Pulsante Add
+    getView()->createAddRowMaterialTable(0);
+
+    //Popo la MaterialTable con i dati presi da Model
+    unsigned int id = 0;
+    for (const QString& m : *getModel()->getMaterialList()) {
+        getView()->addItemMaterialTable(id++,m);
+    }
+
     //Creao la Record Table
     getView()->createRecordTable(0,5,{ "Materiale", "Durata", "Consumo", "Data",""});
 
@@ -10,23 +27,10 @@ AdminCtrl::AdminCtrl(AdminView* v, AdminModel* m, Ctrl* parent) : Ctrl(v,m,paren
     getView()->createAddRowRecordTable(0,*getModel()->getMaterialList());
 
     //Popolo La RecordTable con i Record presi da Model
-    unsigned int id = 0;
+    id = 0;
     for (Record* r : getModel()->getRecordList()) {
         getView()->addItemRecordTable(id++,*r,*getModel()->getMaterialList());
     }
-
-    //Creo la Material Table
-    getView()->createMaterialTable(0,2,{"MATERIALE",""});
-
-    //Creao Prima Row Pulsante Add
-    getView()->createAddRowMaterialTable(0);
-
-    //Popo la MaterialTable con i dati presi da Model
-    id = 0;
-    for (const QString& m : *getModel()->getMaterialList()) {
-        getView()->addItemMaterialTable(id++,m);
-    }
-
 }
 
 AdminView* AdminCtrl::getView() const {
@@ -38,8 +42,9 @@ AdminModel* AdminCtrl::getModel() const {
 }
 
 
-
 void AdminCtrl::connectViewCtrlSignalsSlots() const{
+    connect(view,SIGNAL(viewClosed()),this,SLOT(onViewClosed()));
+
     //connessioni per la RecordTable
     connect(view,SIGNAL(recordTableRemoved(uint)),this,SLOT(onRecordTableRemoved(uint)));
     connect(view,SIGNAL(recordTableAdded(QString,uint,uint,QDate)),this,SLOT(onRecordTableAdded(QString,uint,uint,QDate)));
@@ -58,6 +63,9 @@ void AdminCtrl::connectViewCtrlSignalsSlots() const{
     connect(view,SIGNAL(saveBPressed()),this,SLOT(onSaveBPressed()));
     connect(view,SIGNAL(saveAsBPressed()),this,SLOT(onSaveAsBPressed()));
     connect(view,SIGNAL(homeBPressed()),this,SLOT(onHomeBPressed()));
+    connect(view,SIGNAL(pieChartBPressed()),this,SLOT(onPieChartBPressed()));
+    connect(view,SIGNAL(lineChartBPressed()),this,SLOT(onLineChartBPressed()));
+    connect(view,SIGNAL(barChartBPressed()),this,SLOT(onBarChartBPressed()));
 }
 
 void AdminCtrl::onViewClosed() const {

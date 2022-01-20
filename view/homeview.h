@@ -50,8 +50,7 @@ protected:
      * @brief closeEvent Overriding del metodo closeEvent implementato da QWidget
      * Tramite questo Overriding si cerca di modificare il da farsi nel evento di chiusura della window con la X.
      * In particolare questo metodo chiede una conferma al utente prima di chiudere.
-     * Successivamente una volta effettuata la chiusura, Mostra il Parent se esiste.
-     * In fine si occupa della distruzione totale della schermata Admin(VIEW/MODEL/CTRL)
+     * Viene poi emesso un segnale per avvisare il controller della chiusura
      * @param event Evento di chiusura della scermata window
      */
     void closeEvent(QCloseEvent *event) override;

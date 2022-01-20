@@ -8,50 +8,50 @@
 #include <QtCharts/QPieSlice>
 #include <QHBoxLayout>
 
+#include <QDebug>
+
 QT_CHARTS_USE_NAMESPACE
 
-
+/**
+ * @brief The PieChartView class VIEW della schermata PieChart
+ * Mostra un grafico PieChart
+ */
 class PieChartView : public View
 {
 private:
+    QPieSeries* series;
+    QChart* chart;
+
+    /**
+     * @brief connectViewSignals Metodo virtuale che serve a collegare i segnali dei singoli
+     * Widget ai segnali della View
+     */
     void connectViewSignals() const override{}
+
 public:
-    PieChartView(View* parent = nullptr){
-        QHBoxLayout* mainLayout = new QHBoxLayout;
+    PieChartView(const QSize& s = QSize(1000,800),View* parent = nullptr);
 
-
-        QPieSeries* series = new QPieSeries();
-        series->append("Jane", 1);
-        series->append("Joe", 2);
-        series->append("Andy", 3);
-        series->append("Barbara", 5);
-        series->append("Axel", 10);
-
-        QPieSlice* slice = series->slices().at(1);
-        slice->setExploded();
-        slice->setLabelVisible();
-        slice->setPen(QPen(Qt::darkGreen, 2));
-        slice->setBrush(Qt::green);
-
-        slice = series->slices().at(3);
-        //slice->setExploded();
-        slice->setLabelVisible();
-        slice->setPen(QPen(Qt::darkGreen, 5));
-        slice->setBrush(Qt::green);
-
-
-        QChart* chart = new QChart();
-        chart->addSeries(series);
-        chart->setTitle("Simple piechart example");
-        //chart->legend()->hide();
-
-        QChartView *chartView = new QChartView(chart);
-        chartView->setRenderHint(QPainter::Antialiasing);
-        mainLayout->addWidget(chartView);
-        setLayout(mainLayout);
-        resize(800,900);
-        show();
+    ~PieChartView(){
+        qDebug() << "PieChartView destructor";
+        delete chart;
+        delete series;
     }
+
+    /**
+     * @brief insertMaterial Metodo che serve ad inserire un nuovo materiale nel grafico
+     * a torta
+     * @param materiale materiale da aggiungere
+     * @param occurences occorenze del materiale
+     */
+    void insertMaterial(const QString& materiale, unsigned int occurences);
+
+    /**
+     * @brief applyGraphics Metodo che serve ad impostare le caratteristiche grafiche
+     * del grafioc a torta
+     * In particolare imposta i label visibili, mostra un contorno per ogni fetta
+     * e modifica il label aggiungendo la percentuale accanto.
+     */
+    void applyGraphics();
 };
 
 #endif // PIECHARTVIEW_H

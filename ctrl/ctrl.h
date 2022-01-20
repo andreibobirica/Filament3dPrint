@@ -18,13 +18,9 @@ protected:
     Model* model;
 
 private:
-
-    /**
-     * @brief connectViewCtrlSignalsSlots Interfaccia da implementare in future classi derivate
-     * Questa Interfaccia serve ad obbligare le derivate a connettere
-     * i SIGNAL che la View invia ai SLOT del Controller
-     */
-    virtual void connectViewCtrlSignalsSlots() const = 0;
+    virtual void connectViewCtrlSignalsSlots() const {
+        connect(view,SIGNAL(viewClosed()),this,SLOT(onViewClosed()));
+    }
 
 public:
     /**

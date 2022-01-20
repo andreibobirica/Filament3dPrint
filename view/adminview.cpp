@@ -21,9 +21,12 @@ AdminView::AdminView(const QSize& s,View* parent) :
     mainLayout->addWidget(homeB,0,13,1,1,Qt::AlignRight);
 
     //Pulsanti Grafici
-    mainLayout->addWidget(new QPushButton("Consumo Materiale %",this),2,1,1,1,Qt::AlignCenter);
-    mainLayout->addWidget(new QPushButton("Rapporto Consumo",this),2,2,1,1,Qt::AlignCenter);
-    mainLayout->addWidget(new QPushButton("Consumo pER mESE",this),2,3,1,1,Qt::AlignCenter);
+    pieChartB = new QPushButton("Consumo Materiale %",this);
+    mainLayout->addWidget(pieChartB,2,1,1,1,Qt::AlignCenter);
+    lineChartB = new QPushButton("Rapporto Consumo Durata",this);
+    mainLayout->addWidget(lineChartB,2,2,1,1,Qt::AlignCenter);
+    barChartB = new QPushButton("Consumo Per Mese",this);
+    mainLayout->addWidget(barChartB,2,3,1,1,Qt::AlignCenter);
 
 
     //implementazione
@@ -264,6 +267,9 @@ void AdminView::connectViewSignals() const{
     connect(saveB,SIGNAL(clicked()),this,SIGNAL(saveBPressed()));
     connect(saveAsB,SIGNAL(clicked()),this,SIGNAL(saveAsBPressed()));
     connect(homeB,SIGNAL(clicked()),this,SIGNAL(homeBPressed()));
+    connect(pieChartB,SIGNAL(clicked()),this,SIGNAL(pieChartBPressed()));
+    connect(lineChartB,SIGNAL(clicked()),this,SIGNAL(lineChartBPressed()));
+    connect(barChartB,SIGNAL(clicked()),this,SIGNAL(barChartBPressed()));
 }
 
 void AdminView::closeEvent(QCloseEvent* event){

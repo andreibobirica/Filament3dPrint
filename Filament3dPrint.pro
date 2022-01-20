@@ -8,8 +8,6 @@ QT += core charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-RC_ICONS += myicon.ico
-
 TARGET = Filament3dPrint
 TEMPLATE = app
 
@@ -37,7 +35,9 @@ SOURCES += \
     ctrl/jsonfilepicker.cpp \
     model/adminmodel.cpp \
     model/record.cpp \
-    view/piechartview.cpp
+    view/piechartview.cpp \
+    model/piechartmodel.cpp \
+    ctrl/piechartctrl.cpp
 
 HEADERS += \
     view/homeview.h \
@@ -50,7 +50,9 @@ HEADERS += \
     ctrl/jsonfilepicker.h \
     model/adminmodel.h \
     model/record.h \
-    view/piechartview.h
+    view/piechartview.h \
+    model/piechartmodel.h \
+    ctrl/piechartctrl.h
 
 
 DISTFILES += \

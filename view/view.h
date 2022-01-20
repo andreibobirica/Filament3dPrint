@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QSize>
 #include <QMessageBox>
+#include <QCloseEvent>
 
 /**
  * @brief The View class
@@ -21,6 +22,17 @@ private:
      * I segnali della view saranno gli unici a comunicare con il Controller.
      */
     virtual void connectViewSignals() const = 0;
+
+protected:
+    /**
+     * @brief closeEvent Overload di closeEvent ereditato da QWidget
+     * tramite questa funzione si sceglie quali azioni eseguire alla view
+     * quando si preme il pulsante X di chiusura.
+     * in questo caso, non fa niente, viene accettato l'evento e la finestra viene chiusa
+     * Viene poi emesso un segnale per avvisare il Controller della chiusura
+     * @param event
+     */
+    void closeEvent(QCloseEvent *event) override;
 
 public:
     /**
@@ -86,9 +98,11 @@ public:
     virtual void setViewTitle(const QString& title);
 
 signals:
+    //Segnale emesso al Controller per avvisarlo della chiusura della View
     void viewClosed();
 
 public slots:
+
 };
 
 #endif // VIEW_H
