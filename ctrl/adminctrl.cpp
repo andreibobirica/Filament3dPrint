@@ -175,8 +175,6 @@ void AdminCtrl::onSaveAsBPressed() const{
     QString jsonFilter = "JSON Files (*.json)";
     QString titolo = QString::fromStdString("Salva file con nome");
     QString fname = QFileDialog::getSaveFileName(view,titolo,QDir::homePath(),jsonFilter);
-    if (!fname.endsWith(".json"))
-        fname+= QString::fromStdString(".json");
 
     //Verifico che il nume sia valido
     if(fname.isEmpty() || fname.isNull()){
@@ -184,6 +182,8 @@ void AdminCtrl::onSaveAsBPressed() const{
         return;
     }
 
+    if (!fname.endsWith(".json"))
+        fname+= tr(".json");
 
     //Setto il nume del file al modello di dati
     getModel()->setFilePath(fname);
