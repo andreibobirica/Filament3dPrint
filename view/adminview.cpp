@@ -88,7 +88,7 @@ void AdminView::createAddRowRecordTable(unsigned int row, const QStringList& mat
     //Aggiornamento della list adi materiali alla modifica di un materiale
     connect(this,&AdminView::materialTableMaterialeModChecked,materialeW,[materialeW](uint i, const QString& m){
         //verifico se l'elemento attualmente selezionato è quello da modificare, adrà poi riselezionato
-        bool iSelected = (materialeW->currentIndex() == i);
+        bool iSelected = (materialeW->currentIndex() == (int)i);
         materialeW->removeItem(i);
         materialeW->insertItem(i,m);
         if(iSelected)
@@ -118,7 +118,11 @@ void AdminView::createAddRowRecordTable(unsigned int row, const QStringList& mat
 
     connect(addW, &QPushButton::clicked,this,
             [this, materialeW, durataW, matUsatoW, dataW]() {
-        emit recordTableAdded(materialeW->currentText(), durataW->value(), matUsatoW->value(), dataW->date());
+        qDebug() <<materialeW->currentIndex();
+        if(materialeW->currentIndex() != -1)
+            emit recordTableAdded(materialeW->currentText(), durataW->value(), matUsatoW->value(), dataW->date());
+        else
+           showCriticalDialog("Inserimento non concesso","Inserire prima dei materiali");
     });
 }
 
