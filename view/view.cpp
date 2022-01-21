@@ -5,6 +5,7 @@
 void View::closeEvent(QCloseEvent *event){
     //Accetto la chiusura
     event->accept();
+    hide();
     //Emetto segnale di chiusura della View al Controller
     emit viewClosed();
 }

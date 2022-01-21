@@ -20,7 +20,7 @@ public:
      * @param m model
      * @param parent Controller parent
      */
-    explicit PieChartCtrl(PieChartView* v, PieChartModel* m, Ctrl* parent = nullptr);
+    PieChartCtrl(PieChartView* v, PieChartModel* m, Ctrl* parent = nullptr);
 
     ~PieChartCtrl() override{
         qDebug() << "PieChartCtrl Destructed";

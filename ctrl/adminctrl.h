@@ -3,8 +3,9 @@
 
 #include <list>
 
-#include <view/piechartview.h>
-#include <model/piechartmodel.h>
+#include "view/piechartview.h"
+#include "view/piechartdetailview.h"
+#include "model/piechartmodel.h"
 #include "ctrl/ctrl.h"
 #include "ctrl/piechartctrl.h"
 #include "view/adminview.h"
@@ -155,17 +156,21 @@ public slots:
       */
      void onHomeBPressed();
 
-     void onPieChartBPressed(){
-         PieChartView* pcView = new PieChartView(QSize(1000,800),view);
-         //pcView->setWindowFlags(Qt::WindowStaysOnTopHint);
+     void onPieChartBPressed(bool detail)const{
+         PieChartView* pcView;
+         if(detail)
+            pcView = new PieChartDetailView(QSize(1000,500),view);
+         else
+            pcView = new PieChartView(QSize(1000,500),view);
+
          PieChartModel* pcModel = new PieChartModel(getModel());
-         PieChartCtrl* pcCtrl = new PieChartCtrl(pcView,pcModel,this);
+         PieChartCtrl* pcCtrl = new PieChartCtrl(pcView,pcModel,const_cast<AdminCtrl*>(this));
          pcCtrl->showView();
      }
-     void onLineChartBPressed(){
+     void onLineChartBPressed()const{
          qDebug() << "lien";
      }
-     void onBarChartBPressed(){
+     void onBarChartBPressed()const{
          qDebug() << "bar";
      }
 };

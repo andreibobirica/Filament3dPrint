@@ -37,7 +37,8 @@ SOURCES += \
     model/record.cpp \
     view/piechartview.cpp \
     model/piechartmodel.cpp \
-    ctrl/piechartctrl.cpp
+    ctrl/piechartctrl.cpp \
+    view/piechartdetailview.cpp
 
 HEADERS += \
     view/homeview.h \
@@ -52,7 +53,8 @@ HEADERS += \
     model/record.h \
     view/piechartview.h \
     model/piechartmodel.h \
-    ctrl/piechartctrl.h
+    ctrl/piechartctrl.h \
+    view/piechartdetailview.h
 
 
 DISTFILES += \

@@ -21,6 +21,5 @@ PieChartModel *PieChartCtrl::getModel() const{
 
 void PieChartCtrl::onViewClosed() const{
     qDebug() << "piechardView closed";
-    view->hide();
     delete this;
 }

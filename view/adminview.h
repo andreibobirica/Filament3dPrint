@@ -38,7 +38,9 @@ private:
     QPushButton* saveAsB;
 
     QPushButton* pieChartB;
+    QPushButton* pieChartDetailB;
     QPushButton* lineChartB;
+    QPushButton* lineChart2B;
     QPushButton* barChartB;
 
 
@@ -48,6 +50,7 @@ private:
      * AdminView i quali dovranno comunicare con il Controller AdminCtrl
      */
     void connectViewSignals() const override;
+
 protected:
     /**
      * @brief closeEvent Overriding del metodo closeEvent implementato da QWidget
@@ -76,11 +79,9 @@ public:
 
     /**
      * @brief createRecordTable Crea la QTableWidget su cui poi mostrare i dati.
-     * @param row righe della tabella
-     * @param column colonne della tabella
      * @param headers Etichette da mostrare
      */
-    void createRecordTable(unsigned int row, unsigned int column,const QStringList& headers) const;
+    void createRecordTable(const QStringList& headers) const;
 
     /**
      * @brief addItemRecordTable Metodo che aggiunge una nuova riga alla filamentTable, la riga rappresenta
@@ -118,11 +119,9 @@ public:
 
     /**
      * @brief createMaterialTable Crea la QTableWidget su cui mostrare i dati
-     * @param row numero di righe che dovrà avere
-     * @param column numero di colonne che dovrà avere
      * @param headers Etichette da mostrare
      */
-    void createMaterialTable(unsigned int row, unsigned int column,const QStringList& headers) const;
+    void createMaterialTable(const QStringList& headers) const;
     /**
      * @brief createAddRowMaterialTable Metodo che si occupa di creare la riga di inserimento dei materiali, in questa
      * riga si potranno inserire i dettagli di un nuovo materiale
@@ -140,11 +139,16 @@ public:
      */
     void addItemMaterialTable(unsigned int row, const QString& m);
 
-    void modifyItemMaterialTable(unsigned int row, const QString& m){
-        QTextEdit* textEdit = static_cast<QTextEdit*>(materialTable->cellWidget(row,0));
-        textEdit->setText(m);
-        emit materialTableMaterialeModChecked(row,m);
-    }
+
+    /**
+     * @brief modifyItemMaterialTable Metodo che modifica uno specifico Material
+     * della materialTable
+     * Infine viene emesso un segnale per aggiornare anche i QComboBox con la modifica
+     * da fare al materiale
+     * @param row
+     * @param m
+     */
+    void modifyItemMaterialTable(unsigned int row, const QString& m);
 
     /**
      * @brief removeItemMaterialTable Metodo che elimina un item della record table
@@ -156,31 +160,31 @@ public:
 
 signals:
     //SIGNAL catturatti da un Controller, servono per aggiornare il Model con la modifica della RecordTable
-    void recordTableRemoved(uint);
-    void recordTableAdded(QString, uint, uint, QDate);
-    void recordTableMaterialeMod(uint, QString);
-    void recordTableDurataMod(uint, uint);
-    void recordTableMatUsatoMod(uint, uint);
-    void recordTableDataMod(uint, QDate);
+    void recordTableRemoved(uint) const;
+    void recordTableAdded(QString, uint, uint, QDate) const;
+    void recordTableMaterialeMod(uint, QString) const;
+    void recordTableDurataMod(uint, uint) const;
+    void recordTableMatUsatoMod(uint, uint) const;
+    void recordTableDataMod(uint, QDate) const;
 
     //SIGNAL catturati da un Controller, servono per aggiornare il Model con la modifica del materialTable
-    void materialTableAdded(QString);
-    void materialTableMaterialeMod(uint,QString);
-    void materialTableRemoved(uint);
+    void materialTableAdded(QString) const;
+    void materialTableMaterialeMod(uint,QString) const;
+    void materialTableRemoved(uint) const;
 
     //SIGNAL catturati dalla View, servono per aggiornare i QComboBox con la modifica del campo dato Materiale della RecordTable
-    void materialTableAddedChecked(QString);
-    void materialTableMaterialeModChecked(uint,QString);
-    void materialTableRemovedChecked(uint);
+    void materialTableAddedChecked(QString) const;
+    void materialTableMaterialeModChecked(uint,QString) const;
+    void materialTableRemovedChecked(uint) const;
 
     //SIGNAL catturati da un Controller, servono per eseguire delle azioni
-    void newBPressed();
-    void saveBPressed();
-    void saveAsBPressed();
-    void homeBPressed();
-    void pieChartBPressed();
-    void lineChartBPressed();
-    void barChartBPressed();
+    void newBPressed() const;
+    void saveBPressed() const;
+    void saveAsBPressed() const;
+    void homeBPressed() const;
+    void pieChartBPressed(bool) const;
+    void lineChartBPressed() const;
+    void barChartBPressed() const;
 
 public slots:
 

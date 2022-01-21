@@ -18,15 +18,20 @@ AdminView::AdminView(const QSize& s,View* parent) :
     mainLayout->addWidget(saveAsB,0,2,1,1,Qt::AlignJustify);
 
     homeB = new QPushButton("Home",this);
-    mainLayout->addWidget(homeB,0,13,1,1,Qt::AlignRight);
+    mainLayout->addWidget(homeB,0,4,1,1,Qt::AlignRight);
 
     //Pulsanti Grafici
-    pieChartB = new QPushButton("Consumo Materiale %",this);
-    mainLayout->addWidget(pieChartB,2,1,1,1,Qt::AlignCenter);
+    pieChartB = new QPushButton("Consumo Materiale N.",this);
+    mainLayout->addWidget(pieChartB,2,0,1,1,Qt::AlignCenter);
+    pieChartDetailB = new QPushButton("Consumo Materiale %",this);
+    mainLayout->addWidget(pieChartDetailB,2,1,1,1,Qt::AlignCenter);
+
     lineChartB = new QPushButton("Rapporto Consumo Durata",this);
     mainLayout->addWidget(lineChartB,2,2,1,1,Qt::AlignCenter);
+    lineChart2B = new QPushButton("-------------------",this);
+    mainLayout->addWidget(lineChart2B,2,3,1,1,Qt::AlignCenter);
     barChartB = new QPushButton("Consumo Per Mese",this);
-    mainLayout->addWidget(barChartB,2,3,1,1,Qt::AlignCenter);
+    mainLayout->addWidget(barChartB,2,4,1,1,Qt::AlignCenter);
 
 
     //implementazione
@@ -36,26 +41,28 @@ AdminView::AdminView(const QSize& s,View* parent) :
     connectViewSignals();
 }
 
-void AdminView::createRecordTable(unsigned int row, unsigned int column,const QStringList& headers) const{
+void AdminView::createRecordTable(const QStringList& headers) const{
     //Prints Table
-    filamentTable->setRowCount(row);
-    filamentTable->setColumnCount(column);
+    filamentTable->setRowCount(0);
+    filamentTable->setColumnCount(5);
     filamentTable->setHorizontalHeaderLabels(headers);
     filamentTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     filamentTable->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     filamentTable->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
-    mainLayout->addWidget(filamentTable,1,0,1,6);
+    filamentTable->setColumnWidth(4,25);
+    mainLayout->addWidget(filamentTable,1,0,1,3);
 }
 
-void AdminView::createMaterialTable(unsigned int row, unsigned int column,const QStringList& headers) const{
+void AdminView::createMaterialTable(const QStringList& headers) const{
     //Material Table
-    materialTable->setRowCount(row);
-    materialTable->setColumnCount(column);
+    materialTable->setRowCount(0);
+    materialTable->setColumnCount(2);
     materialTable->setHorizontalHeaderLabels(headers);
     materialTable->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     materialTable->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     materialTable->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-    mainLayout->addWidget(materialTable,1,11,1,3);
+    materialTable->setColumnWidth(1,25);
+    mainLayout->addWidget(materialTable,1,3,1,2);
 }
 
 void AdminView::createAddRowRecordTable(unsigned int row, const QStringList& materialList){
@@ -253,6 +260,12 @@ void AdminView::addItemMaterialTable(unsigned int row,const QString& m){
     emit materialTableAddedChecked(m);
 }
 
+void AdminView::modifyItemMaterialTable(unsigned int row, const QString &m){
+    QTextEdit* textEdit = static_cast<QTextEdit*>(materialTable->cellWidget(row,0));
+    textEdit->setText(m);
+    emit materialTableMaterialeModChecked(row,m);
+}
+
 void AdminView::removeItemMaterialTable(unsigned int row){
     materialTable->removeRow(row);
     emit materialTableRemovedChecked(row);
@@ -267,7 +280,9 @@ void AdminView::connectViewSignals() const{
     connect(saveB,SIGNAL(clicked()),this,SIGNAL(saveBPressed()));
     connect(saveAsB,SIGNAL(clicked()),this,SIGNAL(saveAsBPressed()));
     connect(homeB,SIGNAL(clicked()),this,SIGNAL(homeBPressed()));
-    connect(pieChartB,SIGNAL(clicked()),this,SIGNAL(pieChartBPressed()));
+
+    connect(pieChartB,&QPushButton::clicked,this,[this](){emit pieChartBPressed(false);});
+    connect(pieChartDetailB,&QPushButton::clicked,this,[this](){emit pieChartBPressed(true);});
     connect(lineChartB,SIGNAL(clicked()),this,SIGNAL(lineChartBPressed()));
     connect(barChartB,SIGNAL(clicked()),this,SIGNAL(barChartBPressed()));
 }

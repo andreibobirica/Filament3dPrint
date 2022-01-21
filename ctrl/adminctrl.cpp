@@ -9,7 +9,7 @@ AdminCtrl::AdminCtrl(AdminView* v, AdminModel* m, Ctrl* parent) : Ctrl(v,m,paren
     //view che vengono registrati doppiamente.
 
     //Creo la Material Table
-    getView()->createMaterialTable(0,2,{"MATERIALI",""});
+    getView()->createMaterialTable({"MATERIALI",""});
 
     //Creao Prima Row Pulsante Add
     getView()->createAddRowMaterialTable(0);
@@ -21,7 +21,7 @@ AdminCtrl::AdminCtrl(AdminView* v, AdminModel* m, Ctrl* parent) : Ctrl(v,m,paren
     }
 
     //Creao la Record Table
-    getView()->createRecordTable(0,5,{ "Materiale", "Durata", "Consumo", "Data",""});
+    getView()->createRecordTable({ "Materiale", "Durata", "Consumo", "Data",""});
 
     //Creo Prima Row Pulsante Add
     getView()->createAddRowRecordTable(0,*getModel()->getMaterialList());
@@ -62,7 +62,8 @@ void AdminCtrl::connectViewCtrlSignalsSlots() const{
     connect(view,SIGNAL(saveBPressed()),this,SLOT(onSaveBPressed()));
     connect(view,SIGNAL(saveAsBPressed()),this,SLOT(onSaveAsBPressed()));
     connect(view,SIGNAL(homeBPressed()),this,SLOT(onHomeBPressed()));
-    connect(view,SIGNAL(pieChartBPressed()),this,SLOT(onPieChartBPressed()));
+
+    connect(view,SIGNAL(pieChartBPressed(bool)),this,SLOT(onPieChartBPressed(bool)));
     connect(view,SIGNAL(lineChartBPressed()),this,SLOT(onLineChartBPressed()));
     connect(view,SIGNAL(barChartBPressed()),this,SLOT(onBarChartBPressed()));
 }
