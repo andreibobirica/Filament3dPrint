@@ -65,8 +65,9 @@ public:
     ~HomeView() override{qDebug("HomeView destructed");}
 
 signals:
-    void newProject();
-    void openProject();
+    void newProject() const;
+    void openProject() const;
+
 public slots:
 
 };

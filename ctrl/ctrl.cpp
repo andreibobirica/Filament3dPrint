@@ -1,9 +1,11 @@
 #include "ctrl/ctrl.h"
 
+void Ctrl::connectViewCtrlSignalsSlots() const {
+    connect(view,SIGNAL(viewClosed()),this,SLOT(onViewClosed()));
+}
+
 Ctrl::Ctrl(View* v, Model* m,Ctrl* parent) : view(v), model(m), QObject(parent){
-    //Connessione SIGNAL chiusura della View allo slot di onViewClosed che si occuperà nelle future
-    //implementazioni di gestire la chiusura di una schermata(View/Ctrl/Model)
-    connect(getView(),SIGNAL(viewClosed()),this,SLOT(onViewClosed()));
+    connectViewCtrlSignalsSlots();
 }
 
 View* Ctrl::getView() const {

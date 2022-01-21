@@ -19,10 +19,10 @@ class AdminCtrl : public Ctrl
     Q_OBJECT
 private:
     /**
-     * @brief connectViewCtrlSignalsSlots Metodo virtuale
+     * @brief connectViewCtrlSignalsSlots Metodo overloading
      * Questo Metodo serve a connettere i SIGNAL della AdminView ai Slot del AdminCtrl
      */
-    void connectViewCtrlSignalsSlots() const override;
+    void connectViewCtrlSignalsSlots() const;
 
 public:
     /**

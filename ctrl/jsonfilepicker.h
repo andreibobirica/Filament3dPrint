@@ -56,6 +56,15 @@ public:
      */
     static std::list<Record*> getRecords(QJsonDocument* data);
 
+    /**
+     * @brief saveAdminModel metodo che dato un documento e una path lo salfa nella
+     * path specificata; il documento è in formato QJsonDocument e la path deve essere valida.
+     * nel caso non sia valida il metodo ritorna FALSE.
+     * Solo nel caso in cui la scrittura vada a buon fine il metodo riorna TRUE.
+     * @param doc
+     * @param path
+     * @return
+     */
     static bool saveAdminModel(const QJsonDocument& doc, const QString& path);
 };
 

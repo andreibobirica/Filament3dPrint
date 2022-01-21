@@ -99,7 +99,7 @@ public:
 
 signals:
     //Segnale emesso al Controller per avvisarlo della chiusura della View
-    void viewClosed();
+    void viewClosed() const;
 
 public slots:
 

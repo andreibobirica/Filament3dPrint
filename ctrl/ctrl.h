@@ -18,9 +18,11 @@ protected:
     Model* model;
 
 private:
-    virtual void connectViewCtrlSignalsSlots() const {
-        connect(view,SIGNAL(viewClosed()),this,SLOT(onViewClosed()));
-    }
+    /**
+     * @brief connectViewCtrlSignalsSlots Metodo overloading
+     * Questo Metodo serve a connettere i SIGNAL della AdminView ai Slot del AdminCtrl
+     */
+    void connectViewCtrlSignalsSlots() const;
 
 public:
     /**
@@ -55,6 +57,7 @@ public:
      * @brief Ctrl::hideView Metodo per nascondere la View
      */
     virtual void hideView() const;
+
 signals:
 
 public slots:
