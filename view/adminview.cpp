@@ -140,7 +140,10 @@ void AdminView::createAddRowMaterialTable(unsigned int row){
 
     connect(addW, &QPushButton::clicked,
             [this, materialeW]() {
-        emit materialTableAdded(materialeW->toPlainText());
+        if(materialeW->toPlainText().isNull() || materialeW->toPlainText().isEmpty())
+            showCriticalDialog("Inserimento Non Concesso", "Inserire un nome valido");
+        else
+            emit materialTableAdded(materialeW->toPlainText());
     });
 }
 
