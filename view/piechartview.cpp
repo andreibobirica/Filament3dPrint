@@ -27,6 +27,6 @@ void PieChartView::applyGraphics(){
         slice->setPen(QPen(Qt::darkGreen, 2));
         slice->setLabelColor(Qt::white);
     }
-    chart->setTitle("Consumo numerico per ogni Materiale usato");
+    chart->setTitle("Materiale Usato - Numero volte");
     series->setLabelsPosition(QPieSlice::LabelInsideHorizontal);
 }

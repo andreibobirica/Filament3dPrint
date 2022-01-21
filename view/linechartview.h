@@ -23,54 +23,35 @@ private:
      * @brief connectViewSignals Metodo virtuale che serve a collegare i segnali dei singoli
      * Widget ai segnali della View
      */
-    void connectViewSignals() const override{}
+    void connectViewSignals() const override{
+        // non ci sono segnali da connettere
+    }
 public:
-    explicit LineChartView(const QSize& size = QSize(800,500), View* parent = nullptr) : View(size,parent){
-          QHBoxLayout* mainLayout = new QHBoxLayout;
-          chart = new QChart();
-          chart->setTitle("Rapporto Durata Consumo");
-          chart->legend()->setVisible(true);
-          chart->legend()->setAlignment(Qt::AlignBottom);
-          chart->setTheme(QChart::ChartThemeDark);
-          chart->setAnimationOptions(QChart::AllAnimations);
-          chart->setAnimationDuration(1500);
+    /**
+     * @brief LineChartView  Costruttore della View LineChart
+     * @param size Grandezza della schermata
+     * @param parent padre(view) della vista che ha invocato la suddetta vista
+     */
+    explicit LineChartView(const QSize& size = QSize(800,500), View* parent = nullptr);
 
-          QChartView *chartView = new QChartView(chart,this);
-          chartView->setRenderHint(QPainter::Antialiasing);
-          mainLayout->addWidget(chartView);
-          setLayout(mainLayout);
-          setMinimumSize(800,500);
-          resize(size);
-    }
+    /**
+     * @brief insertMaterialRecord Metodo che serve ad inserire i dati relativi ad una singola
+     * stampa, questi dati saranno elaborati e per ciascun materiale sarà creata una linea.
+     * La linea viene rappresentata da un insieme di punti detto QLineSeries.
+     * Se la linea non esiste viene prima creata, se la linea esiste giò ci viene aggiunto un
+     * punto.
+     * @param materiale Materiale identificante la linea
+     * @param durata durata della stampa (asse X)
+     * @param consumo consumo della stampa (asse Y)
+     */
+    void insertMaterialData(const QString& materiale,const uint durata, const uint consumo);
 
-    void insertMaterialRecord(const QString& materiale,const uint durata, const uint consumo){
-        if(materialsSerie.find(materiale) == materialsSerie.end()){
-            QLineSeries* ls = new QLineSeries();
-            ls->append(durata,consumo);
-            ls->setName(materiale);
-            //ls->setUseOpenGL(true);
-            //ls->setPointLabelsVisible(true);    // is false by default
-            //ls->setPointLabelsColor(Qt::black);
-            //ls->setPointLabelsFormat("@yPoint");
-            materialsSerie.insert({materiale,ls});
-        }
-        materialsSerie[materiale]->append(durata,consumo);
-
-        //ordino la serie
-        QVector<QPointF> points = materialsSerie[materiale]->pointsVector();
-        std::sort(points.begin(), points.end(), [](const QPointF & p1, const QPointF & p2) {
-            return p1.x() > p2.x();
-        });
-        materialsSerie[materiale]->replace(points);
-    }
-
-    void applyChartSeries(){
-        chart->removeAllSeries();
-        for (const auto& kv : materialsSerie) {
-            chart->addSeries(kv.second);
-        }
-        chart->createDefaultAxes();
-    }
+    /**
+     * @brief applyChartSeries Metodo che applica le serie create (insieme di linee) e le
+     * mostra al grafico chart.
+     * Questo metodo serve perchè il LineChart ha bisogno prima dei dati e poi di mostrare il grafico.
+     */
+    void applyChartSeries();
 };
 
 #endif // LINECHARTVIEW_H

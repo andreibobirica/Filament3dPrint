@@ -158,22 +158,22 @@ public slots:
       */
      void onHomeBPressed();
 
-     void onPieChartBPressed(bool detail)const{
-         PieChartView* pcView;
-         if(detail)
-            pcView = new PieChartDetailView(QSize(800,700),view);
-         else
-            pcView = new PieChartView(QSize(800,700),view);
+     /**
+      * @brief onPieChartBPressed SLOT eseguito alla ricezione di SEGNALI dall view
+      * che chiede come azione eseguita l'apertura di un PieChart
+      * viene usato il modello attuale nel Ctrl
+      * @param detail
+      */
+     void onPieChartBPressed(bool detail)const;
 
-         PieChartModel* pcModel = new PieChartModel(getModel());
-         PieChartCtrl* pcCtrl = new PieChartCtrl(pcView,pcModel,const_cast<AdminCtrl*>(this));
-         pcCtrl->showView();
-     }
-     void onLineChartBPressed()const{
-        LineChartView* lcView = new LineChartView(QSize(800,700),view);
-        LineChartCtrl* lcCtrl = new LineChartCtrl(lcView,getModel(),const_cast<AdminCtrl*>(this));
-        lcCtrl->showView();
-     }
+     /**
+      * @brief onLineChartBPressed SLOT eseguito alla ricezione di SEGNALI dalla view
+      * che chiede come azione eseguita l'apertura di un LineChart
+      * viene usato il modello attuale nel Ctrl
+      */
+     void onLineChartBPressed()const;
+
+
      void onBarChartBPressed()const{
          qDebug() << "bar";
      }

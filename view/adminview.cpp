@@ -21,9 +21,9 @@ AdminView::AdminView(const QSize& s,View* parent) :
     mainLayout->addWidget(homeB,0,4,1,1,Qt::AlignRight);
 
     //Pulsanti Grafici
-    pieChartB = new QPushButton("Consumo Materiale N.",this);
+    pieChartB = new QPushButton("Materiale Usato N.",this);
     mainLayout->addWidget(pieChartB,2,0,1,1,Qt::AlignCenter);
-    pieChartDetailB = new QPushButton("Consumo Materiale %",this);
+    pieChartDetailB = new QPushButton("Materiale Usato %",this);
     mainLayout->addWidget(pieChartDetailB,2,1,1,1,Qt::AlignCenter);
 
     lineChartB = new QPushButton("Rapporto Consumo Durata",this);
