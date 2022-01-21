@@ -3,12 +3,17 @@
 PieChartView::PieChartView(const QSize& size,View *parent) : View(size,parent), series(new QPieSeries()), chart(new QChart()){
     QHBoxLayout* mainLayout = new QHBoxLayout;
     chart->addSeries(series);
+    chart->legend()->setVisible(true);
+    chart->legend()->setAlignment(Qt::AlignBottom);
+    chart->setTheme(QChart::ChartThemeDark);
+    chart->setAnimationOptions(QChart::AllAnimations);
+    chart->setAnimationDuration(1500);
     QChartView *chartView = new QChartView(chart,this);
     chartView->setRenderHint(QPainter::Antialiasing);
     mainLayout->addWidget(chartView);
     setLayout(mainLayout);
-    setMinimumSize(800,600);
-    resize(800,900);
+    setMinimumSize(800,500);
+    resize(size);
 }
 
 void PieChartView::insertMaterial(const QString &materiale, unsigned int occurences){

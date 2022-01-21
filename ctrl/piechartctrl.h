@@ -12,6 +12,7 @@
  */
 class PieChartCtrl : public Ctrl
 {
+    Q_OBJECT
 public:
     /**
      * @brief PieChartCtrl Costruttore che si occupa di creare un controller

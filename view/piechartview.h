@@ -18,6 +18,7 @@ QT_CHARTS_USE_NAMESPACE
  */
 class PieChartView : public View
 {
+    Q_OBJECT
 protected:
     QPieSeries* series;
     QChart* chart;
@@ -30,7 +31,7 @@ private:
     void connectViewSignals() const override{}
 
 public:
-    PieChartView(const QSize& s = QSize(1000,500),View* parent = nullptr);
+    explicit PieChartView(const QSize& s = QSize(800,500),View* parent = nullptr);
 
     ~PieChartView(){
         qDebug() << "PieChartView destructor";

@@ -9,8 +9,9 @@
  */
 class PieChartDetailView : public PieChartView
 {
+    Q_OBJECT
 public:
-    PieChartDetailView(QSize s = QSize(1000,500),View* parent = nullptr) : PieChartView(s,parent){}
+    explicit PieChartDetailView(QSize s = QSize(800,500),View* parent = nullptr) : PieChartView(s,parent){}
 
     /**
      * @brief insertMaterial Metodo virtuale che serve ad inserire un materiale all'interno della QpieChard

@@ -29,6 +29,17 @@ public:
      */
     explicit AdminModel();
 
+    /**
+     * @brief AdminModel Costruttore di copia profondo
+     * @param m modello da copiare
+     */
+    explicit AdminModel(const AdminModel& m){
+        filepath = new QString(*m.filepath);
+        materialiList = new QStringList(*m.materialiList);
+        for(const auto& r : m.recordList)
+            recordList.push_back(new Record(*r));
+    }
+
     ~AdminModel() override{qDebug("AdminModel destructed"); delete filepath; delete materialiList;}
     /**
      * @brief getMaterialList metodo getter

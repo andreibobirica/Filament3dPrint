@@ -5,10 +5,12 @@
 
 #include "view/piechartview.h"
 #include "view/piechartdetailview.h"
+#include "view/linechartview.h"
 #include "model/piechartmodel.h"
 #include "ctrl/ctrl.h"
 #include "ctrl/piechartctrl.h"
 #include "view/adminview.h"
+#include "linechartctrl.h"
 
 /**
  * @brief The AdminCtrl class
@@ -159,16 +161,18 @@ public slots:
      void onPieChartBPressed(bool detail)const{
          PieChartView* pcView;
          if(detail)
-            pcView = new PieChartDetailView(QSize(1000,500),view);
+            pcView = new PieChartDetailView(QSize(800,700),view);
          else
-            pcView = new PieChartView(QSize(1000,500),view);
+            pcView = new PieChartView(QSize(800,700),view);
 
          PieChartModel* pcModel = new PieChartModel(getModel());
          PieChartCtrl* pcCtrl = new PieChartCtrl(pcView,pcModel,const_cast<AdminCtrl*>(this));
          pcCtrl->showView();
      }
      void onLineChartBPressed()const{
-         qDebug() << "lien";
+        LineChartView* lcView = new LineChartView(QSize(800,700),view);
+        LineChartCtrl* lcCtrl = new LineChartCtrl(lcView,getModel(),const_cast<AdminCtrl*>(this));
+        lcCtrl->showView();
      }
      void onBarChartBPressed()const{
          qDebug() << "bar";

@@ -1,0 +1,1 @@
+#include "linechartctrl.h"

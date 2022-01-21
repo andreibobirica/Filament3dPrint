@@ -38,7 +38,9 @@ SOURCES += \
     view/piechartview.cpp \
     model/piechartmodel.cpp \
     ctrl/piechartctrl.cpp \
-    view/piechartdetailview.cpp
+    view/piechartdetailview.cpp \
+    view/linechartview.cpp \
+    ctrl/linechartctrl.cpp
 
 HEADERS += \
     view/homeview.h \
@@ -54,7 +56,9 @@ HEADERS += \
     view/piechartview.h \
     model/piechartmodel.h \
     ctrl/piechartctrl.h \
-    view/piechartdetailview.h
+    view/piechartdetailview.h \
+    view/linechartview.h \
+    ctrl/linechartctrl.h
 
 
 DISTFILES += \
