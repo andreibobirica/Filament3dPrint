@@ -174,7 +174,7 @@ void AdminView::addItemRecordTable(unsigned int row,const Record& r, const QStri
     //Aggiornamento della lista di materiali alla modifica di un materiale
     connect(this,&AdminView::materialTableMaterialeModChecked,materialeW,[materialeW](uint i, const QString& m){
         //verifico se l'elemento attualmente selezionato è quello da modificare, sarà poi riselezionato
-        bool iSelected = (materialeW->currentIndex() == i);
+        bool iSelected = (materialeW->currentIndex() == (int)i);
         materialeW->removeItem(i);
         materialeW->insertItem(i,m);
         if(iSelected)

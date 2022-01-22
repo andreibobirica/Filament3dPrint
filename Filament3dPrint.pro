@@ -40,7 +40,8 @@ SOURCES += \
     ctrl/piechartctrl.cpp \
     view/piechartdetailview.cpp \
     view/linechartview.cpp \
-    ctrl/linechartctrl.cpp
+    ctrl/linechartctrl.cpp \
+    view/barchartview.cpp
 
 HEADERS += \
     view/homeview.h \
@@ -58,7 +59,11 @@ HEADERS += \
     ctrl/piechartctrl.h \
     view/piechartdetailview.h \
     view/linechartview.h \
-    ctrl/linechartctrl.h
+    ctrl/linechartctrl.h \
+    view/barchartview.h
 
 RESOURCES += \
     resource.qrc
+
+RC_ICONS = myicon.ico
+ICON = MyIcon.icns

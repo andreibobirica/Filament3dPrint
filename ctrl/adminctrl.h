@@ -3,6 +3,8 @@
 
 #include <list>
 
+#include <view/barchartview.h>
+
 #include "view/piechartview.h"
 #include "view/piechartdetailview.h"
 #include "view/linechartview.h"
@@ -178,6 +180,9 @@ public slots:
 
      void onBarChartBPressed()const{
          qDebug() << "bar";
+
+         BarChartView * bView = new BarChartView(QSize(800,700),view);
+         bView->show();
      }
 };
 

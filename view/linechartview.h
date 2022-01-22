@@ -2,7 +2,7 @@
 #define LINECHARTVIEW_H
 
 #include <QtCharts/QChartView>
-#include <QtCharts/QLineSeries>
+#include <QtCharts/QSplineSeries>
 #include <QHBoxLayout>
 #include <map>
 
@@ -17,7 +17,7 @@ class LineChartView : public View
     Q_OBJECT
 private:
     QChart* chart;
-    std::map<QString,QLineSeries*> materialsSerie;
+    std::map<QString,QSplineSeries*> materialsSerie;
 
     /**
      * @brief connectViewSignals Metodo virtuale che serve a collegare i segnali dei singoli

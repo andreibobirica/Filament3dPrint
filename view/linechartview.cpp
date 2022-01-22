@@ -20,7 +20,7 @@ LineChartView::LineChartView(const QSize &size, View *parent) : View(size,parent
 
 void LineChartView::insertMaterialData(const QString &materiale, const uint durata, const uint consumo){
     if(materialsSerie.find(materiale) == materialsSerie.end()){
-        QLineSeries* ls = new QLineSeries();
+        QSplineSeries* ls = new QSplineSeries();
         ls->append(durata,consumo);
         ls->setName(materiale);
         materialsSerie.insert({materiale,ls});
@@ -30,7 +30,7 @@ void LineChartView::insertMaterialData(const QString &materiale, const uint dura
     //ordino la serie
     QVector<QPointF> points = materialsSerie[materiale]->pointsVector();
     std::sort(points.begin(), points.end(), [](const QPointF & p1, const QPointF & p2) {
-        return p1.x() > p2.x();
+        return p1.x() < p2.x();
     });
     materialsSerie[materiale]->replace(points);
 }
@@ -41,4 +41,8 @@ void LineChartView::applyChartSeries(){
         chart->addSeries(kv.second);
     }
     chart->createDefaultAxes();
+    if(chart->axisX() && chart->axisY()){
+       chart->axisX()->setTitleText("Durata Stampa (h)");
+       chart->axisY()->setTitleText("Consumo Stampa (g)");
+    }
 }
