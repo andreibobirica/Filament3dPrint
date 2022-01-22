@@ -33,7 +33,15 @@ public:
      */
     explicit Ctrl(View* v, Model* m, Ctrl* parent = nullptr);
 
-    virtual ~Ctrl() {qDebug("Ctrl destructed"); delete view; delete model;}
+    virtual ~Ctrl() {
+        setParent(nullptr);
+        qDebug("Ctrl destructed");
+        for(auto child : children()){
+            qDebug() << child;
+            delete child;
+        }
+        delete view; delete model;
+    }
 
     /**
      * @brief Ctrl::getView

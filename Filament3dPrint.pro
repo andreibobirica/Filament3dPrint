@@ -60,9 +60,5 @@ HEADERS += \
     view/linechartview.h \
     ctrl/linechartctrl.h
 
-
-DISTFILES += \
-    3d.jpg \
-    myicon.ico
-
-STATECHARTS +=
+RESOURCES += \
+    resource.qrc

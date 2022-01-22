@@ -41,7 +41,10 @@ public:
      */
     explicit View(const QSize& s = QSize(),View* parent = nullptr);
 
-    virtual ~View() {qDebug("View destructed");}
+    virtual ~View() {
+        qDebug("View destructed");
+        setParent(nullptr);
+    }
 
     /**
      * @brief applyWindowSize

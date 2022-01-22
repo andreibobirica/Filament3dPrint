@@ -19,6 +19,8 @@ const QDate& Record::getData() const{
     return data;
 }
 
+/*
 const QString& Record::toString() const{
     return QString("Materiale: "+getMateriale()+" | Durata: "+QString::number(getDurata())+" | MatUsato: "+QString::number(getMatUsato())+ " | Date: "+getData().toString());
 }
+*/

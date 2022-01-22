@@ -3,6 +3,8 @@
 
 #include <QString>
 #include <QDate>
+
+#include <QDebug>
 /**
  * @brief The Record class La classe Record è un Modello per una parte specifica di dato.
  * Rapresenta il singolo record di memorizzazione delle stampe 3d,
@@ -20,11 +22,13 @@ public:
      */
     explicit Record(QString m, unsigned int d,unsigned int mU,const QDate& data);
 
+    ~Record(){qDebug() << "Record Destructor";}
+
     const QString& getMateriale() const;
     unsigned int getDurata() const;
     unsigned int getMatUsato() const;
     const QDate& getData() const;
-    const QString& toString() const;
+    //const QString& toString() const;
     void setMateriale(const QString& m){materiale=m;}
     void setDurata(unsigned int d){durata=d;}
     void setMatUsato(unsigned int mu){matUsato=mu;}

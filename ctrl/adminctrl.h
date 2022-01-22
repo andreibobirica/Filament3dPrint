@@ -34,7 +34,9 @@ public:
      */
     AdminCtrl(AdminView* v, AdminModel* m = new AdminModel(), Ctrl* parent = nullptr);
 
-    ~AdminCtrl() override{qDebug("AdminCtrl destructed");}
+    ~AdminCtrl() override{
+        qDebug("AdminCtrl destructed");
+    }
 
     /**
      * @brief getView Ritorna La View castata almeno al tipo corrente AdminView

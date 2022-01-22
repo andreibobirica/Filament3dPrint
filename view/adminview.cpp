@@ -98,13 +98,13 @@ void AdminView::createAddRowRecordTable(unsigned int row, const QStringList& mat
 
     //Durata Widget
     QSpinBox* durataW = new QSpinBox(this);
-    durataW->setRange(1,100000);
+    durataW->setRange(0,100000);
     durataW->setSuffix(" h");
     filamentTable->setCellWidget(row,1,durataW);
 
     //matUsato Widget
     QSpinBox* matUsatoW = new QSpinBox(this);
-    matUsatoW->setRange(1,100000);
+    matUsatoW->setRange(0,100000);
     matUsatoW->setSuffix(" g");
     filamentTable->setCellWidget(row,2,matUsatoW);
 
@@ -188,7 +188,7 @@ void AdminView::addItemRecordTable(unsigned int row,const Record& r, const QStri
 
     //Durata Widget
     QSpinBox* durataW = new QSpinBox(this);
-    durataW->setRange(1,100000);
+    durataW->setRange(0,100000);
     durataW->setSuffix(" h");
     durataW->setValue(r.getDurata());
     filamentTable->setCellWidget(row,1,durataW);
@@ -201,7 +201,7 @@ void AdminView::addItemRecordTable(unsigned int row,const Record& r, const QStri
 
     //matUsato Widget
     QSpinBox* matUsatoW = new QSpinBox(this);
-    matUsatoW->setRange(1,100000);
+    matUsatoW->setRange(0,100000);
     matUsatoW->setSuffix(" g");
     matUsatoW->setValue(r.getMatUsato());
     filamentTable->setCellWidget(row,2,matUsatoW);

@@ -34,6 +34,8 @@ public:
      */
     explicit LineChartView(const QSize& size = QSize(800,500), View* parent = nullptr);
 
+    ~LineChartView(){qDebug()<< "LineChartView destructed";}
+
     /**
      * @brief insertMaterialRecord Metodo che serve ad inserire i dati relativi ad una singola
      * stampa, questi dati saranno elaborati e per ciascun materiale sarà creata una linea.

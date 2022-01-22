@@ -40,7 +40,12 @@ public:
             recordList.push_back(new Record(*r));
     }
 
-    ~AdminModel() override{qDebug("AdminModel destructed"); delete filepath; delete materialiList;}
+    ~AdminModel() override{
+        qDebug("AdminModel destructed");
+        delete filepath; delete materialiList;
+        for(auto r : recordList)
+            delete r;
+    }
     /**
      * @brief getMaterialList metodo getter
      * @return lista dei materiali QStringList

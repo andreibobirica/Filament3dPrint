@@ -54,6 +54,6 @@ void HomeCtrl::onOpenProject() const{
 }
 
 void HomeCtrl::onViewClosed() const {
-    qDebug() << "home view closed";
+    qDebug() << "Home view closed";
     delete this;
 }

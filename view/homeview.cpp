@@ -6,12 +6,24 @@ HomeView::HomeView(const QSize& s,View* parent) : View(s,parent)
     mainLayout->setSpacing(0);
     mainLayout->setMargin(0);
     mainLayout->addLayout(createButtonsLayout());
-    mainLayout->addLayout(createDescriptionLayout(
-    "Questa è una descrizione della applicazione a grandi linee \n\
-spiegando leggermente come funziona una stampante 3d,\n\
-successivamente spiegando cosa utilizza una stampa \n\
-introducendo ai futuri record\nche si vedranno nella pagina successiva.",
-    "/Users/andreibobirica/OtherFIles/QtFiles/Filament3dPrint/3d.jpg"));
+    mainLayout->addLayout(createDescriptionLayout(tr(
+    "Filament3dPrint è un programma che ti può aiutare a tenere\n"
+    "traccia delle stampe fatte con una Stampante 3D.\n"
+    "Quando si fa una stampa 3D è utile tenere traccia di:\n"
+    "- Materiale\n"
+    "- Durata\n"
+    "- Consumo\n"
+    "- Data\n"
+    "\n"
+    "Il materiale è organizzato in bobine vendute al Kg quindi\n"
+    "è utili tenere traccia per ogni stampa quale e quanti grammi\n"
+    "di materiale si sono usati.\n"
+    "è importante tenere traccia della durata in quanto\n"
+    "una stampa 3D può durare svariate ore.\n"
+    "\n"
+    "Questo programma infine offre dei utili grafici\n"
+    "con cui esaminare queste informazioni"),
+    ":/3dPrint.jpeg"));
     //Imposto il Layout alla View per essere visualizzata
     setLayout(mainLayout);
 
@@ -41,25 +53,27 @@ QLayout* HomeView::createButtonsLayout(){
 QLayout* HomeView::createDescriptionLayout(const QString& description, const QString& imgPath){
     //Parte destra immagine e descrizione
     QVBoxLayout* descrLayout = new QVBoxLayout;
-    descrLayout->setAlignment(Qt::AlignCenter);
+    //descrLayout->setAlignment(Qt::AlignCenter);
 
     //Immagine stampante descrizione
     QLabel* img = new QLabel(this);
     QPixmap pic = QPixmap(imgPath);
-    pic = pic.scaledToHeight(300);
+    pic = pic.scaledToHeight(250);
     img->setPixmap(pic);
-    img->setFixedSize(300,300);
-    descrLayout->addWidget(img,Qt::AlignCenter);
+    img->setFixedSize(300,250);
+    descrLayout->addWidget(img,Qt::AlignHCenter);
 
     //Descrizione
     QLabel* desc = new QLabel(description,this);
-    descrLayout->addWidget(desc,Qt::AlignCenter);
+    QFont f( "Consolas", 11);
+    desc->setFont(f);
+    descrLayout->addWidget(desc,Qt::AlignJustify);
 
     QHBoxLayout* groupLayout = new QHBoxLayout;
     groupLayout->setMargin(10);
     groupLayout->setSpacing(25);
     groupLayout->setContentsMargins(12, 50, 25, 50);
-    groupLayout->setAlignment(Qt::AlignCenter);
+    //groupLayout->setAlignment(Qt::AlignCenter);
 
     QGroupBox* gruppo = new QGroupBox("Descrizione Programma",this);
     gruppo->setLayout(descrLayout);
