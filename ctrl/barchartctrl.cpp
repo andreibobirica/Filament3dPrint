@@ -1,0 +1,1 @@
+#include "barchartctrl.h"

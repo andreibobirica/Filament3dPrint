@@ -11,26 +11,42 @@
 class BarChartModel : public Model
 {
 private:
+    //creo la struttura dati std::map<QString,std::map<QString,uint>>
+    //Ad ogni meseA ho una mappa che rapresenta un Materiale ed il suo consumo totale per quel meseA
+    //un meseA è un meseAnno "Gennaio 2022"
+    std::map<QString,std::map<QString,uint>> dataMaterialiConsumi;
+    //Lista meseA con tutti i mesi trattati dal modello in ordine
+    QStringList meseATotali;
+    //Lista con tutti i materiali
+    QStringList materialList;
+    /**
+     * @brief insertMeseATotali Metodo privato ricorsivo
+     * Date due date first e last prende tutti i mesi intermedi e li pusha nella lista
+     * meseATotali in ordine.
+     * Caso base, si è arrivati all'ultima data ed esce dal metodo
+     * Caso ricorsivo, la data attuale è minore della successiva data quindi continua
+     * richiamando insertMeseATotali(first.addMonths(1),last,meseATotali)
+     * @param first
+     * @param last
+     * @param meseATotali
+     */
+    void insertMeseATotali(const QDate& first, const QDate& last, QStringList* meseATotali) const{
+        QString meseA = QLocale(QLocale::Italian).toString(first,"MMMM yyyy");
+        meseATotali->push_back(meseA);
+        if(first < last)
+            insertMeseATotali(first.addMonths(1),last,meseATotali);
+    }
 public:
     explicit BarChartModel(AdminModel* am){
 
-        /**
-        insertSetMateriale("PLA",std::list<uint> consumiMesi);
-        insertSetMateriale("ABS",std::list<uint> consumiMesi);
-        applySetsOnChart();
-        applyAxis({"M","D","D","S","S"},20);
-        */
+        //Copio la lista dei materiali
+        materialList = *(am->getMaterialList());
 
         //Ordino la recordList in base alla Data
         std::list<Record*> recordListOrdinata = am->getRecordList();
         recordListOrdinata.sort([](Record* lhs,Record* rhs) {return lhs->getData() < rhs->getData();});
 
-        //creo la struttura dati std::map<QString,std::map<QString,uint>>
-        //Ad ogni meseA ho una mappa che rapresenta un Materiale ed il suo consumo totale per quel meseA
-        //un meseA è un meseAnno "Gennaio 2022"
-        std::map<QString,std::map<QString,uint>> dataMaterialiConsumi;
-
-        //Inserisco all'interno della struttura dati i record e i loro dati
+        //Inserisco all'interno della struttura dati dataMaterialiConsumi i record e i loro dati
         for(Record* r : recordListOrdinata){
            const QString& meseA = QLocale(QLocale::Italian).toString(r->getData(),"MMMM yyyy");
            dataMaterialiConsumi[meseA][r->getMateriale()] += r->getMatUsato();
@@ -41,15 +57,11 @@ public:
         //manca il mese di febbraio 2021
         QDate first = recordListOrdinata.front()->getData();
         QDate last = recordListOrdinata.back()->getData();
-        QStringList meseATotali;
         insertMeseATotali(first,last,&meseATotali);
         for(const auto& meseA: meseATotali){
             if(dataMaterialiConsumi.find(meseA) == dataMaterialiConsumi.end())
                 dataMaterialiConsumi[meseA] = std::map<QString,uint>();
-            qDebug() << meseA << "tot";
         }
-
-
 
         //Nella struttura dati dataMaterialiConsumi mancano dei materiali
         //mancano i materiali che non sono stati usati in certi mesi.
@@ -64,22 +76,18 @@ public:
                 dataMaterialiConsumi[dmc.first] = matConsumo;
             }
         }
-
-        //Debug
-        for(const auto& meseA: meseATotali){
-            qDebug() << meseA;
-            for (const auto& mc : dataMaterialiConsumi[meseA]) {
-                qDebug() << mc.first << mc.second;
-            }
-        }
     }
 
-    //Prende tutte le intermedie compresa l'ultima
-    void insertMeseATotali(const QDate& first, const QDate& last, QStringList* meseATotali){
-        QString meseA = QLocale(QLocale::Italian).toString(first,"MMMM yyyy");
-        meseATotali->push_back(meseA);
-        if(first < last)
-            insertMeseATotali(first.addMonths(1),last,meseATotali);
+    const QStringList& getMaterialList(){
+        return materialList;
+    }
+
+    std::map<QString,std::map<QString,uint>> getDataMaterialiConsumi(){
+        return dataMaterialiConsumi;
+    }
+
+    const QStringList& getMeseATotali(){
+        return meseATotali;
     }
 };
 

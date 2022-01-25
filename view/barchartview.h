@@ -46,7 +46,7 @@ public:
         chart->setAnimationDuration(1500);
         chart->legend()->setVisible(true);
         chart->legend()->setAlignment(Qt::AlignBottom);
-        chart->setTitle("TITOLO TITOLO TITOTLO");
+        chart->setTitle("Consumo Totale Mensile");
         QChartView *chartView = new QChartView(chart,this);
         chartView->setRenderHint(QPainter::Antialiasing);
         QHBoxLayout* mainLayout = new QHBoxLayout;
@@ -54,11 +54,6 @@ public:
         setLayout(mainLayout);
         setMinimumSize(800,500);
         resize(size);
-
-        insertSetMateriale("PLA",{1,2,3,4});
-        insertSetMateriale("ABS",{1,2,3,4});
-        applySetsOnChart();
-        applyAxis({"M","D","D","S","S"},20);
     }
 
     void insertSetMateriale(const QString& materiale, std::list<uint> consumiMesi){

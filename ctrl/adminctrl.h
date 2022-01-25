@@ -13,7 +13,8 @@
 #include "ctrl/ctrl.h"
 #include "ctrl/piechartctrl.h"
 #include "view/adminview.h"
-#include "linechartctrl.h"
+#include "ctrl/barchartctrl.h"
+#include "ctrl/linechartctrl.h"
 
 /**
  * @brief The AdminCtrl class
@@ -180,11 +181,11 @@ public slots:
 
 
      void onBarChartBPressed()const{
-         qDebug() << "bar";
-
          BarChartView * bView = new BarChartView(QSize(800,700),view);
-         BarChartModel* vModel = new BarChartModel(getModel());
-         bView->show();
+         BarChartModel* bModel = new BarChartModel(getModel());
+         BarChartCtrl* bCtrl = new BarChartCtrl(bView,bModel,const_cast<AdminCtrl*>(this));
+
+         bCtrl->showView();
      }
 };
 

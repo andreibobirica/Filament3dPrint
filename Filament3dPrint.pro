@@ -42,7 +42,8 @@ SOURCES += \
     view/linechartview.cpp \
     ctrl/linechartctrl.cpp \
     view/barchartview.cpp \
-    model/barchartmodel.cpp
+    model/barchartmodel.cpp \
+    ctrl/barchartctrl.cpp
 
 HEADERS += \
     view/homeview.h \
@@ -62,7 +63,8 @@ HEADERS += \
     view/linechartview.h \
     ctrl/linechartctrl.h \
     view/barchartview.h \
-    model/barchartmodel.h
+    model/barchartmodel.h \
+    ctrl/barchartctrl.h
 
 RESOURCES += \
     resource.qrc
