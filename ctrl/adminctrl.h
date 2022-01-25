@@ -3,7 +3,8 @@
 
 #include <list>
 
-#include <view/barchartview.h>
+#include "view/barchartview.h"
+#include "model/barchartmodel.h"
 
 #include "view/piechartview.h"
 #include "view/piechartdetailview.h"
@@ -182,6 +183,7 @@ public slots:
          qDebug() << "bar";
 
          BarChartView * bView = new BarChartView(QSize(800,700),view);
+         BarChartModel* vModel = new BarChartModel(getModel());
          bView->show();
      }
 };

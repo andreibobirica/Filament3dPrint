@@ -24,8 +24,8 @@ class BarChartView : public View
 private:
     QChart* chart;
     QBarSeries *series;
-    QBarCategoryAxis* axeX;
-    std::map<QString,QBarSet*> materialSets;
+    std::list<QBarSet*>(listaSetsMateriali);
+    QStringList listaMesi;
 
     /**
      * @brief connectViewSignals Metodo virtuale che serve a collegare i segnali dei singoli
@@ -36,87 +36,55 @@ private:
     }
 
 public:
-    explicit BarChartView(const QSize& size = QSize(800,500), View* parent = nullptr) : View(size,parent){
-        QHBoxLayout* mainLayout = new QHBoxLayout;
-        chart = new QChart();
+    explicit BarChartView(const QSize& size = QSize(800,500), View* parent = nullptr) :
+            View(size,parent),
+            chart(new QChart()),
+            series(new QBarSeries())
+    {
         chart->setTheme(QChart::ChartThemeDark);
         chart->setAnimationOptions(QChart::AllAnimations);
         chart->setAnimationDuration(1500);
         chart->legend()->setVisible(true);
         chart->legend()->setAlignment(Qt::AlignBottom);
         chart->setTitle("TITOLO TITOLO TITOTLO");
-
-       // chart->setAxisX(axis, series);
-
         QChartView *chartView = new QChartView(chart,this);
         chartView->setRenderHint(QPainter::Antialiasing);
+        QHBoxLayout* mainLayout = new QHBoxLayout;
         mainLayout->addWidget(chartView);
         setLayout(mainLayout);
         setMinimumSize(800,500);
         resize(size);
 
+        insertSetMateriale("PLA",{1,2,3,4});
+        insertSetMateriale("ABS",{1,2,3,4});
+        applySetsOnChart();
+        applyAxis({"M","D","D","S","S"},20);
+    }
 
-        //![2]
-        series = new QBarSeries();
-        //![2]
+    void insertSetMateriale(const QString& materiale, std::list<uint> consumiMesi){
+        QBarSet* set = new QBarSet(materiale);
+        for(auto consumiMese : consumiMesi)
+            *set << consumiMese;
+        listaSetsMateriali.push_back(set);
+    }
 
-        //![3]
+    void applySetsOnChart(){
+        for(auto s : listaSetsMateriali)
+            series->append(s);
         chart->addSeries(series);
-        //![3]
+    }
 
-        //![4]
-        //!
-        //!
+    void applyAxis(const QStringList& mesi, const uint maxY){
+        QBarCategoryAxis *axisX = new QBarCategoryAxis();
+        axisX->append(mesi);
+        chart->addAxis(axisX, Qt::AlignBottom);
+        series->attachAxis(axisX);
+
         QValueAxis *axisY = new QValueAxis();
-        axisY->setRange(0,15);
+        axisY->setRange(0,maxY);
         chart->addAxis(axisY, Qt::AlignLeft);
         series->attachAxis(axisY);
-
-        //![4]
-
-        //![5]
-
-        insertMaterialSet(tr("PLA"),{1,2,23,5,13,4});
-        applyChartSeries();
-        insertMensilità({"m1","m2","m3","m3ì4"});
-        insertMensilità({"m12","m2","m3","m3ì4"});
     }
-
-    void insertMaterialSet(const QString& materiale,std::list<uint> consumiMensili){
-        if(materialSets.find(materiale) == materialSets.end()){
-            materialSets[materiale] = new QBarSet(materiale);
-        }
-        for(const uint& consumo : consumiMensili){
-            materialSets[materiale]->append(consumo);
-        }
-    }
-
-    void insertMensilità(const QStringList& listaMeseAnno){
-        if(axeX){
-            chart->removeAxis(axeX);
-            series->detachAxis(axeX);
-        }
-
-        axeX =  new QBarCategoryAxis();
-        for(const auto& meseAnno : listaMeseAnno){
-            axeX->append(meseAnno);
-        }
-
-        chart->addAxis(axeX, Qt::AlignBottom);
-        series->attachAxis(axeX);
-    }
-
-    void applyChartSeries(){
-        for(const auto& kv : materialSets) {
-            series->append(kv.second);
-        }
-
-        chart->removeSeries(series);
-        chart->addSeries( series );
-        chart->createDefaultAxes();
-        //chart->setAxisX(axeX, series);
-    }
-
 };
 
 #endif // BARCHARTVIEW_H
