@@ -213,12 +213,15 @@ void AdminCtrl::onHomeBPressed(){
 }
 
 void AdminCtrl::onPieChartBPressed(bool detail) const{
+    if(getModel()->getRecordList().size() == 0){
+        view->showWarningDialog("Attenzione","Inserire dei dati prima");
+        return;
+    }
+
     //Inizializzazione polimorfa del PieChartView in base se si vogliono i detagli o meno
     PieChartView* pcView;
-    if(detail)
-        pcView = new PieChartDetailView(QSize(800,700),view);
-    else
-        pcView = new PieChartView(QSize(800,700),view);
+    pcView = detail ? new PieChartDetailView(QSize(800,700),view) :
+                      new PieChartView(QSize(800,700),view);
 
     PieChartModel* pcModel = new PieChartModel(getModel());
     PieChartCtrl* pcCtrl = new PieChartCtrl(pcView,pcModel,const_cast<AdminCtrl*>(this));
@@ -226,7 +229,24 @@ void AdminCtrl::onPieChartBPressed(bool detail) const{
 }
 
 void AdminCtrl::onLineChartBPressed() const{
+    if(getModel()->getRecordList().size() == 0){
+        view->showWarningDialog("Attenzione","Inserire dei dati prima");
+        return;
+    }
+
     LineChartView* lcView = new LineChartView(QSize(800,700),view);
     LineChartCtrl* lcCtrl = new LineChartCtrl(lcView,getModel(),const_cast<AdminCtrl*>(this));
     lcCtrl->showView();
+}
+
+void AdminCtrl::onBarChartBPressed() const{
+    if(getModel()->getRecordList().size() == 0){
+        view->showWarningDialog("Attenzione","Inserire dei dati prima");
+        return;
+    }
+
+    BarChartView * bView = new BarChartView(QSize(800,700),view);
+    BarChartModel* bModel = new BarChartModel(getModel());
+    BarChartCtrl* bCtrl = new BarChartCtrl(bView,bModel,const_cast<AdminCtrl*>(this));
+    bCtrl->showView();
 }

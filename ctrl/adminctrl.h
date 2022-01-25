@@ -179,14 +179,12 @@ public slots:
       */
      void onLineChartBPressed()const;
 
-
-     void onBarChartBPressed()const{
-         BarChartView * bView = new BarChartView(QSize(800,700),view);
-         BarChartModel* bModel = new BarChartModel(getModel());
-         BarChartCtrl* bCtrl = new BarChartCtrl(bView,bModel,const_cast<AdminCtrl*>(this));
-
-         bCtrl->showView();
-     }
+     /**
+      * @brief onBarChartBPressed SLOT eseguito alla ricezione di SEGNALI dalla view
+      * che chiede come azione eseguita l'apertura di un BarChart
+      * viene usato il modello attuale nel Ctrl
+      */
+     void onBarChartBPressed()const;
 };
 
 #endif // ADMINCTRL_H

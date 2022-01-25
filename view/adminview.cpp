@@ -28,10 +28,8 @@ AdminView::AdminView(const QSize& s,View* parent) :
 
     lineChartB = new QPushButton("Rapporto Consumo Durata",this);
     mainLayout->addWidget(lineChartB,2,2,1,1,Qt::AlignCenter);
-    lineChart2B = new QPushButton("-------------------",this);
-    mainLayout->addWidget(lineChart2B,2,3,1,1,Qt::AlignCenter);
     barChartB = new QPushButton("Consumo Per Mese",this);
-    mainLayout->addWidget(barChartB,2,4,1,1,Qt::AlignCenter);
+    mainLayout->addWidget(barChartB,2,3,1,1,Qt::AlignCenter);
 
 
     //implementazione

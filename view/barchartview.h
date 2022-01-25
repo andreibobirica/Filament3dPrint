@@ -31,55 +31,40 @@ private:
      * @brief connectViewSignals Metodo virtuale che serve a collegare i segnali dei singoli
      * Widget ai segnali della View
      */
-    void connectViewSignals() const override{
-        // non ci sono segnali da connettere
-    }
+    void connectViewSignals() const override;
 
 public:
-    explicit BarChartView(const QSize& size = QSize(800,500), View* parent = nullptr) :
-            View(size,parent),
-            chart(new QChart()),
-            series(new QBarSeries())
-    {
-        chart->setTheme(QChart::ChartThemeDark);
-        chart->setAnimationOptions(QChart::AllAnimations);
-        chart->setAnimationDuration(1500);
-        chart->legend()->setVisible(true);
-        chart->legend()->setAlignment(Qt::AlignBottom);
-        chart->setTitle("Consumo Totale Mensile");
-        QChartView *chartView = new QChartView(chart,this);
-        chartView->setRenderHint(QPainter::Antialiasing);
-        QHBoxLayout* mainLayout = new QHBoxLayout;
-        mainLayout->addWidget(chartView);
-        setLayout(mainLayout);
-        setMinimumSize(800,500);
-        resize(size);
-    }
+    /**
+     * @brief BarChartView Costruttore della View
+     * @param size size della window
+     * @param parent view parente invocante
+     */
+    explicit BarChartView(const QSize& size = QSize(800,500), View* parent = nullptr);
 
-    void insertSetMateriale(const QString& materiale, std::list<uint> consumiMesi){
-        QBarSet* set = new QBarSet(materiale);
-        for(auto consumiMese : consumiMesi)
-            *set << consumiMese;
-        listaSetsMateriali.push_back(set);
-    }
+    /**
+     * @brief insertSetMateriale Metodo che serve ad inserire un SET di dati
+     * Un set di dati in questo caso rappresenta una barra e per ciascuna meseA
+     * cioè ciascuna data.
+     * @param materiale materiale titolo del set
+     * @param consumiMesi consumi per ogni meseA del set, per ogni barra
+     */
+    void insertSetMateriale(const QString& materiale, std::list<uint> consumiMesi);
 
-    void applySetsOnChart(){
-        for(auto s : listaSetsMateriali)
-            series->append(s);
-        chart->addSeries(series);
-    }
+    /**
+     * @brief applySetsOnChart Metodo che aggiunge i sets allla series
+     * successivemente applica la series al chart.
+     * in pratica mostra i dati al chart.
+     */
+    void applySetsOnChart();
 
-    void applyAxis(const QStringList& mesi, const uint maxY){
-        QBarCategoryAxis *axisX = new QBarCategoryAxis();
-        axisX->append(mesi);
-        chart->addAxis(axisX, Qt::AlignBottom);
-        series->attachAxis(axisX);
-
-        QValueAxis *axisY = new QValueAxis();
-        axisY->setRange(0,maxY);
-        chart->addAxis(axisY, Qt::AlignLeft);
-        series->attachAxis(axisY);
-    }
+    /**
+     * @brief applyAxis Metodo che imposta i dettagli degli Assi
+     * impostandone la grandezza e la descrizione
+     * @param mesi lista dei meseA con la descrizione per l'asse X
+     * @param maxY massimo intero dei dati da rapresentare, appunto con la
+     * granzza massima del asse y
+     */
+    void applyAxis(const QStringList& mesi, const uint maxY);
 };
 
 #endif // BARCHARTVIEW_H

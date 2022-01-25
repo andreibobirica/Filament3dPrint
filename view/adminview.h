@@ -40,7 +40,6 @@ private:
     QPushButton* pieChartB;
     QPushButton* pieChartDetailB;
     QPushButton* lineChartB;
-    QPushButton* lineChart2B;
     QPushButton* barChartB;
 
 
