@@ -36,10 +36,8 @@ public:
     virtual ~Ctrl() {
         setParent(nullptr);
         qDebug("Ctrl destructed");
-        for(auto child : children()){
-            qDebug() << child;
+        for(auto child : children())
             delete child;
-        }
         delete view; delete model;
     }
 

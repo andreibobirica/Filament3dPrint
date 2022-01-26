@@ -2,9 +2,6 @@
 
 BarChartCtrl::BarChartCtrl(BarChartView *v, BarChartModel *m, Ctrl *parent) :
     Ctrl(v,m,parent){
-    qDebug() << "meseA totali" << getModel()->getMeseATotali();
-    qDebug() << "lsit materiali" << getModel()->getMaterialList();
-
     //Cliclo tutti i materiali e creo una lista con in ordine i suoi consumi in ordine di meseA
     for(const auto& materiale : getModel()->getMaterialList()){
         std::list<uint> consumiMensili;
@@ -12,7 +9,6 @@ BarChartCtrl::BarChartCtrl(BarChartView *v, BarChartModel *m, Ctrl *parent) :
         for(const auto& meseA : getModel()->getMeseATotali()){
             consumiMensili.push_back(getModel()->getDataMaterialiConsumi()[meseA][materiale]);
         }
-        qDebug() << "lsita inserimenti consumi totale" << consumiMensili;
         //inserisco all'interno della view il materiale e i suoi consumi
         getView()->insertSetMateriale(materiale,consumiMensili);
     }

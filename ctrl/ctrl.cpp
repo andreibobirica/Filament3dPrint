@@ -4,7 +4,7 @@ void Ctrl::connectViewCtrlSignalsSlots() const {
     connect(view,SIGNAL(viewClosed()),this,SLOT(onViewClosed()));
 }
 
-Ctrl::Ctrl(View* v, Model* m,Ctrl* parent) : view(v), model(m), QObject(parent){
+Ctrl::Ctrl(View* v, Model* m,Ctrl* parent) : QObject(parent), view(v), model(m){
     connectViewCtrlSignalsSlots();
 }
 

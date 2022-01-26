@@ -28,7 +28,7 @@ AdminView::AdminView(const QSize& s,View* parent) :
 
     lineChartB = new QPushButton("Rapporto Consumo Durata",this);
     mainLayout->addWidget(lineChartB,2,2,1,1,Qt::AlignCenter);
-    barChartB = new QPushButton("Consumo Per Mese",this);
+    barChartB = new QPushButton("Consumo Totale Mensile",this);
     mainLayout->addWidget(barChartB,2,3,1,1,Qt::AlignCenter);
 
 
@@ -116,7 +116,6 @@ void AdminView::createAddRowRecordTable(unsigned int row, const QStringList& mat
 
     connect(addW, &QPushButton::clicked,this,
             [this, materialeW, durataW, matUsatoW, dataW]() {
-        qDebug() <<materialeW->currentIndex();
         if(materialeW->currentIndex() != -1)
             emit recordTableAdded(materialeW->currentText(), durataW->value(), matUsatoW->value(), dataW->date());
         else

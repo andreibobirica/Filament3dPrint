@@ -5,6 +5,10 @@
 #include "view/barchartview.h"
 #include "model/barchartmodel.h"
 
+/**
+ * @brief The BarChartCtrl class
+ * BarChartCtrl classe derivata da Ctrl ossia un Controller specializzato della schermata BarChart della applicazione
+ */
 class BarChartCtrl : public Ctrl
 {
     Q_OBJECT
@@ -33,7 +37,9 @@ public:
 
     /**
      * @brief showView Metodo overriding
-     * mostra la view
+     * mostra la view, in questo caso oltre a mostrare la view
+     * emette anche un popup dialog in cui informa l'utente che sta
+     * per visualizzare i dati
      */
     void showView() const override;
 

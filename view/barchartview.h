@@ -8,11 +8,12 @@
 #include <QtCharts/QBarCategoryAxis>
 #include <QtCharts/QValueAxis>
 
+#include <QScrollBar>
 #include <QHBoxLayout>
 #include <QDebug>
-
 #include <map>
 #include <list>
+
 
 #include "view/view.h"
 
@@ -24,8 +25,9 @@ class BarChartView : public View
 private:
     QChart* chart;
     QBarSeries *series;
-    std::list<QBarSet*>(listaSetsMateriali);
+    std::list<QBarSet*>listaSetsMateriali;
     QStringList listaMesi;
+    QScrollBar* chartScroll;
 
     /**
      * @brief connectViewSignals Metodo virtuale che serve a collegare i segnali dei singoli
@@ -65,6 +67,7 @@ public:
      * granzza massima del asse y
      */
     void applyAxis(const QStringList& mesi, const uint maxY);
+
 };
 
 #endif // BARCHARTVIEW_H
