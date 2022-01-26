@@ -69,5 +69,5 @@ HEADERS += \
 RESOURCES += \
     resource.qrc
 
-RC_ICONS = myicon.ico
 ICON = MyIcon.icns
+QMAKE_LFLAGS += -no-pie

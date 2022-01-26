@@ -53,19 +53,17 @@ QLayout* HomeView::createButtonsLayout(){
 QLayout* HomeView::createDescriptionLayout(const QString& description, const QString& imgPath){
     //Parte destra immagine e descrizione
     QVBoxLayout* descrLayout = new QVBoxLayout;
-    //descrLayout->setAlignment(Qt::AlignCenter);
-
     //Immagine stampante descrizione
     QLabel* img = new QLabel(this);
     QPixmap pic = QPixmap(imgPath);
-    pic = pic.scaledToHeight(250);
+    pic = pic.scaledToHeight(300);
     img->setPixmap(pic);
-    img->setFixedSize(300,250);
+    img->setFixedSize(300,300);
     descrLayout->addWidget(img,Qt::AlignHCenter);
 
     //Descrizione
     QLabel* desc = new QLabel(description,this);
-    QFont f( "Consolas", 11);
+    QFont f("Calibri", 9);
     desc->setFont(f);
     descrLayout->addWidget(desc,Qt::AlignJustify);
 
@@ -73,7 +71,6 @@ QLayout* HomeView::createDescriptionLayout(const QString& description, const QSt
     groupLayout->setMargin(10);
     groupLayout->setSpacing(25);
     groupLayout->setContentsMargins(12, 50, 25, 50);
-    //groupLayout->setAlignment(Qt::AlignCenter);
 
     QGroupBox* gruppo = new QGroupBox("Descrizione Programma",this);
     gruppo->setLayout(descrLayout);

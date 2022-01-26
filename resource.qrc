@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>3dPrint.jpeg</file>
-        <file>myicon.ico</file>
         <file>MyIcon.icns</file>
     </qresource>
 </RCC>

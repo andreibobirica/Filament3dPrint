@@ -1,0 +1,109 @@
+{
+    "materiali": [
+        "TPU",
+        "ABS",
+        "PLA",
+        "ASA",
+        "PET",
+        "PETG",
+        "PC"
+    ],
+    "records": [
+        {
+            "data": "04/04/2021",
+            "durata": 10,
+            "matUsato": 830,
+            "materiale": "TPU"
+        },
+        {
+            "data": "06/02/2021",
+            "durata": 5,
+            "matUsato": 1100,
+            "materiale": "ABS"
+        },
+        {
+            "data": "17/03/2021",
+            "durata": 13,
+            "matUsato": 700,
+            "materiale": "PLA"
+        },
+        {
+            "data": "04/03/2021",
+            "durata": 9,
+            "matUsato": 1200,
+            "materiale": "ABS"
+        },
+        {
+            "data": "06/02/2021",
+            "durata": 5,
+            "matUsato": 580,
+            "materiale": "TPU"
+        },
+        {
+            "data": "20/10/2021",
+            "durata": 7,
+            "matUsato": 1200,
+            "materiale": "PETG"
+        },
+        {
+            "data": "06/10/2021",
+            "durata": 1,
+            "matUsato": 400,
+            "materiale": "ABS"
+        },
+        {
+            "data": "16/03/2021",
+            "durata": 4,
+            "matUsato": 600,
+            "materiale": "PETG"
+        },
+        {
+            "data": "08/04/2021",
+            "durata": 18,
+            "matUsato": 2400,
+            "materiale": "ABS"
+        },
+        {
+            "data": "21/07/2021",
+            "durata": 5,
+            "matUsato": 108,
+            "materiale": "PLA"
+        },
+        {
+            "data": "18/06/2021",
+            "durata": 8,
+            "matUsato": 200,
+            "materiale": "PLA"
+        },
+        {
+            "data": "18/06/2021",
+            "durata": 9,
+            "matUsato": 1800,
+            "materiale": "PETG"
+        },
+        {
+            "data": "07/04/2021",
+            "durata": 18,
+            "matUsato": 1500,
+            "materiale": "TPU"
+        },
+        {
+            "data": "09/03/2021",
+            "durata": 9,
+            "matUsato": 300,
+            "materiale": "PLA"
+        },
+        {
+            "data": "09/10/2021",
+            "durata": 17,
+            "matUsato": 1000,
+            "materiale": "PLA"
+        },
+        {
+            "data": "20/01/2022",
+            "durata": 10,
+            "matUsato": 2000,
+            "materiale": "PETG"
+        }
+    ]
+}

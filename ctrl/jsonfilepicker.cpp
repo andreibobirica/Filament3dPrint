@@ -11,7 +11,14 @@ QJsonDocument* JSONFilePicker::getJSONFileData(const QString& path){
     fileData = file.readAll();
     file.close();
 
-    return new QJsonDocument(QJsonDocument::fromJson(fileData.toLocal8Bit()));
+    //Controllo validità documento
+    QJsonDocument* doc = new QJsonDocument(QJsonDocument::fromJson(fileData.toLocal8Bit()));
+    QJsonObject dataObj = doc->object();
+    if(!dataObj.contains("records") || !dataObj.contains("materiali")){
+        delete doc;
+        return new QJsonDocument();
+    }
+    return doc;
 }
 
 QString JSONFilePicker::selectJSONFileDialog(){

@@ -1,9 +1,15 @@
 #include "linechartctrl.h"
 
 LineChartCtrl::LineChartCtrl(LineChartView *v, AdminModel *m, Ctrl *parent) : Ctrl(v,new AdminModel(*m),parent){
+    //inserisco per ciascun materiale il punto di inizio 0.0
+    for(const auto& materiale : *getModel()->getMaterialList()){
+        getView()->insertMaterialData(materiale,0,0);
+    }
+
     for(auto r : getModel()->getRecordList()){
         getView()->insertMaterialData(r->getMateriale(),r->getDurata(),r->getMatUsato());
     }
+
     getView()->applyChartSeries();
 }
 
