@@ -35,6 +35,5 @@ void BarChartCtrl::showView() const{
 }
 
 void BarChartCtrl::onViewClosed() const{
-    qDebug() << "barChartView closed";
     delete this;
 }

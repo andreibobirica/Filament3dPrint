@@ -1,20 +1,21 @@
 #ifndef ADMINCTRL_H
 #define ADMINCTRL_H
 
-#include <list>
+#include "ctrl/ctrl.h"
 
-#include "view/barchartview.h"
 #include "model/barchartmodel.h"
-
+#include "model/piechartmodel.h"
 #include "view/piechartview.h"
 #include "view/piechartdetailview.h"
 #include "view/linechartview.h"
-#include "model/piechartmodel.h"
-#include "ctrl/ctrl.h"
-#include "ctrl/piechartctrl.h"
 #include "view/adminview.h"
+#include "view/barchartview.h"
+#include "view/barchartoldview.h"
+#include "ctrl/piechartctrl.h"
 #include "ctrl/barchartctrl.h"
 #include "ctrl/linechartctrl.h"
+
+#include <list>
 
 /**
  * @brief The AdminCtrl class
@@ -37,10 +38,6 @@ public:
      * @param m Model collegato al Controller
      */
     AdminCtrl(AdminView* v, AdminModel* m = new AdminModel(), Ctrl* parent = nullptr);
-
-    ~AdminCtrl() override{
-        qDebug("AdminCtrl destructed");
-    }
 
     /**
      * @brief getView Ritorna La View castata almeno al tipo corrente AdminView
@@ -184,7 +181,7 @@ public slots:
       * che chiede come azione eseguita l'apertura di un BarChart
       * viene usato il modello attuale nel Ctrl
       */
-     void onBarChartBPressed()const;
+     void onBarChartBPressed(bool old) const;
 };
 
 #endif // ADMINCTRL_H

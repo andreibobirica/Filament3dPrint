@@ -1,8 +1,9 @@
 #ifndef LINECHARTCTRL_H
 #define LINECHARTCTRL_H
 
-#include "view/linechartview.h"
 #include "ctrl/ctrl.h"
+
+#include "view/linechartview.h"
 #include "model/adminmodel.h"
 
 /**
@@ -37,10 +38,6 @@ public:
      * @return
      */
     AdminModel* getModel() const override;
-
-    ~LineChartCtrl() override{
-        qDebug() << "LineChartCtrl Destructed";
-    }
 
 public slots:
     /**

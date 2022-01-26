@@ -1,14 +1,12 @@
 #ifndef LINECHARTVIEW_H
 #define LINECHARTVIEW_H
 
+#include "view/view.h"
+
 #include <QtCharts/QChartView>
 #include <QtCharts/QSplineSeries>
 #include <QHBoxLayout>
 #include <map>
-
-#include <QDebug>
-
-#include "view/view.h"
 
 QT_CHARTS_USE_NAMESPACE
 
@@ -33,8 +31,6 @@ public:
      * @param parent padre(view) della vista che ha invocato la suddetta vista
      */
     explicit LineChartView(const QSize& size = QSize(800,500), View* parent = nullptr);
-
-    ~LineChartView(){qDebug()<< "LineChartView destructed";}
 
     /**
      * @brief insertMaterialRecord Metodo che serve ad inserire i dati relativi ad una singola

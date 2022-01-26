@@ -8,7 +8,6 @@
 #include <QtCharts/QPieSlice>
 #include <QHBoxLayout>
 
-#include <QDebug>
 
 QT_CHARTS_USE_NAMESPACE
 
@@ -34,12 +33,6 @@ private:
 
 public:
     explicit PieChartView(const QSize& s = QSize(800,500),View* parent = nullptr);
-
-    ~PieChartView(){
-        qDebug() << "PieChartView destructor";
-        delete chart;
-        delete series;
-    }
 
     /**
      * @brief insertMaterial Metodo che serve ad inserire un nuovo materiale nel grafico

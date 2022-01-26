@@ -5,7 +5,6 @@
 #include "view/piechartview.h"
 
 #include <QSize>
-#include <QDebug>
 
 #include <QApplication>
 

@@ -1,6 +1,8 @@
 #ifndef HOMEVIEW_H
 #define HOMEVIEW_H
 
+#include "view/view.h"
+
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -9,8 +11,6 @@
 #include <QPixmap>
 #include <QCloseEvent>
 #include <QGroupBox>
-
-#include "view/view.h"
 
 /**
  * @brief The HomeView class
@@ -61,8 +61,6 @@ public:
      * @param s Grandezza della finistra, la windowSize
      */
     explicit HomeView(const QSize& s = QSize(),View* parent = nullptr);
-
-    ~HomeView() override{qDebug("HomeView destructed");}
 
 signals:
     void newProject() const;

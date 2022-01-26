@@ -11,6 +11,19 @@ AdminModel::AdminModel(){
     filepath = new QString();
 }
 
+AdminModel::AdminModel(const AdminModel &m){
+    filepath = new QString(*m.filepath);
+    materialiList = new QStringList(*m.materialiList);
+    for(const auto& r : m.recordList)
+        recordList.push_back(new Record(*r));
+}
+
+AdminModel::~AdminModel(){
+    delete filepath; delete materialiList;
+    for(auto r : recordList)
+        delete r;
+}
+
 QStringList* AdminModel::getMaterialList() const{ return materialiList;}
 
 std::list<Record*> AdminModel::getRecordList() const{return recordList;}

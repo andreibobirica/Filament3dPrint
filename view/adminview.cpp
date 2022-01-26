@@ -28,9 +28,10 @@ AdminView::AdminView(const QSize& s,View* parent) :
 
     lineChartB = new QPushButton("Rapporto Consumo Durata",this);
     mainLayout->addWidget(lineChartB,2,2,1,1,Qt::AlignCenter);
-    barChartB = new QPushButton("Consumo Totale Mensile",this);
+    barChartB = new QPushButton("Consumo Totale Mensile Dark",this);
     mainLayout->addWidget(barChartB,2,3,1,1,Qt::AlignCenter);
-
+    barChartOldB = new QPushButton("Consumo Totale Mensile Old",this);
+    mainLayout->addWidget(barChartOldB,2,4,1,1,Qt::AlignCenter);
 
     //implementazione
     setLayout(mainLayout);
@@ -221,7 +222,6 @@ void AdminView::addItemRecordTable(unsigned int row,const Record& r, const QStri
 
     //Delete Button Widget
     QPushButton* deleteW = new QPushButton("-",this);
-    //deleteW->setObjectName(QString::number(row));
     filamentTable->setCellWidget(row,4,deleteW);//Widget
 
     //Connessione al pulsante delete per eliminare la riga e aggiornare il modello di dati con l'eliminazione
@@ -288,7 +288,8 @@ void AdminView::connectViewSignals() const{
     connect(pieChartB,&QPushButton::clicked,this,[this](){emit pieChartBPressed(false);});
     connect(pieChartDetailB,&QPushButton::clicked,this,[this](){emit pieChartBPressed(true);});
     connect(lineChartB,SIGNAL(clicked()),this,SIGNAL(lineChartBPressed()));
-    connect(barChartB,SIGNAL(clicked()),this,SIGNAL(barChartBPressed()));
+    connect(barChartB,&QPushButton::clicked,this,[this](){emit barChartBPressed(true);});
+    connect(barChartOldB,&QPushButton::clicked,this,[this](){emit barChartBPressed(false);});
 }
 
 void AdminView::closeEvent(QCloseEvent* event){

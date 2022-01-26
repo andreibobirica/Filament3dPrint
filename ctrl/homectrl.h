@@ -1,11 +1,13 @@
 #ifndef HOMECTRL_H
 #define HOMECTRL_H
 
+
+#include "ctrl/ctrl.h"
+
 #include <QFileDialog>
 #include <QStringList>
 #include <QJsonDocument>
 
-#include "ctrl/ctrl.h"
 #include "view/homeview.h"
 #include "view/adminview.h"
 #include "ctrl/adminctrl.h"
@@ -37,14 +39,17 @@ public:
      */
     explicit HomeCtrl(HomeView* v, Ctrl* parent = nullptr);
 
-    ~HomeCtrl() override{qDebug("HomeCtrl destructed");}
-
     /**
      * @brief getView
      * Metodo virtuale che restituisce la View del controller castata al tipo corretto
      * @return VIEW del Controller interpretata come HomeView
      */
     HomeView* getView() const override;
+
+    Model* getModel() const override{
+        //Non Ha un modello
+        return nullptr;
+    }
 
 signals:
 

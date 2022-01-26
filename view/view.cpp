@@ -1,11 +1,9 @@
 #include "view/view.h"
 
-#include <QDebug>
-
 void View::closeEvent(QCloseEvent *event){
     //Accetto la chiusura
     event->accept();
-    hide();
+    hide();//Se non nascondo la vist aprima di distruggerla ci sono BUG
     //Emetto segnale di chiusura della View al Controller
     emit viewClosed();
 }

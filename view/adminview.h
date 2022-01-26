@@ -1,6 +1,8 @@
 #ifndef ADMINVIEW_H
 #define ADMINVIEW_H
 
+#include "view/view.h"
+
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
@@ -17,7 +19,6 @@
 #include <QTextEdit>
 #include <QComboBox>
 
-#include "view/view.h"
 #include "model/adminmodel.h"
 
 /**
@@ -41,6 +42,7 @@ private:
     QPushButton* pieChartDetailB;
     QPushButton* lineChartB;
     QPushButton* barChartB;
+    QPushButton* barChartOldB;
 
 
     /**
@@ -67,8 +69,6 @@ public:
      * @param s windowSize, grandezza della finestra della View
      */
     explicit AdminView(const QSize& s = QSize(), View* parent = nullptr);
-
-    ~AdminView() override{qDebug("AdminView destructor");}
 
     /**
      * @brief setViewTitle Metodo che setta il titolo alla view, aggiunge al titolo il prefisso "Progetto"
@@ -183,7 +183,7 @@ signals:
     void homeBPressed() const;
     void pieChartBPressed(bool) const;
     void lineChartBPressed() const;
-    void barChartBPressed() const;
+    void barChartBPressed(bool) const;
 
 public slots:
 

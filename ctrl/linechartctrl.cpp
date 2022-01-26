@@ -22,6 +22,5 @@ AdminModel *LineChartCtrl::getModel() const{
 }
 
 void LineChartCtrl::onViewClosed() const{
-    qDebug() << "linechartView closed";
     delete this;
 }

@@ -23,10 +23,6 @@ public:
      */
     PieChartCtrl(PieChartView* v, PieChartModel* m, Ctrl* parent = nullptr);
 
-    ~PieChartCtrl() override{
-        qDebug() << "PieChartCtrl Destructed";
-    }
-
     /**
      * @brief getView Metodo virtuale che restituisce la view al tipo corrente PieChartvIEW
      * @return VIEW

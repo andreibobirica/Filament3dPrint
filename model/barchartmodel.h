@@ -1,11 +1,13 @@
 #ifndef BARCHARTMODEL_H
 #define BARCHARTMODEL_H
 
+#include "model/model.h"
+
 #include <map>
 #include <list>
 #include <QtAlgorithms>
+#include <QLocale>
 
-#include "model/model.h"
 #include "model/adminmodel.h"
 
 class BarChartModel : public Model

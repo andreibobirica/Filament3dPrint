@@ -41,8 +41,12 @@ public:
      */
     explicit View(const QSize& s = QSize(),View* parent = nullptr);
 
+    /**
+     * @brief ~View Reimplementazione del ristruttore in quanto deve
+     * togliarsi il padre di dosso, per non creare conflitti con il meccanismo di
+     * distruzione di QT
+     */
     virtual ~View() {
-        qDebug("View destructed");
         setParent(nullptr);
     }
 

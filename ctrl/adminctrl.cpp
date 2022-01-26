@@ -65,11 +65,10 @@ void AdminCtrl::connectViewCtrlSignalsSlots() const{
 
     connect(view,SIGNAL(pieChartBPressed(bool)),this,SLOT(onPieChartBPressed(bool)));
     connect(view,SIGNAL(lineChartBPressed()),this,SLOT(onLineChartBPressed()));
-    connect(view,SIGNAL(barChartBPressed()),this,SLOT(onBarChartBPressed()));
+    connect(view,SIGNAL(barChartBPressed(bool)),this,SLOT(onBarChartBPressed(bool)));
 }
 
 void AdminCtrl::onViewClosed() const {
-    qDebug() << "Admin View closed";
     delete this;
 }
 
@@ -203,11 +202,8 @@ void AdminCtrl::onSaveAsBPressed() const{
 
 void AdminCtrl::onHomeBPressed(){
     if(!view->showQuestionDialog(3,"Back Home","Vuoi tornare alla Home?"))return;
-
-    if(view->parent()){
+    if(view->parent())
         static_cast<View*>(view->parent())->show();
-        static_cast<View*>(view->parent())->setWindowSize(view->size());
-    }
     view->hide();
     delete this;
 }
@@ -239,13 +235,14 @@ void AdminCtrl::onLineChartBPressed() const{
     lcCtrl->showView();
 }
 
-void AdminCtrl::onBarChartBPressed() const{
+void AdminCtrl::onBarChartBPressed(bool old) const{
     if(getModel()->getRecordList().size() == 0){
         view->showWarningDialog("Attenzione","Inserire dei dati prima");
         return;
     }
 
-    BarChartView * bView = new BarChartView(QSize(800,700),view);
+    BarChartView * bView = old ? new BarChartView(QSize(800,700),view) :
+                                 new BarChartOldView(QSize(800,700),view);
     BarChartModel* bModel = new BarChartModel(getModel());
     BarChartCtrl* bCtrl = new BarChartCtrl(bView,bModel,const_cast<AdminCtrl*>(this));
     bCtrl->showView();

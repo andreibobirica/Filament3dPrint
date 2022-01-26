@@ -2,6 +2,7 @@
 #define BARCHARTCTRL_H
 
 #include "ctrl/ctrl.h"
+
 #include "view/barchartview.h"
 #include "model/barchartmodel.h"
 

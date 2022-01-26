@@ -1,6 +1,8 @@
 #ifndef BARCHARTVIEW_H
 #define BARCHARTVIEW_H
 
+#include "view/view.h"
+
 #include <QtCharts/QChartView>
 #include <QtCharts/QBarSeries>
 #include <QtCharts/QBarSet>
@@ -10,24 +12,22 @@
 
 #include <QScrollBar>
 #include <QHBoxLayout>
-#include <QDebug>
 #include <map>
 #include <list>
-
-
-#include "view/view.h"
 
 QT_CHARTS_USE_NAMESPACE
 
 class BarChartView : public View
 {
     Q_OBJECT
-private:
+protected:
     QChart* chart;
     QBarSeries *series;
     std::list<QBarSet*>listaSetsMateriali;
     QStringList listaMesi;
     QScrollBar* chartScroll;
+    //Parametro che indica quanti mesi alla volta mostrare nel grafico
+    int maxVisMesi = 6;
 
     /**
      * @brief connectViewSignals Metodo virtuale che serve a collegare i segnali dei singoli

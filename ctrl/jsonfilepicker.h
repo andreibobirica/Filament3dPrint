@@ -7,7 +7,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QMessageBox>
-#include <QDebug>
 
 #include "model/record.h"
 #include "model/adminmodel.h"

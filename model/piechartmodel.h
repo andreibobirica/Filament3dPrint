@@ -22,8 +22,6 @@ public:
      */
     explicit PieChartModel(AdminModel* mAdmin);
 
-    ~PieChartModel(){qDebug() << "PieChartModel destructor";}
-
     /**
      * @brief getMaterialOccurrences Metodo getter che serve a ritornare
      * @return materialOccrences mappa con per ogni materiale il numero di utilizzi

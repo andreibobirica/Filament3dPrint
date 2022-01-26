@@ -46,7 +46,6 @@ void BarChartView::applySetsOnChart(){
 }
 
 void BarChartView::applyAxis(const QStringList &mesi, const uint maxY){
-    int maxVisMesi = 6;
     QBarCategoryAxis *axisX = new QBarCategoryAxis();
     axisX->append(mesi);
     //Set range per il grafico, massimo 6 mesi PER volta da mostrare
@@ -74,8 +73,9 @@ void BarChartView::applyAxis(const QStringList &mesi, const uint maxY){
     chartScroll->setRange(0,mesi.length()-(maxVisMesi));
     //Creo una connessione per la scrllbar in maniera che al variare del suo valore
     //mostro sul cahrt a partire da valore selezionato a valore selezionato + mesi visibili
-    connect(chartScroll,&QAbstractSlider::valueChanged,this,[maxVisMesi,mesi,this](int v){
-        chart->axisX()->setRange(mesi.at(v),mesi.at(v+(maxVisMesi-1)));
+    int max = maxVisMesi;
+    connect(chartScroll,&QAbstractSlider::valueChanged,this,[max,mesi,this](int v){
+        chart->axisX()->setRange(mesi.at(v),mesi.at(v+(max-1)));
     });
 }
 

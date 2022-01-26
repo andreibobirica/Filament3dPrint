@@ -8,11 +8,12 @@ Ctrl::Ctrl(View* v, Model* m,Ctrl* parent) : QObject(parent), view(v), model(m){
     connectViewCtrlSignalsSlots();
 }
 
-View* Ctrl::getView() const {
-    return view;
+Ctrl::~Ctrl() {
+    setParent(nullptr);
+    for(auto child : children())
+        delete child;
+    delete view; delete model;
 }
-
-Model* Ctrl::getModel() const{return model;}
 
 void Ctrl::showView() const{
     view->show();

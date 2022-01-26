@@ -33,25 +33,27 @@ public:
      */
     explicit Ctrl(View* v, Model* m, Ctrl* parent = nullptr);
 
-    virtual ~Ctrl() {
-        setParent(nullptr);
-        qDebug("Ctrl destructed");
-        for(auto child : children())
-            delete child;
-        delete view; delete model;
-    }
+    /**
+     * @brief ~Ctrl Disturttore che ridefinito serve anche a distruggere
+     * tutti i figli e non entrare in conflitto con QT
+     * Serve anche a togliersi il padre prima , in maniera tale da non entrare
+     * in conflutto col distruttore di QT
+     */
+    virtual ~Ctrl();
 
     /**
-     * @brief Ctrl::getView
+     * @brief Ctrl::getView Obbligo Le classi derivate a implementare questo metodo
+     * //Dovrebbero implementarlo con la covarianza e ritornando il tipo proprio della shermata
      * @return View collegata al Controller
      */
-    virtual View* getView() const;
+    virtual View* getView() const = 0;
 
     /**
-     * @brief getModel Metodo getter
+     * @brief getModel Obbligo Le classi derivate a implementare questo metodo
+     * //Dovrebbero implementarlo con la covarianza e ritornando il tipo proprio della schermata
      * @return Model Collegato al Controller
      */
-    virtual Model* getModel() const;
+    virtual Model* getModel() const = 0;
 
     /**
      * @brief Ctrl::showView Metodo che rende visibile la View collegata al Controller

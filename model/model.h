@@ -1,15 +1,12 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include <QDebug>
-
 class Model
 {
-
-public:
+protected:
     explicit Model();
-
-    virtual ~Model() {qDebug("Model destructed");}
+public:
+    virtual ~Model() = default;
 };
 
 #endif // MODEL_H

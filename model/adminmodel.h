@@ -1,10 +1,11 @@
 #ifndef ADMINMODEL_H
 #define ADMINMODEL_H
 
+#include "model/model.h"
+
 #include <QJsonDocument>
 #include <QString>
 
-#include "model/model.h"
 #include "ctrl/jsonfilepicker.h"
 #include "model/record.h"
 
@@ -33,19 +34,13 @@ public:
      * @brief AdminModel Costruttore di copia profondo
      * @param m modello da copiare
      */
-    explicit AdminModel(const AdminModel& m){
-        filepath = new QString(*m.filepath);
-        materialiList = new QStringList(*m.materialiList);
-        for(const auto& r : m.recordList)
-            recordList.push_back(new Record(*r));
-    }
+    explicit AdminModel(const AdminModel& m);
 
-    ~AdminModel() override{
-        qDebug("AdminModel destructed");
-        delete filepath; delete materialiList;
-        for(auto r : recordList)
-            delete r;
-    }
+    /**
+      * Costruttore virtuale ridefinito in quanto deve ocuparsi anche
+      * di distruggere i campi in modo profondo
+      */
+    ~AdminModel() override;
     /**
      * @brief getMaterialList metodo getter
      * @return lista dei materiali QStringList
