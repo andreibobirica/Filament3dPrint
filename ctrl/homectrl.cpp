@@ -11,8 +11,6 @@ HomeView* HomeCtrl::getView() const{
 
 
 void HomeCtrl::connectViewCtrlSignalsSlots() const{
-    connect(view,SIGNAL(viewClosed()),this,SLOT(onViewClosed()));
-
     connect(view,SIGNAL(newProject()),this,SLOT(onNewProject()));
     connect(view,SIGNAL(openProject()),this,SLOT(onOpenProject()));
 }

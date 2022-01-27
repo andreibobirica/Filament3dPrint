@@ -42,7 +42,6 @@ AdminModel* AdminCtrl::getModel() const {
 }
 
 void AdminCtrl::connectViewCtrlSignalsSlots() const{
-    connect(view,SIGNAL(viewClosed()),this,SLOT(onViewClosed()));
 
     //connessioni per la RecordTable
     connect(view,SIGNAL(recordTableRemoved(uint)),this,SLOT(onRecordTableRemoved(uint)));
