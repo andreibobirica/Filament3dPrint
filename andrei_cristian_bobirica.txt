@@ -1,0 +1,39 @@
+Feedback Progetto di Programmazione ad Oggetti
+Studente: Andrei Cristian Bobirica
+Valutazione del progetto: eccellente
+Voto finale dell'esame: 30/30
+
+Vincoli obbligatori
++ Soddisfatti
+
+
+Orientamento ad oggetti
++ Incapsulamento
++ Modularità (modello logico e la GUI sono separati)
++ Estensibilità ed evolvibilità, polimorfismo
++ Efficienza e robustezza
+
+
+Funzionalità
++ Alcuni grafici prevedono una variante
++ Tabella dei materiali con aggiornamento in tempo reale
+- Migliorabile con funzionalità di filtro sui dati
+
+
+GUI
++ Visualizza i diversi tipi di dato in maniera opportuna
++ Usabile e intuitiva
++ Robusta, gestisce ridimensionamento
++ Aspetto estetico dei grafici complessivamente ben curato
+- Migliorabile rimuovendo la modale "Di seguito il grafico con..." quando si clicca
+  sui pulsanti per il consumo totale
+
+
+Relazione
++ Adeguata
+
+
+Suggerimenti non collegati alla valutazione
+Utilizzo di simboli "standard" per il diagramma delle classi, per esempio
+la freccia con la testa a rombo per indicare una relazione di composizione
+anziché una freccia tratteggiata con la scritta "HasA".
